@@ -1,0 +1,140 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+  background-color: transparent;
+  
+}
+
+
+
+
+/* Main role selection container */
+.role-selection {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #E1E881;
+  border: 1px solid #0f1e13;
+  border-radius: 200px;
+  width: 30%;
+  height: 80px;
+  max-height: 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden; /* Ensures nothing spills out */
+}
+
+/* Buttons reset */
+.role-selection button {
+  all: unset;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+  border-radius: 200px;
+ 
+  position: relative;
+  z-index: 1;
+}
+
+/* Container for each role button */
+.role-option {
+  width: 33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  position: relative;
+  
+  
+}
+
+/* Inactive role buttons */
+.role-button {
+ 
+  background-color: transparent;
+  color: #2C4C34;
+  height: 70%; /* Fits inside container */
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 200px;
+ 
+}
+
+/* Active (selected) button stays inside container */
+.role-button.active {
+  background-color: #2C4C34;
+  color: white;
+  border: none;
+  height: 100%; /* Slightly taller but contained */
+  width: 100%;  /* Slightly wider for emphasis */
+  border-color: none;
+  z-index: 100;
+ 
+}
+
+/*---------------------------------- Login form styles -*/
+
+/* Login form container */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px; /* Space between inputs/buttons */
+  width: 100%;
+  max-width: 350px; /* Keep it nicely contained */
+  margin-top: 20px;
+  
+}
+
+/* Input fields */
+.login-input {
+  width: 100%;
+  padding: 12px 20px;
+  border: 2px solid #FF6D41;
+  border-radius: 200px;
+  outline: none;
+  font-size: 16px;
+  
+  transition: border-color 0.3s ease;
+}
+
+.login-input:focus {
+  border-color: #2C4C34; /* Dark green border on focus */
+}
+.login-label{
+    
+    text-align: left;
+    align-items: start;
+    width: 100%;
+    font-size: 16px;
+    
+}
+
+/* Login button */
+.login-button {
+  width: 100%;
+  padding: 20px 30px;
+  background-color: #FF6D41; /* Dark green */
+  color: white;
+  border: none;
+  border-radius: 200px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #1f3524; /* Slightly darker green on hover */
+}
+
+/* Sign up label */

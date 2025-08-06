@@ -1,0 +1,56 @@
+/* Flower background stays fixed behind all content */
+.flower-background-component{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;/* Pushes flowers behind everything */
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Each flower image */
+.flower {
+  position: absolute;
+  width: 200px;
+  opacity: 1;
+  pointer-events: none; /* Ensures flowers don't block clicks */
+}
+
+/* Positions for flowers */
+.flower-top-left {
+  top: -200px;
+  left: 40px;
+  width: 600px;
+}
+
+.flower-top-right {
+  top: -100px;
+  right: 300px;
+  width: 400px;
+}
+
+.flower-bottom-left {
+  bottom: -300px;
+  left: 20px;
+  width: 700px;
+}
+
+.flower-bottom-right {
+  bottom: -200px;
+  right: -200px;
+  width: 800px;
+}
+
+/* Login container stays centered and above background */
+.login-container {
+  position: relative;
+  z-index: 1; /* Ensure it's above the flowers */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #ffffff;
+}
