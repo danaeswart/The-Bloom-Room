@@ -1,13 +1,22 @@
-/* Flower background stays fixed behind all content */
-.flower-background-component{
-  position: fixed;
+/* Flower background scrolls with the page */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-y: auto;   /* Allow vertical scroll */
+}
+
+.flower-background-component {
+  position: absolute; /* Allows it to scroll with content */
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 2;/* Pushes flowers behind everything */
-  overflow: hidden;
+  width: 100%;
+  height: auto;
+  z-index: 2;
   pointer-events: none;
+
 }
 
 /* Each flower image */
@@ -15,10 +24,11 @@
   position: absolute;
   width: 200px;
   opacity: 1;
-  pointer-events: none; /* Ensures flowers don't block clicks */
+  transform: translateY(0) rotate(0deg);
+  transition: transform 1s ease-out, opacity 0.5s ease-out;
 }
 
-/* Positions for flowers */
+/* Positions for flowers (kept exactly the same as your original) */
 .flower-top-left {
   top: -200px;
   left: 40px;
@@ -43,14 +53,26 @@
   width: 800px;
 }
 
-/* Login container stays centered and above background */
-.login-container {
-  position: relative;
-  z-index: 1; /* Ensure it's above the flowers */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-color: #ffffff;
+/* Spin + move up effect on scroll */
+.flower.spin-up {
+  transform: translateY(-120px) rotate(90deg);
+  opacity: 0.9;
+}
+
+/* Staggered delays for smoother animation */
+.flower-top-left {
+  transition-delay: 0s;
+ top: 800px;
+}
+.flower-top-right {
+  transition-delay: 0.1s;
+  top: 200px;
+}
+.flower-bottom-left {
+  transition-delay: 0.2s;
+  top: -100px;
+}
+.flower-bottom-right {
+  transition-delay: 0.3s;
+  top: 700px;
 }
