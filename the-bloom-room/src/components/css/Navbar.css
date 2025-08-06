@@ -1,0 +1,69 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background-color: #BDC6EF;
+  border-bottom: 2px solid #eee;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100 !important;
+
+  
+}
+
+.navbar-logo .logo-img {
+  height: 50px;
+  cursor: pointer;
+}
+
+.navbar-links {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 25px;
+  padding-right: 60px;
+  width: 30%;
+  font-size: 20px;
+
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #2C4C34;
+  
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #FF6D41;
+}
+
+/* Circular login icon */
+.login-icon {
+  font-size: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  transition: color 0.3s ease;
+  background-color: #FF6D41;
+  padding: 20px;
+  border-radius: 30px;
+ 
+}
+
+.login-icon a {
+  text-decoration: none; /* Remove underline */
+  color: #000000;        /* White text */
+  font-weight: bold;     /* Optional */
+  font-size: 16px;       /* Match your design */
+  display: block;        /* Fill clickable area */
+}
+
+.login-icon:hover {
+  color: #FF6D41;
+}

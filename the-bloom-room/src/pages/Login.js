@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./css/Login.css"; // Assuming you have a CSS file for styling
 import { Link } from "react-router-dom"; // Import Link at the top
-
+import NavBar from "../components/Navbar";
 import FlowerBackground from "../components/FlowerBackground"; // Import the FlowerBackground component
 function Login() {
   const [role, setRole] = useState("artist");
@@ -17,6 +17,7 @@ function Login() {
   return (
     <>
     <FlowerBackground />{/* Render the flower background */}
+      <NavBar/>
     <div className="login-container">
       
       <h2 className="login-title">Login</h2>
