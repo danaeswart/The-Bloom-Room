@@ -22,7 +22,7 @@ function Navbar() {
         <Link to="/home" className="nav-link">Home</Link>
         <Link to="/about" className="nav-link">About</Link>
         <Link to="/bloompost" className="nav-link">Contact</Link>
-
+         <Link to="/adminapproval" className="nav-link">admin</Link>
         {/* Circular login icon */}
         <div className="login-icon" ><Link to="/login">
           Login/Sign Up</Link>
