@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px 40px;
-  background-color: #BDC6EF;
+  background-color: #B3B866;
   border-bottom: 2px solid #eee;
   position: fixed;
   top: 0;
@@ -50,7 +50,7 @@
   cursor: pointer;
   color: #ffffff;
   transition: color 0.3s ease;
-  background-color: #FF6D41;
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 30px;
  
@@ -65,6 +65,8 @@
 }
 
 .login-icon:hover {
-  background-color: #ff9575;
+  background-color: #ffded4;
+  color: white;
+
 }
 

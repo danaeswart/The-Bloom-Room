@@ -1,78 +1,53 @@
-/* Flower background scrolls with the page */
-
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  overflow-x: hidden; /* Prevent horizontal scroll */
-  overflow-y: auto;   /* Allow vertical scroll */
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto; /* Main content scrolls */
 }
 
 .flower-background-component {
-  position: absolute; /* Allows it to scroll with content */
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: auto;
-  z-index: 2;
+  height: 100vh; /* Limit to one viewport */
+  overflow: hidden; /* Cut off overflow */
+  z-index: 1;
   pointer-events: none;
-
 }
 
-/* Each flower image */
+/* Common flower styles */
 .flower {
   position: absolute;
   width: 200px;
-  opacity: 1;
-  transform: translateY(0) rotate(0deg);
-  transition: transform 1s ease-out, opacity 0.5s ease-out;
+  opacity: 0.8;
+  transform: none;
+  transition: none;
 }
 
-/* Positions for flowers (kept exactly the same as your original) */
+/* Adjusted flower positions so they stay within view */
 .flower-top-left {
-  top: -200px;
-  left: 40px;
-  width: 600px;
-}
-
-.flower-top-right {
   top: -100px;
-  right: 300px;
-  width: 400px;
-}
-
-.flower-bottom-left {
-  bottom: -300px;
-  left: 20px;
+  left: 40px;
   width: 700px;
 }
 
-.flower-bottom-right {
-  bottom: -200px;
-  right: -200px;
-  width: 800px;
-}
-
-/* Spin + move up effect on scroll */
-.flower.spin-up {
-  transform: translateY(-120px) rotate(90deg);
-  opacity: 0.9;
-}
-
-/* Staggered delays for smoother animation */
-.flower-top-left {
-  transition-delay: 0s;
- top: 800px;
-}
 .flower-top-right {
-  transition-delay: 0.1s;
-  top: 200px;
+  top: 20px;
+  right: 40px;
+  width: 500px;
 }
+
 .flower-bottom-left {
-  transition-delay: 0.2s;
-  top: -100px;
+  bottom: -200px;
+  left: 60px;
+  width: 600px;
 }
+
 .flower-bottom-right {
-  transition-delay: 0.3s;
-  top: 700px;
+  bottom: -300px;
+  right: -100px;
+  width: 800px;
 }
