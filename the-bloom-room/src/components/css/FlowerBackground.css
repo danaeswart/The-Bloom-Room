@@ -31,23 +31,23 @@ html, body {
 .flower-top-left {
   top: -100px;
   left: 40px;
-  width: 700px;
+  width: 500px;
 }
 
 .flower-top-right {
-  top: 20px;
+  top: 0px;
   right: 40px;
-  width: 500px;
+  width: 300px;
 }
 
 .flower-bottom-left {
   bottom: -200px;
   left: 60px;
-  width: 600px;
+  width: 400px;
 }
 
 .flower-bottom-right {
-  bottom: -300px;
+  bottom: 30px;
   right: -100px;
-  width: 800px;
+  width: 400px;
 }
