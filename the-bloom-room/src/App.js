@@ -5,6 +5,9 @@ import Home from "./pages/Home"; // Assuming you have a Home component
 import BloomPost from "./pages/BloomPost";
 import AdminApproval from "./pages/AdminApproval";
 import About from "./pages/About";
+import Profile from "./pages/Profile";
+import ArtworkPage from "./pages/ArtworkPage";
+
 function App() {
   return (
     <Router>
@@ -16,6 +19,8 @@ function App() {
          <Route path="/bloompost" element={<BloomPost />} />
          <Route path="/adminapproval" element={<AdminApproval />} />
         <Route path="/about" element={<About />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/artwork/" element={<ArtworkPage />} />
       </Routes>
     </Router>
   );

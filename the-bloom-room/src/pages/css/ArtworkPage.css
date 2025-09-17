@@ -1,0 +1,210 @@
+.artwork-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 80px;
+}
+
+/* ----- Carousel ----- */
+.carousel {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+/* Slide direction animations */
+.image-container.right img {
+  animation: slideInFromRight 0.5s ease;
+}
+.image-container.left img {
+  animation: slideInFromLeft 0.5s ease;
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Arrows */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  background: rgba(0, 0, 0, 0.553);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 4px 18px;
+  border-radius: 50%;
+  z-index: 2;
+}
+.arrow.left {
+  left: 10px;
+}
+.arrow.right {
+  right: 10px;
+}
+.arrow:hover {
+  background: rgba(19, 13, 132, 0.6);
+}
+
+/* ----- Artwork Info ----- */
+.artwork-info {
+  flex: 1;
+  max-width: 500px;
+}
+
+.art-title {
+  font-size: 3rem;
+  margin-bottom: 0px;
+}
+
+.artist-name {
+  font-size: 1.5rem;
+  color: #6777BE;
+  margin-bottom: 20px;
+  margin-top: -10px;
+}
+
+.artist-name span {
+  font-weight: bold;
+}
+
+h4 {
+  margin: 10px 0 10px;
+  font-size: 1rem;
+  color: #7B8099;
+}
+
+
+
+.description-box {
+  border: 1px solid #FF6D41;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 1rem;
+  line-height: 1.4;
+  margin-bottom: 20px;
+  
+}
+
+.medium {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: #333;
+  margin-top: -10px;
+}
+
+.request-btn {
+  background: #2C4C34;
+  color: white;
+  border: none;
+  padding: 15px 50px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background 0.2s ease;
+}
+.request-btn:hover {
+  background: #FF6D41;
+}
+
+.comment-section {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 12px;
+  background: #f9f9f9;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.comment-section h3 {
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+}
+
+.comment-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.comment-form input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+
+.comment-form button {
+  background: #0073e6;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.comment-form button:hover {
+  background: #005bb5;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.comment {
+  background: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.comment .comment-name {
+  font-weight: bold;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.comment .comment-text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
