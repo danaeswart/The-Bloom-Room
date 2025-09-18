@@ -2,17 +2,33 @@ import React, { useState } from "react";
 import "./css/Login.css"; // Assuming you have a CSS file for styling
 import { Link } from "react-router-dom"; // Import Link at the top
 import NavBar from "../components/Navbar";
+import axios from "axios";
 import FlowerBackground from "../components/FlowerBackground"; // Import the FlowerBackground component
+
+
 function Login() {
   const [role, setRole] = useState("artist");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Role:", role, "Email:", email, "Password:", password);
-    // Handle login logic here
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const res = await axios.post("http://127.0.0.1:5000/auth/login", {
+      email,
+      password,
+      role
+    });
+
+    console.log(res.data);
+    alert(`Welcome back, ${res.data.user.username}!`);
+    // You can store user info in context or localStorage here
+  } catch (err) {
+    console.error(err.response?.data || err.message);
+    alert(err.response?.data?.message || "Login failed!");
+  }
+};
 
   return (
     <>
@@ -56,6 +72,9 @@ function Login() {
 
       {/* Login form */}
       <form className="login-form" onSubmit={handleSubmit}>
+        <div className="input-value-container">
+          
+          <div className="input-holder">
        <label className="login-label">Email:</label>
         <input
           type="email"
@@ -65,6 +84,9 @@ function Login() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
+        </div>
+
+        <div className="input-holder">
          <label className="login-label">Password:</label>
         <input
           type="password"
@@ -74,6 +96,10 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        </div>
+
+        </div>
+
         <button type="submit" className="login-button">Login</button>
         <p className="signup-text">
     Don't have an account?{" "}

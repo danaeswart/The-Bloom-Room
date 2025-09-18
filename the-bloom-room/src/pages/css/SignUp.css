@@ -101,16 +101,15 @@ html, body {
 }
 .form-columsn-container{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  align-items: center;
   width: 100%;
   gap: 5%;
 }
 
 /* Input fields */
 .login-input {
-  width: 100%;
+  width:100%;
   padding: 12px 20px;
   border: 2px solid #FF6D41;
   border-radius: 200px;
@@ -121,35 +120,29 @@ html, body {
   transition: border-color 0.3s ease;
 }
 
-.input-value-container{
-    width: 35%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
 .input-holder{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    
-   
-
+   width: 80%;
+    gap: 10px;
 
     
 }
 
-.login-input{
-    width: 100%;
+.form-column{
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
 }
 
 .login-input:focus {
   border-color: #2C4C34; /* Dark green border on focus */
 }
 .login-label{
-   
+    
     text-align: left;
     align-items: start;
     width: 100%;
@@ -157,7 +150,12 @@ html, body {
     
 }
 
-
+.form-submit-section{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 /* Login button */
 .login-button {

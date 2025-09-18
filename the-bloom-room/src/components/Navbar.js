@@ -24,7 +24,8 @@ function Navbar() {
         <Link to="/bloompost" className="nav-link">Contact</Link>
       
   
-         <Link to="/artwork" className="nav-link">artwork</Link>
+        <Link to= "/test" className="nav-link">Test</Link>
+        
         {/* Circular login icon */}
         <div className="login-icon" ><Link to="/login">
           Login/Sign Up</Link>

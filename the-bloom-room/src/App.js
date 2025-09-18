@@ -8,6 +8,7 @@ import About from "./pages/About";
 import Profile from "./pages/Profile";
 import ArtworkPage from "./pages/ArtworkPage";
 
+
 function App() {
   return (
     <Router>
@@ -21,6 +22,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/artwork/" element={<ArtworkPage />} />
+ 
       </Routes>
     </Router>
   );

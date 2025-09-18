@@ -33,31 +33,31 @@ const ArtworkPage = () => {
 const commentInput = document.getElementById("comment-input");
 const commentsList = document.getElementById("comments-list");
 
-commentForm.addEventListener("submit", function(e) {
-  e.preventDefault();
+// commentForm.addEventListener("submit", function(e) {
+//   e.preventDefault();
 
-  const text = commentInput.value.trim();
-  if (!text) return;
+//   const text = commentInput.value.trim();
+//   if (!text) return;
 
-  const commentDiv = document.createElement("div");
-  commentDiv.className = "comment";
+//   const commentDiv = document.createElement("div");
+//   commentDiv.className = "comment";
 
-  const nameSpan = document.createElement("span");
-  nameSpan.className = "comment-name";
-  nameSpan.textContent = "You"; // change to username if available
+//   const nameSpan = document.createElement("span");
+//   nameSpan.className = "comment-name";
+//   nameSpan.textContent = "You"; // change to username if available
 
-  const textP = document.createElement("p");
-  textP.className = "comment-text";
-  textP.textContent = text;
+//   const textP = document.createElement("p");
+//   textP.className = "comment-text";
+//   textP.textContent = text;
 
-  commentDiv.appendChild(nameSpan);
-  commentDiv.appendChild(textP);
+//   commentDiv.appendChild(nameSpan);
+//   commentDiv.appendChild(textP);
 
-  // prepend new comment at the top
-  commentsList.insertBefore(commentDiv, commentsList.firstChild);
+//   // prepend new comment at the top
+//   commentsList.insertBefore(commentDiv, commentsList.firstChild);
 
-  commentInput.value = "";
-});
+//   commentInput.value = "";
+// });
 
 
   return (
