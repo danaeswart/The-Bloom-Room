@@ -1,69 +1,65 @@
 const express = require("express");
-const router = express.Router();
-const db = require("../db/db");
 const multer = require("multer");
 const path = require("path");
-const fs = require("fs");
+const db = require("../db/db");
 
-// Ensure uploads folder exists
-const uploadDir = path.join(__dirname, "../uploads");
-if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
+const router = express.Router();
 
-// Setup file upload
+// 📂 Setup multer storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, uploadDir);
+    cb(null, path.join(__dirname, "../../uploads")); // save to backend/uploads
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + "-" + file.originalname);
-  },
+  }
 });
+
 const upload = multer({ storage });
 
-// POST /artworks
+// 🎨 POST /artworks → create new artwork
 router.post("/", upload.array("images", 10), (req, res) => {
-    console.log("Received POST request at /artworks");
-  try {
-    const { artworkName, description, medium, price } = req.body;
-    
-    // For now, use a dummy artistID since we removed auth
-    const artistID = 1; // You can replace with real logged-in user later
+  const { artworkName, description, medium, price } = req.body;
+  const artistID = 1; // hardcoded for now
 
-    // Insert artwork
-    const artworkQuery = `INSERT INTO artworks (artistID, artworkName, description, medium, price)
-                          VALUES (?, ?, ?, ?, ?)`;
-    db.query(
-      artworkQuery,
-      [artistID, artworkName, description, medium, price],
-      (err, result) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).json({ error: "Database error while inserting artwork" });
-        }
-
-        const artworkID = result.insertId;
-
-        // Insert images
-        const images = req.files;
-        if (!images || images.length === 0) return res.status(400).json({ error: "No images uploaded" });
-
-        const imageQuery = `INSERT INTO artwork_images (artworkID, imagePath) VALUES ?`;
-        const imageValues = images.map(file => [artworkID, file.filename]);
-
-        db.query(imageQuery, [imageValues], (err2) => {
-          if (err2) {
-            console.error(err2);
-            return res.status(500).json({ error: "Database error while inserting images" });
-          }
-
-          res.status(200).json({ message: "Artwork uploaded successfully" });
-        });
-      }
-    );
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error" });
+  if (!artworkName || !description) {
+    return res.status(400).json({ error: "Artwork name and description are required" });
   }
+
+  const sql = `
+    INSERT INTO artworks (artistID, artworkName, description, medium, price)
+    VALUES (?, ?, ?, ?, ?)
+  `;
+
+  db.query(sql, [artistID, artworkName, description, medium, price], (err, result) => {
+    if (err) {
+      console.error("❌ Database error while inserting artwork:", err);
+      return res.status(500).json({ error: "Database error while inserting artwork" });
+    }
+
+    const artworkID = result.insertId;
+
+    // Handle images if uploaded
+    if (req.files && req.files.length > 0) {
+      const imageSql = `INSERT INTO artwork_images (artworkID, imagePath) VALUES ?`;
+      const values = req.files.map(file => [artworkID, "/uploads/" + file.filename]);
+
+      db.query(imageSql, [values], (imgErr) => {
+        if (imgErr) {
+          console.error("❌ Error inserting images:", imgErr);
+          return res.status(500).json({ error: "Error inserting images" });
+        }
+        res.json({ message: "✅ Artwork and images uploaded successfully!" });
+      });
+    } else {
+      res.json({ message: "✅ Artwork uploaded successfully (no images)." });
+    }
+  });
+});
+
+// 🎨 GET /artworks/test → quick test
+router.get("/test", (req, res) => {
+  res.json({ message: "🎨 Artworks API is working!" });
 });
 
 module.exports = router;
