@@ -7,14 +7,14 @@ import AdminApproval from "./pages/AdminApproval";
 import About from "./pages/About";
 import Profile from "./pages/Profile";
 import ArtworkPage from "./pages/ArtworkPage";
-
+import HomeLog from "./pages/HomeLog";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} /> 
+        <Route path="/homelog" element={<HomeLog />} /> 
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
          <Route path="/bloompost" element={<BloomPost />} />

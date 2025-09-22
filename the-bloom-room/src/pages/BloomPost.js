@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import "./css/BloomPost.css";
 import NavBar from "../components/Navbar";
+import FlowerCarousel from "../components/FlowerCarousel";
 
 function BloomPost() {
   const [images, setImages] = useState([]);
@@ -20,18 +21,81 @@ function BloomPost() {
     setImages((prev) => [...prev, ...fileURLs]);
   };
 
-  const handlePost = (e) => {
-    e.preventDefault();
-    // Here you can handle form submission logic
-    alert("Post submitted!");
-  };
+const handlePost = async (e) => {
+  e.preventDefault();
+
+  try {
+    // 1️⃣ Check if images exist
+    if (!images.length) {
+      alert("Upload at least one image!");
+      return;
+    }
+
+    console.log("Images array:", images);
+    console.log("Artwork Name:", artworkName);
+    console.log("Description:", description);
+    console.log("Medium:", medium);
+    console.log("Price:", price);
+
+    // 2️⃣ Create FormData
+    const formData = new FormData();
+    formData.append("artworkName", artworkName);
+    formData.append("description", description);
+    formData.append("medium", medium);
+    formData.append("price", price);
+
+    images.forEach((img, i) => {
+      console.log(`Appending image ${i}:`, img);
+      formData.append("images", img); // Must be File objects
+    });
+
+    // 3️⃣ Send request
+    const res = await fetch("http://localhost:5000/artworks", {
+      method: "POST",
+      body: formData,
+    });
+
+    console.log("Response status:", res.status);
+
+    // 4️⃣ Try to parse JSON
+    const data = await res.json().catch(err => {
+      console.error("Failed to parse JSON:", err);
+      return null;
+    });
+
+    console.log("Response data:", data);
+
+    if (res.ok) {
+      alert("Artwork uploaded!");
+      setImages([]);
+      setArtworkName("");
+      setDescription("");
+      setMedium("");
+      setPrice("");
+    } else {
+      alert(data?.error || "Unknown server error");
+    }
+  } catch (err) {
+    console.error("Frontend error in handlePost:", err);
+    alert("Failed to upload artwork");
+  }
+};
+
 
   return (
     <>
     <NavBar />
     <div className="upload-artwork-page">
       <div className="left-panel">
-        <div className="images-container">
+
+      <div className="images-container">
+  {images.length === 0 ? (
+    <p className="no-images-text">No images uploaded yet.</p>
+  ) : (
+    <FlowerCarousel images={images} />
+  )}
+</div>
+        {/* <div className="images-container">
           {images.length === 0 && (
             <p className="no-images-text">No images uploaded yet.</p>
           )}
@@ -40,7 +104,7 @@ function BloomPost() {
               <img key={i} src={src} alt={`uploaded ${i}`} />
             ))}
           </div>
-        </div>
+        </div> */}
         <button className="upload-btn" onClick={handleUploadClick}>
           Upload Images
         </button>
