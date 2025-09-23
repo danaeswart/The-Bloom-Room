@@ -5,6 +5,7 @@ import FlowerBackground from "../components/FlowerBackground";
 import Navbar from "../components/Navbar";
 import PostContainer from "../components/PostContainer"; 
 import "./css/Home.css";
+import NavbarLog from "../components/NavBarLog";
 
 const HomeLog = () => {
   const { user_id } = useParams(); // matches your URL param
@@ -33,7 +34,7 @@ const HomeLog = () => {
   return (
     <>
       <FlowerBackground />
-      <Navbar />
+      <NavbarLog />
       <div className="home-content">
         <h1>Welcome back, {user.name}!</h1> {/* Schema uses 'Name' */}
         <h2>Here's some art that's worth the watch:</h2>

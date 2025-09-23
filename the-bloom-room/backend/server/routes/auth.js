@@ -83,37 +83,70 @@ router.post("/signup", async (req, res) => {
 //     res.status(500).json({ message: "Server error." });
 //   }
 // });
+const db = require("../db/db"); // dbPromise now
 
 router.post("/login", async (req, res) => {
   const { email, password, role } = req.body;
 
   try {
-    // Example query for MySQL
-    db.query(
-      "SELECT * FROM users WHERE email = ? AND role = ?",
-      [email, role],
-      (err, results) => {
-        if (err) {
-          console.error("Database query error:", err); // <-- log this
-          return res.status(500).json({ message: "Database error" });
-        }
-
-        if (results.length === 0) {
-          return res.status(401).json({ message: "User not found" });
-        }
-
-        const user = results[0];
-
-        // Here you would check password hash
-        // For now, just send user
-        res.json({ user });
-      }
+    // Query returns [rows, fields]
+    const [rows] = await db.query(
+      "SELECT * FROM Users WHERE Email = ? AND Role = ?",
+      [email, role]
     );
+    console.log("DB rows:", rows);
+
+    if (rows.length === 0) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    const user = rows[0];
+
+    // If your passwords are not hashed yet, compare directly
+    // const passwordMatch = password === user.PasswordHash;
+    const passwordMatch = await bcrypt.compare(password, user.PasswordHash);
+
+    if (!passwordMatch) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // Send frontend what it expects
+    res.json({
+      user: {
+        User_ID: user.User_ID,   // match frontend
+        Username: user.Username, // match frontend
+        Role: user.Role,
+      },
+    });
   } catch (err) {
-    console.error("Login route error:", err); // <-- log this too
+    console.error("Login error:", err);
     res.status(500).json({ message: "Server error" });
   }
 });
 
+// router.post("/login", async (req, res) => {
+//   const { email, password, role } = req.body;
 
+//   try {
+//     // Using await on a promise query
+//     const [rows] = await db.query(
+//       "SELECT * FROM Users WHERE Email = ? AND Role = ?",
+//       [email, role]
+//     );
+
+//     const user = rows[0];
+
+//     if (!user) return res.status(401).json({ message: "Invalid credentials" });
+
+//     // Use bcrypt if passwords are hashed
+//     const passwordMatch = await bcrypt.compare(password, user.PasswordHash);
+//     if (!passwordMatch)
+//       return res.status(401).json({ message: "Invalid credentials" });
+
+//     res.json({ user });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// });
 module.exports = router;

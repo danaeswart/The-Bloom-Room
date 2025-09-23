@@ -74,6 +74,14 @@ CREATE TABLE Artwork (
     FOREIGN KEY (Artist_ID) REFERENCES Artist(Artist_ID) ON DELETE CASCADE
 );
 
+-- New table for storing multiple images per artwork
+CREATE TABLE ArtworkImages (
+    Image_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Artwork_ID INT NOT NULL,
+    Image_URL VARCHAR(255) NOT NULL,
+    FOREIGN KEY (Artwork_ID) REFERENCES Artwork(Artwork_ID) ON DELETE CASCADE
+);
+
 -- ========================================
 -- Artwork Review Table (One-to-Many Artwork -> Review)
 -- ========================================
