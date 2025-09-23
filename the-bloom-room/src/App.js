@@ -14,7 +14,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/homelog" element={<HomeLog />} /> 
+        <Route path="/homelog/:user_id" element={<HomeLog />} /> 
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
          <Route path="/bloompost" element={<BloomPost />} />
