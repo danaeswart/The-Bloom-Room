@@ -12,11 +12,11 @@ router.post("/signup", async (req, res) => {
   }
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10); // hash password
 
     const query = `
-      INSERT INTO Users (Email, PasswordHash, Role, Username, Name, Surname, Status)
-      VALUES (?, ?, ?, ?, ?, ?, 'unverified')
+      INSERT INTO users (email, password_hash, role, username, name, surname, status)
+      VALUES (?, ?, ?, ?, ?, ?, 0)
     `;
 
     db.query(query, [email, hashedPassword, role, username, name, surname], (err, result) => {
@@ -32,61 +32,22 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-
-
+module.exports = router;
 
 
 //login logic
-
-// router.post("/login", async (req, res) => {
-//   const { email, password, role } = req.body;
-
-//   if (!email || !password) {
-//     return res.status(400).json({ message: "Email and password are required." });
-//   }
-
-//   try {
-//     const query = "SELECT * FROM users WHERE email = ? AND role = ?";
-//     db.query(query, [email, role], async (err, results) => {
-//       if (err) {
-//         console.error(err);
-//         return res.status(500).json({ message: "Database error." });
-//       }
-
-//       if (results.length === 0) {
-//         return res.status(400).json({ message: "User not found." });
-//       }
-
-//       const user = results[0];
-
-//       const passwordMatch = await bcrypt.compare(password, user.password_hash);
-//       if (!passwordMatch) {
-//         return res.status(400).json({ message: "Incorrect password." });
-//       }
-
-//       // Login successful
-//       res.json({
-//         message: "Login successful!",
-//         user: {
-//           user_id: user.user_id,
-//           email: user.email,
-//           username: user.username,
-//           role: user.role,
-//           name: user.name,
-//           surname: user.surname,
-//           status: user.status
-//         }
-//       });
-//     });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: "Server error." });
-//   }
-// });
 const db = require("../db/db"); // dbPromise now
 
 router.post("/login", async (req, res) => {
   const { email, password, role } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password are required." });
+  }
+
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password are required." });
+  }
 
   try {
     // Query returns [rows, fields]
@@ -118,9 +79,43 @@ router.post("/login", async (req, res) => {
         Role: user.Role,
       },
     });
+    const query = "SELECT * FROM users WHERE email = ? AND role = ?";
+    db.query(query, [email, role], async (err, results) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Database error." });
+      }
+
+      if (results.length === 0) {
+        return res.status(400).json({ message: "User not found." });
+      }
+
+      const user = results[0];
+
+      const passwordMatch = await bcrypt.compare(password, user.password_hash);
+      if (!passwordMatch) {
+        return res.status(400).json({ message: "Incorrect password." });
+      }
+
+      // Login successful
+      res.json({
+        message: "Login successful!",
+        user: {
+          user_id: user.user_id,
+          email: user.email,
+          username: user.username,
+          role: user.role,
+          name: user.name,
+          surname: user.surname,
+          status: user.status
+        }
+      });
+    });
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).json({ message: "Server error" });
+    console.error(err);
+    res.status(500).json({ message: "Server error." });
   }
 });
 
