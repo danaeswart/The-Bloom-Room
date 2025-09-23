@@ -1,10 +1,11 @@
 import React, { useState, useRef } from "react";
 import "./css/BloomPost.css";
 import NavBar from "../components/Navbar";
+import FlowerCarousel from "../components/FlowerCarousel";
 
 function BloomPost() {
   const [images, setImages] = useState([]); // store File objects
-  const [title, setTitle] = useState("");
+  const [artworkName, setArtworkName] = useState("");
   const [description, setDescription] = useState("");
   const [medium, setMedium] = useState("");
   const [price, setPrice] = useState("");
@@ -21,9 +22,6 @@ function BloomPost() {
     setImages((prev) => [...prev, ...files]);
   };
 
-  // =========================
-  // Submit Artwork + Images
-  // =========================
   const handlePost = async (e) => {
     e.preventDefault();
 
@@ -32,24 +30,21 @@ function BloomPost() {
       return;
     }
 
-   const userId = localStorage.getItem("userId");
-   console.log("userId:", userId);
-formData.append("userId", userId); // / logged-in user's ID
-    if (!userId) {
-      alert("You must be logged in as an artist to post!");
-      return;
-    }
+    console.log("Artwork Name:", artworkName);
+    console.log("Description:", description);
+    console.log("Medium:", medium);
+    console.log("Price:", price);
+    console.log("Images array:", images);
 
     const formData = new FormData();
-    formData.append("artistId", userId);
-    formData.append("title", title);
+    formData.append("artworkName", artworkName);
     formData.append("description", description);
     formData.append("medium", medium);
     formData.append("price", price);
 
-    // add multiple images
-    images.forEach((file) => {
-      formData.append("images", file);
+    images.forEach((file, i) => {
+      console.log(`Appending image ${i}:`, file);
+      formData.append("images", file); // actual File object
     });
 
     try {
@@ -58,19 +53,25 @@ formData.append("userId", userId); // / logged-in user's ID
         body: formData,
       });
 
-      const data = await res.json();
+      console.log("Response status:", res.status);
+
+      const data = await res.json().catch((err) => {
+        console.error("Failed to parse JSON:", err);
+        return null;
+      });
+
+      console.log("Response data:", data);
 
       if (res.ok) {
         alert("Artwork uploaded!");
-        // reset fields
         setImages([]);
-        setTitle("");
+        setArtworkName("");
         setDescription("");
         setMedium("");
         setPrice("");
         if (fileInputRef.current) fileInputRef.current.value = "";
       } else {
-        alert(data?.message || "Unknown server error");
+        alert(data?.error || "Unknown server error");
       }
     } catch (err) {
       console.error("Frontend error in handlePost:", err);
@@ -118,8 +119,8 @@ formData.append("userId", userId); // / logged-in user's ID
               Artwork Name:
               <input
                 type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                value={artworkName}
+                onChange={(e) => setArtworkName(e.target.value)}
                 required
                 placeholder="Enter artwork name"
               />

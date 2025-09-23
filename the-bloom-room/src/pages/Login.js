@@ -13,14 +13,13 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Logging in with:", { email, password, role });
     try {
       const res = await axios.post("http://localhost:5000/auth/login", {
         email,
         password,
         role,
       });
-      console.log("Login response:", res.data); 
+
       const user = res.data.user; // backend should return { user: {...} }
 
     console.log(res.data);

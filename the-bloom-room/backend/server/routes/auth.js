@@ -36,7 +36,56 @@ module.exports = router;
 
 
 //login logic
+<<<<<<< HEAD
 const db = require("../db/db"); // dbPromise now
+=======
+
+// router.post("/login", async (req, res) => {
+//   const { email, password, role } = req.body;
+
+//   if (!email || !password) {
+//     return res.status(400).json({ message: "Email and password are required." });
+//   }
+
+//   try {
+//     const query = "SELECT * FROM users WHERE email = ? AND role = ?";
+//     db.query(query, [email, role], async (err, results) => {
+//       if (err) {
+//         console.error(err);
+//         return res.status(500).json({ message: "Database error." });
+//       }
+
+//       if (results.length === 0) {
+//         return res.status(400).json({ message: "User not found." });
+//       }
+
+//       const user = results[0];
+
+//       const passwordMatch = await bcrypt.compare(password, user.password_hash);
+//       if (!passwordMatch) {
+//         return res.status(400).json({ message: "Incorrect password." });
+//       }
+
+//       // Login successful
+//       res.json({
+//         message: "Login successful!",
+//         user: {
+//           user_id: user.user_id,
+//           email: user.email,
+//           username: user.username,
+//           role: user.role,
+//           name: user.name,
+//           surname: user.surname,
+//           status: user.status
+//         }
+//       });
+//     });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: "Server error." });
+//   }
+// });
+>>>>>>> parent of 233dc19 (login and signup are struggeling - go back to previous merger)
 
 router.post("/login", async (req, res) => {
   const { email, password, role } = req.body;
@@ -50,11 +99,28 @@ router.post("/login", async (req, res) => {
   }
 
   try {
-    // Query returns [rows, fields]
-    const [rows] = await db.query(
-      "SELECT * FROM Users WHERE Email = ? AND Role = ?",
-      [email, role]
+    // Example query for MySQL
+    db.query(
+      "SELECT * FROM users WHERE email = ? AND role = ?",
+      [email, role],
+      (err, results) => {
+        if (err) {
+          console.error("Database query error:", err); // <-- log this
+          return res.status(500).json({ message: "Database error" });
+        }
+
+        if (results.length === 0) {
+          return res.status(401).json({ message: "User not found" });
+        }
+
+        const user = results[0];
+
+        // Here you would check password hash
+        // For now, just send user
+        res.json({ user });
+      }
     );
+<<<<<<< HEAD
     console.log("DB rows:", rows);
 
     if (rows.length === 0) {
@@ -111,37 +177,15 @@ router.post("/login", async (req, res) => {
         }
       });
     });
+=======
+>>>>>>> parent of 233dc19 (login and signup are struggeling - go back to previous merger)
   } catch (err) {
-    console.error("Login error:", err);
+    console.error("Login route error:", err); // <-- log this too
     res.status(500).json({ message: "Server error" });
     console.error(err);
     res.status(500).json({ message: "Server error." });
   }
 });
 
-// router.post("/login", async (req, res) => {
-//   const { email, password, role } = req.body;
 
-//   try {
-//     // Using await on a promise query
-//     const [rows] = await db.query(
-//       "SELECT * FROM Users WHERE Email = ? AND Role = ?",
-//       [email, role]
-//     );
-
-//     const user = rows[0];
-
-//     if (!user) return res.status(401).json({ message: "Invalid credentials" });
-
-//     // Use bcrypt if passwords are hashed
-//     const passwordMatch = await bcrypt.compare(password, user.PasswordHash);
-//     if (!passwordMatch)
-//       return res.status(401).json({ message: "Invalid credentials" });
-
-//     res.json({ user });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// });
 module.exports = router;
