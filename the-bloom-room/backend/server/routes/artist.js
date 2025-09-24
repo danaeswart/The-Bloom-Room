@@ -17,11 +17,31 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// GET artist info by user ID
+// // GET artist info by user ID
+//------------ this works for artist info on profile page 
+// router.get("/:userId", (req, res) => {
+//   const userId = req.params.userId;
+//   const query =
+//     "SELECT Bio, Profile_url, Account_Attributes FROM Artist WHERE User_ID = ?";
+
+//   db.query(query, [userId], (err, results) => {
+//     if (err) {
+//       console.error("Error fetching artist:", err);
+//       return res.status(500).json({ message: "Server error" });
+//     }
+//     if (results.length === 0) {
+//       return res.status(404).json({ message: "Artist not found" });
+//     }
+//     res.json(results[0]);
+//   });
+// });
+
+
+//---- new code added to handle bloompost aswell
 router.get("/:userId", (req, res) => {
   const userId = req.params.userId;
   const query =
-    "SELECT Bio, Profile_url, Account_Attributes FROM Artist WHERE User_ID = ?";
+    "SELECT Artist_ID, Bio, Profile_url, Account_Attributes FROM Artist WHERE User_ID = ?";
 
   db.query(query, [userId], (err, results) => {
     if (err) {
@@ -31,9 +51,10 @@ router.get("/:userId", (req, res) => {
     if (results.length === 0) {
       return res.status(404).json({ message: "Artist not found" });
     }
-    res.json(results[0]);
+    res.json(results[0]); // now includes Artist_ID
   });
 });
+
 
 // UPDATE artist 
 //------------------ this code wors for update profile but not for image upload ------------------//
@@ -62,6 +83,8 @@ router.get("/:userId", (req, res) => {
 //     return res.json({ message: "Artist profile updated successfully" });
 //   });
 // });
+
+
 router.put("/:userId", upload.single("profile_url"), (req, res) => {
   console.log("=== PUT /artist/:userId called ===");
   console.log("Params:", req.params);
@@ -94,6 +117,8 @@ router.put("/:userId", upload.single("profile_url"), (req, res) => {
     return res.json({ message: "Artist profile updated successfully" });
   });
 });
+
+
 
 
 module.exports = router;

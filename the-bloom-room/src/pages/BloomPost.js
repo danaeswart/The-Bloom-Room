@@ -1,15 +1,37 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./css/BloomPost.css";
-import NavBar from "../components/Navbar";
+import NavbarLog from "../components/NavbarLog";
 import FlowerCarousel from "../components/FlowerCarousel";
 
 function BloomPost() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const user = location.state?.user;
+
   const [images, setImages] = useState([]); // store File objects
-  const [artworkName, setArtworkName] = useState("");
+  const [artworkName, setArtworkName] = useState(""); // fixed undefined error
   const [description, setDescription] = useState("");
   const [medium, setMedium] = useState("");
   const [price, setPrice] = useState("");
+  const [artistID, setArtistID] = useState(null); // to store artist id from backend
+
   const fileInputRef = useRef();
+
+    useEffect(() => {
+  if (user && user.Role === "artist") {
+    console.log("Logged in user:", user);
+
+    fetch(`http://localhost:5000/artist/${user.User_ID}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Artist data fetched:", data);
+        setArtistID(data.Artist_ID); // <-- Important!
+      })
+      .catch((err) => console.error(err));
+  }
+}, [user]);
+
 
   // Trigger file input
   const handleUploadClick = () => {
@@ -21,67 +43,72 @@ function BloomPost() {
     const files = Array.from(e.target.files);
     setImages((prev) => [...prev, ...files]);
   };
+const handlePost = async (e) => {
+  e.preventDefault();
 
-  const handlePost = async (e) => {
-    e.preventDefault();
+  if (!artistID) {
+    console.error("Artist ID not loaded yet");
+    return;
+  }
 
-    if (!images.length) {
-      alert("Upload at least one image!");
-      return;
-    }
+  if (!artworkName || !description) {
+    alert("Please fill in all required fields.");
+    return;
+  }
 
-    console.log("Artwork Name:", artworkName);
-    console.log("Description:", description);
-    console.log("Medium:", medium);
-    console.log("Price:", price);
-    console.log("Images array:", images);
+  const formData = new FormData();
+  formData.append("Artwork_Name", artworkName); // <-- match DB column name
+  formData.append("description", description);
+  formData.append("medium", medium);
+  formData.append("price", price);
+  formData.append("artistID", artistID.toString()); // <-- important
 
-    const formData = new FormData();
-    formData.append("artworkName", artworkName);
-    formData.append("description", description);
-    formData.append("medium", medium);
-    formData.append("price", price);
+  images.forEach((file) => {
+    formData.append("images", file);
+  });
 
-    images.forEach((file, i) => {
-      console.log(`Appending image ${i}:`, file);
-      formData.append("images", file); // actual File object
+  try {
+    const res = await fetch("http://localhost:5000/artworks", {
+      method: "POST",
+      body: formData,
     });
 
-    try {
-      const res = await fetch("http://localhost:5000/artworks", {
-        method: "POST",
-        body: formData,
-      });
+   let data = {};
+try {
+  data = await res.json();
+} catch (error) {
+  console.error("Error parsing JSON:", error);
+}
+console.log("Artwork post response:", data);
+  
+    console.log("Artwork post response:", data);
 
-      console.log("Response status:", res.status);
+    if (res.ok) {
+      alert("Artwork uploaded successfully!");
+      // Reset fields
+      setImages([]);
+      setArtworkName("");
+      setDescription("");
+      setMedium("");
+      setPrice("");
+      if (fileInputRef.current) fileInputRef.current.value = "";
 
-      const data = await res.json().catch((err) => {
-        console.error("Failed to parse JSON:", err);
-        return null;
-      });
-
-      console.log("Response data:", data);
-
-      if (res.ok) {
-        alert("Artwork uploaded!");
-        setImages([]);
-        setArtworkName("");
-        setDescription("");
-        setMedium("");
-        setPrice("");
-        if (fileInputRef.current) fileInputRef.current.value = "";
-      } else {
-        alert(data?.error || "Unknown server error");
-      }
-    } catch (err) {
-      console.error("Frontend error in handlePost:", err);
-      alert("Failed to upload artwork");
+      // Redirect or reload
+      navigate("/homelog", { state: { user: user } }); // or navigate to a specific page with new post
+    } else {
+      alert(data?.error || "Unknown server error");
     }
-  };
+  } catch (err) {
+    console.error(err);
+    alert("Failed to upload artwork");
+  }
+};
+
+
 
   return (
     <>
-      <NavBar />
+      <NavbarLog />
       <div className="upload-artwork-page">
         <div className="left-panel">
           <div className="images-container">

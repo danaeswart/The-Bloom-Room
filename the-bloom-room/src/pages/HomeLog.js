@@ -9,7 +9,7 @@ import NavbarLog from "../components/NavbarLog";
 const HomeLog = () => {
   const location = useLocation();
   const user = location.state?.user;
-
+  
 
   return (
     <>

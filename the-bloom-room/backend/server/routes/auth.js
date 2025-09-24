@@ -51,26 +51,28 @@ router.post("/signup", async (req, res) => {
 });
 
 // LOGIN route
+// auth.js
 router.post("/login", (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ message: "Email and password required" });
+  if (!email || !password || !role) {
+    return res.status(400).json({ message: "Email, password, and role are required" });
   }
 
-  const query = "SELECT * FROM Users WHERE Email = ?";
-  db.query(query, [email], async (err, results) => {
+  const query = "SELECT * FROM Users WHERE Email = ? AND Role = ?";
+  db.query(query, [email, role], async (err, results) => {
     if (err) {
       console.error("Error fetching user:", err);
       return res.status(500).json({ message: "Server error" });
     }
+
     if (results.length === 0) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid credentials or role" });
     }
 
     const user = results[0];
 
-    const isMatch = await bcrypt.compare(password, user.Password);
+    const isMatch = await bcrypt.compare(password, user.PasswordHash || user.Password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
@@ -84,6 +86,8 @@ router.post("/login", (req, res) => {
         Name: user.Name,
         Surname: user.Surname,
         Role: user.Role,
+        Status: user.Status,
+        CreatedAt: user.CreatedAt,
       },
     });
   });

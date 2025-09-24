@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import "./css/Login.css"; // Assuming you have a CSS file for styling
-import { Link } from "react-router-dom"; // Import Link at the top
+
 import NavBar from "../components/Navbar";
 import axios from "axios";
 import FlowerBackground from "../components/FlowerBackground"; // Import the FlowerBackground component
-
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const [role, setRole] = useState("artist");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const res = await axios.post("http://localhost:5000/auth/login", {
         email,
@@ -20,17 +22,23 @@ function Login() {
         role,
       });
 
-      const user = res.data.user; // backend should return { user: {...} }
+      const user = res.data.user;
+      console.log("Logged in user:", user);
+      
 
-    console.log(res.data);
-    alert(`Welcome back, ${res.data.user.username}!`);
-    // You can store user info in context or localStorage here
-  } catch (err) {
-    console.error(err.response?.data || err.message);
-    alert(err.response?.data?.message || "Login failed!");
-  }
-};
+      alert(`Welcome back, ${user.Username}!`);
 
+      // If the user is an artist, redirect to HomeLog with user data
+      if (role === "artist") {
+        navigate("/homelog", { state: { user } });
+      } else {
+        alert("Only artists can access this page.");
+      }
+    } catch (err) {
+      console.error(err.response?.data || err.message);
+      alert(err.response?.data?.message || "Login failed!");
+    }
+  };
   return (
     <>
     <FlowerBackground />{/* Render the flower background */}

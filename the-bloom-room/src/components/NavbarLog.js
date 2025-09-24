@@ -19,9 +19,9 @@ function NavbarLog({ user }) {
 
       {/* Right side - Links and login icon */}
       <div className="navbar-links">
-        <Link to="/home" className="nav-link">Home</Link>
+        <Link to="/homelog"state={{ user }} className="nav-link">Home</Link>
         <Link to="/about" className="nav-link">About</Link>
-        <Link to="/bloompost" className="nav-link">bloompost</Link>
+        <Link to="/bloompost" state={{ user }} className="nav-link">bloompost</Link>
       
   
    
