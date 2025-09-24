@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import NavbarLog from "../components/NavbarLog";
 import PostContainer from "../components/PostContainer";
 import "./css/Profile.css";
 import flowerIcon from "../assets/images/profile-flower.png";
+import React, { useEffect, useState, useContext } from "react";
+import { UserContext } from "../context/UserContext"; // Adjust path if needed
+
 
 const Profile = () => {
   const [artistData, setArtistData] = useState(null);
@@ -14,63 +17,82 @@ const Profile = () => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [profileUrl, setProfileUrl] = useState("");
+  const [userArtworks, setUserArtworks] = useState([]);
+  const [artistID, setArtistID] = useState(null);
+
+
 
   const location = useLocation();
-  const user = location.state?.user;
-  const userID = user?.User_ID;
+  // const user = location.state?.user;
+ 
+    const { user, setUser } = useContext(UserContext);
+     const userID = user?.User_ID;
 
+// FETCH ARTIST DATA
  useEffect(() => {
-  const fetchArtist = async () => {
-    try {
-      if (!userID) return;
+  const fetchProfileData = async () => {
+    if (!userID) return; // Wait for userID
 
-      const res = await axios.get(`http://localhost:5000/artist/${userID}`);
-      const data = res.data;
-      
+    try {
+      // 1. Fetch artist data
+      const artistRes = await axios.get(`http://localhost:5000/artist/${userID}`);
+      const artistData = artistRes.data;
 
       let attrs = [];
-
-      if (data.Account_Attributes) {
+      if (artistData.Account_Attributes) {
         try {
-          // Try parsing as JSON
-          attrs = JSON.parse(data.Account_Attributes);
-
-          // Handle double-encoded case
-          if (typeof attrs === "string") {
-            attrs = JSON.parse(attrs);
-          }
-
-          if (!Array.isArray(attrs)) {
-            attrs = [attrs];
-          }
+          attrs = JSON.parse(artistData.Account_Attributes);
+          if (typeof attrs === "string") attrs = JSON.parse(attrs);
+          if (!Array.isArray(attrs)) attrs = [attrs];
         } catch (err) {
           console.error("Error parsing attributes:", err);
-          attrs = [];
         }
       }
-
       setAttributes(attrs || []);
-      setBio(data.Bio || "");
-      setProfileUrl(data.Profile_url || "");
-      setName(user?.Name || "");
-      setSurname(user?.Surname || "");
+      setBio(artistData.Bio || "");
+      setProfileUrl(artistData.Profile_url || "");
+      setArtistID(artistData.Artist_ID);
+
       
-       // ✅ NEW: Fetch updated user data
+
+      // 2. Fetch user data
       const userRes = await axios.get(`http://localhost:5000/users/${userID}`);
       const updatedUser = userRes.data.user;
-
       setName(updatedUser.Name || "");
       setSurname(updatedUser.Surname || "");
+      setUser(updatedUser);
 
+      // 3. Fetch artworks for this user
+      const artworksRes = await axios.get(`http://localhost:5000/artworks/user/${userID}`);
+      setUserArtworks(artworksRes.data);
 
     } catch (err) {
-      console.error("Error fetching artist:", err);
-      setAttributes([]);
+      console.error("Error fetching profile data:", err);
     }
   };
 
-  fetchArtist();
-}, [userID, user]);
+  fetchProfileData();
+}, [userID]);
+
+
+  
+useEffect(() => {
+  const fetchUserArtworks = async () => {
+    if (!userID) return;
+
+    try {
+      const res = await axios.get(`http://localhost:5000/artworks/user/${userID}`);
+       console.log("User artworks data:", res.data); // ✅ Debug here
+      setUserArtworks(res.data);
+    } catch (err) {
+      console.error("Error fetching user artworks:", err);
+    }
+  };
+
+  fetchUserArtworks();
+}, [userID]);
+
+
 
   const handleAttributeChange = (index, value) => {
     const newAttrs = [...attributes];
@@ -94,6 +116,8 @@ const Profile = () => {
   const handleProfileImageChange = (e) => {
     setProfileUrl(e.target.files[0]);
   };
+
+
 
   const handleSave = async () => {
     console.log("=== Saving profile changes ===");
@@ -135,6 +159,12 @@ const Profile = () => {
       });
 
       console.log("✅ Profile updated successfully (users + artist)");
+
+       // ✅ NEW: Fetch updated user and update context
+    const userRes = await axios.get(`http://localhost:5000/users/${userID}`);
+    const updatedUser = userRes.data.user;
+    setUser(updatedUser); // ← THIS updates context
+
 
       setIsEditing(false);
     } catch (error) {
@@ -239,7 +269,7 @@ const Profile = () => {
       </div>
 
       <div className="post-section">
-        <PostContainer />
+       <PostContainer userId={artistID} />
       </div>
     </>
   );

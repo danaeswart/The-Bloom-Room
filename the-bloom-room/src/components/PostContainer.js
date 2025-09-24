@@ -1,38 +1,57 @@
-import img from "../assets/images/Tomato.jpeg";
-import img1 from "../assets/images/artwork1.jpeg";
-import img2 from "../assets/images/artwork2.jpeg";
-import img3 from "../assets/images/artwork3.jpeg";
-import"./css/PostContainer.css"; // Ensure this path is correct"
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "./css/PostContainer.css";
 
-function PostContainer() {
+function PostContainer({ userId = null }) {
+  const [posts, setPosts] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchArtworks = async () => {
+      try {
+        let endpoint = "http://localhost:5000/artworks";
+
+        if (userId) {
+          endpoint += `/user/${userId}`;
+        }
+
+        const res = await axios.get(endpoint);
+        setPosts(res.data);
+      } catch (err) {
+        console.error("Error fetching artworks:", err);
+      }
+    };
+
+    fetchArtworks();
+  }, [userId]);
+
+  const handleArtworkClick = (artworkId) => {
+    navigate(`/artwork/${artworkId}`);
+  };
+
   return (
     <div className="post-container">
-        <div className="post-frame">
-      <img src={img} alt="Post" className="post-image" />
-      </div>
-      <div className="post-frame">
-      <img src={img1} alt="Post" className="post-image" />
-      </div>
-      <div className="post-frame">
-      <img src={img2} alt="Post" className="post-image" />
-      </div>
-      <div className="post-frame">
-      <img src={img2} alt="Post" className="post-image" />
-      </div>
-         <div className="post-frame">
-      <img src={img} alt="Post" className="post-image" />
-      </div>
-       <div className="post-frame">
-      <img src={img3} alt="Post" className="post-image" />
-      </div>
-       <div className="post-frame">
-      <img src={img1} alt="Post" className="post-image" />
-      </div>
-          <div className="post-frame">
-      <img src={img3} alt="Post" className="post-image" />
-      </div>
-      
+      {posts.length > 0 ? (
+        posts.map((artwork) => (
+          <div
+            key={artwork.Artwork_ID}
+            className="post-frame"
+            onClick={() => handleArtworkClick(artwork.Artwork_ID)}
+          >
+            <img
+              src={`http://localhost:5000${artwork.Image_URL}`}
+              alt={artwork.Artwork_Name}
+              className="post-image"
+            />
+            <p className="artwork-name">{artwork.Artwork_Name}</p>
+          </div>
+        ))
+      ) : (
+        <p>No artworks found.</p>
+      )}
     </div>
   );
-}   
-export default PostContainer
+}
+
+export default PostContainer;

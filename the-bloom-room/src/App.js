@@ -8,9 +8,11 @@ import About from "./pages/About";
 import Profile from "./pages/Profile";
 import ArtworkPage from "./pages/ArtworkPage";
 import HomeLog from "./pages/HomeLog";
+import { UserProvider } from "./context/UserContext"; // ✅ import UserProvider
 
 function App() {
   return (
+    <UserProvider>
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -26,6 +28,7 @@ function App() {
  
       </Routes>
     </Router>
+    </UserProvider>
   );
 }
 

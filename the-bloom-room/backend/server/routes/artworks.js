@@ -62,4 +62,47 @@ router.post("/", upload.array("images", 10), (req, res) => {
 });
 
 
+//-- normalisation to get artworks and images together --//
+
+// GET all artworks with main image
+router.get("/", (req, res) => {
+  const sql = `
+    SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
+           ai.Image_URL
+    FROM Artworks a
+    LEFT JOIN ArtworkImages ai ON a.Artwork_ID = ai.Artwork_ID
+    GROUP BY a.Artwork_ID
+  `;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Error fetching artworks" });
+    }
+    res.json(results);
+  });
+});
+
+// GET artworks by specific artist
+router.get("/user/:userId", (req, res) => {
+  const { userId } = req.params;
+  const sql = `
+    SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
+           ai.Image_URL
+    FROM Artworks a
+    LEFT JOIN ArtworkImages ai ON a.Artwork_ID = ai.Artwork_ID
+    WHERE a.Artist_ID = ?
+    GROUP BY a.Artwork_ID
+  `;
+  
+  db.query(sql, [userId], (err, artworks) => {
+    if (err) {
+      console.error("❌ Error fetching user's artworks:", err);
+      return res.status(500).json({ message: "Error fetching user's artworks", error: err });
+    }
+    res.json(artworks);
+  });
+});
+
+
 module.exports = router;
