@@ -27,11 +27,12 @@ router.post("/signup", async (req, res) => {
       // Hash password
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      // Insert user
+      // Insert user with correct column names
       const insertQuery = `
-        INSERT INTO Users (Email, Password, Username, Name, Surname, Role)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO Users (Email, PasswordHash, Username, Name, Surname, Role, Status)
+        VALUES (?, ?, ?, ?, ?, ?, 'unverified')
       `;
+
       db.query(
         insertQuery,
         [email, hashedPassword, username, name, surname, role],
@@ -40,7 +41,10 @@ router.post("/signup", async (req, res) => {
             console.error("Error inserting user:", err);
             return res.status(500).json({ message: "Error creating user" });
           }
-          res.status(201).json({ message: "User created successfully", userId: result.insertId });
+          res.status(201).json({
+            message: "User created successfully",
+            user: { id: result.insertId, email, username, name, surname, role },
+          });
         }
       );
     });
@@ -49,6 +53,7 @@ router.post("/signup", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
 
 // LOGIN route
 // auth.js

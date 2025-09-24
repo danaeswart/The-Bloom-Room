@@ -1,110 +1,96 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "./css/BloomPost.css";
 import NavbarLog from "../components/NavbarLog";
-import FlowerCarousel from "../components/FlowerCarousel";
+import { UserContext } from "../context/UserContext"; // ✅ Import context
 
 function BloomPost() {
-  const location = useLocation();
   const navigate = useNavigate();
-  const user = location.state?.user;
+  const { user } = useContext(UserContext); // ✅ Get user from global context
 
-  const [images, setImages] = useState([]); // store File objects
-  const [artworkName, setArtworkName] = useState(""); // fixed undefined error
+  const [images, setImages] = useState([]); 
+  const [artworkName, setArtworkName] = useState(""); 
   const [description, setDescription] = useState("");
   const [medium, setMedium] = useState("");
   const [price, setPrice] = useState("");
-  const [artistID, setArtistID] = useState(null); // to store artist id from backend
+  const [artistID, setArtistID] = useState(null); 
 
   const fileInputRef = useRef();
 
-    useEffect(() => {
-  if (user && user.Role === "artist") {
-    console.log("Logged in user:", user);
+  useEffect(() => {
+    if (user && user.Role === "artist") {
+      console.log("Logged in user:", user);
 
-    fetch(`http://localhost:5000/artist/${user.User_ID}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Artist data fetched:", data);
-        setArtistID(data.Artist_ID); // <-- Important!
-      })
-      .catch((err) => console.error(err));
-  }
-}, [user]);
+      fetch(`http://localhost:5000/artist/${user.User_ID}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("Artist data fetched:", data);
+          setArtistID(data.Artist_ID);
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [user]);
 
-
-  // Trigger file input
   const handleUploadClick = () => {
     fileInputRef.current.click();
   };
 
-  // Keep File objects for upload
   const handleFilesSelected = (e) => {
     const files = Array.from(e.target.files);
     setImages((prev) => [...prev, ...files]);
   };
-const handlePost = async (e) => {
-  e.preventDefault();
 
-  if (!artistID) {
-    console.error("Artist ID not loaded yet");
-    return;
-  }
+  const handlePost = async (e) => {
+    e.preventDefault();
 
-  if (!artworkName || !description) {
-    alert("Please fill in all required fields.");
-    return;
-  }
+    if (!artistID) {
+      console.error("Artist ID not loaded yet");
+      return;
+    }
 
-  const formData = new FormData();
-  formData.append("Artwork_Name", artworkName); // <-- match DB column name
-  formData.append("description", description);
-  formData.append("medium", medium);
-  formData.append("price", price);
-  formData.append("artistID", artistID.toString()); // <-- important
+    if (!artworkName || !description) {
+      alert("Please fill in all required fields.");
+      return;
+    }
 
-  images.forEach((file) => {
-    formData.append("images", file);
-  });
+    const formData = new FormData();
+    formData.append("Artwork_Name", artworkName);
+    formData.append("description", description);
+    formData.append("medium", medium);
+    formData.append("price", price);
+    formData.append("artistID", artistID.toString());
 
-  try {
-    const res = await fetch("http://localhost:5000/artworks", {
-      method: "POST",
-      body: formData,
+    images.forEach((file) => {
+      formData.append("images", file);
     });
 
-   let data = {};
-try {
-  data = await res.json();
-} catch (error) {
-  console.error("Error parsing JSON:", error);
-}
-console.log("Artwork post response:", data);
-  
-    console.log("Artwork post response:", data);
+    try {
+      const res = await fetch("http://localhost:5000/artworks", {
+        method: "POST",
+        body: formData,
+      });
 
-    if (res.ok) {
-      alert("Artwork uploaded successfully!");
-      // Reset fields
-      setImages([]);
-      setArtworkName("");
-      setDescription("");
-      setMedium("");
-      setPrice("");
-      if (fileInputRef.current) fileInputRef.current.value = "";
+      const data = await res.json();
+      console.log("Artwork post response:", data);
 
-      // Redirect or reload
-      navigate("/homelog", { state: { user: user } }); // or navigate to a specific page with new post
-    } else {
-      alert(data?.error || "Unknown server error");
+      if (res.ok) {
+        alert("Artwork uploaded successfully!");
+        setImages([]);
+        setArtworkName("");
+        setDescription("");
+        setMedium("");
+        setPrice("");
+        if (fileInputRef.current) fileInputRef.current.value = "";
+
+        navigate("/homelog"); // ✅ no state needed anymore
+      } else {
+        alert(data?.error || "Unknown server error");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to upload artwork");
     }
-  } catch (err) {
-    console.error(err);
-    alert("Failed to upload artwork");
-  }
-};
-
-
+  };
 
   return (
     <>
