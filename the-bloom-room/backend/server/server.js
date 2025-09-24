@@ -5,17 +5,26 @@ const path = require("path");
 // Routes
 const authRoutes = require("./routes/auth");
 const artworksRoutes = require("./routes/artworks");
+const artistRoutes = require("./routes/artist");
+const usersRoutes = require("./routes/users");
 
 const app = express();
+
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
+app.use("/users", usersRoutes);
+
+
+//artist routes
+app.use("/artist", artistRoutes);
+
 // Static folder for uploaded images
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Routes
+
 // Auth routes
 app.use("/auth", authRoutes);
 

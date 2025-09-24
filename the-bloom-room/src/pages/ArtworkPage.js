@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../pages/css/ArtworkPage.css";
+import "./css/ArtworkPage.css";
 import artwork1 from "../assets/images/artwork1.jpeg"; // Replace with actual image paths      
 import artwork2 from "../assets/images/artwork2.jpeg"; // Replace with actual image paths      
 import artwork3 from "../assets/images/artwork3.jpeg";

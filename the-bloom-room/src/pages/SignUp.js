@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import NavBar from "../components/Navbar";
 import FlowerBackground from "../components/FlowerBackground";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -14,6 +16,7 @@ function SignUp() {
   const [surname, setSurname] = useState("");
   const [role, setRole] = useState("buyer"); // default role
   const [passwordMatch, setPasswordMatch] = useState(true);
+  const navigate = useNavigate();
 
   // Check password match in real-time
   const handlePasswordChange = (value) => {
@@ -45,6 +48,8 @@ function SignUp() {
       });
       console.log(res.data);
       alert("Account created successfully!");
+      navigate("/homelog", { state: { user: res.data.user } });
+
     } catch (err) {
       console.error(err.response?.data || err.message);
       alert("Signup failed!");

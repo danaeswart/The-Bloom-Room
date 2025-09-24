@@ -20,6 +20,26 @@ router.get("/:id", (req, res) => {
     res.json({ user: results[0] });
   });
 });
+// updates made on profile page -- 
+
+router.put("/:userId", (req, res) => {
+  const { userId } = req.params;
+  const { name, surname } = req.body;
+
+  const query = `
+    UPDATE Users
+    SET Name = ?, Surname = ?
+    WHERE User_ID = ?
+  `;
+
+  db.query(query, [name, surname, userId], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Error updating user info" });
+    }
+    return res.json({ message: "User info updated successfully" });
+  });
+});
 
 
 module.exports = router;
