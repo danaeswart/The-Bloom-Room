@@ -24,7 +24,7 @@ function App() {
          <Route path="/adminapproval" element={<AdminApproval />} />
         <Route path="/about" element={<About />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/artwork/" element={<ArtworkPage />} />
+        <Route path="/artworks/:artworkId" element={<ArtworkPage />} />
  
       </Routes>
     </Router>

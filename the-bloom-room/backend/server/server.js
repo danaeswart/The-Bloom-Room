@@ -30,6 +30,7 @@ app.use("/auth", authRoutes);
 
 // Artworks routes (no auth middleware for now)
 app.use("/artworks", artworksRoutes);
+app.use("/artwork", artworksRoutes); // ✅ new line
 
 // Root test route
 app.get("/", (req, res) => {

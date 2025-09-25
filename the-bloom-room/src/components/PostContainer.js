@@ -27,7 +27,7 @@ function PostContainer({ userId = null }) {
   }, [userId]);
 
   const handleArtworkClick = (artworkId) => {
-    navigate(`/artwork/${artworkId}`);
+    navigate(`/artworks/${artworkId}`);
   };
 
   return (
