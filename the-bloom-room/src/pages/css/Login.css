@@ -178,3 +178,49 @@ html, body {
 }
 
 /* Sign up label */
+
+
+
+/* Sign up l=-==================ink */
+
+.home-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* stay behind content */
+  overflow: hidden;
+}
+
+.flower {
+  position: absolute;
+  width: 120px;
+  opacity: 0.8;
+  transition: transform 0.2s linear;
+}
+
+/* Place flowers in different spots and sizes */
+.flower1 {
+  top: 50%;
+  left: 5%;
+  width: 5000px;
+}
+
+.flower2 {
+  top: 40%;
+  right: 10%;
+  width: 100px;
+}
+
+.flower3 {
+  bottom: 15%;
+  left: 20%;
+  width: 130px;
+}
+
+.flower4 {
+  bottom: 5%;
+  right: 25%;
+  width: 90px;
+}

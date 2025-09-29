@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import "./css/SignUp.css";
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "../components/Navbar";
-import FlowerBackground from "../components/FlowerBackground";
+
 import axios from "axios";
 import { UserContext } from "../context/UserContext"; // ✅ Import context
 
@@ -75,7 +75,7 @@ function SignUp() {
 
   return (
     <>
-      <FlowerBackground />
+     
       <NavBar />
       <div className="login-container">
         <h2 className="login-title">Sign Up</h2>

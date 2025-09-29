@@ -1,5 +1,5 @@
 import React, { useContext } from "react"; // ✅ need useContext
-import FlowerBackground from "../components/FlowerBackground";
+
 import PostContainer from "../components/PostContainer"; 
 import logo from "../assets/images/logo.png";
 import "./css/Home.css";
@@ -11,7 +11,7 @@ const HomeLog = () => {
 
   return (
     <>
-      <FlowerBackground />
+     
       <NavbarLog user={user} />
       <div className="home-content">
         <h1>Welcome Home, {user?.Name || "Guest"}</h1>
