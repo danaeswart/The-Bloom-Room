@@ -3,7 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./css/PostContainer.css";
 
-function PostContainer({ userId = null }) {
+function PostContainer({ artistId = null }) {
+ console.log("PostContainer received artistId:", artistId);
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
@@ -11,10 +12,13 @@ function PostContainer({ userId = null }) {
     const fetchArtworks = async () => {
       try {
         let endpoint = "http://localhost:5000/artworks";
+        console.log("Base endpoint:", endpoint);
+       
+        if (artistId) {
+        endpoint += `/user/${artistId}`;
+        console.log("Fetching artworks for artistId:", artistId);
+  }
 
-        if (userId) {
-          endpoint += `/user/${userId}`;
-        }
 
         const res = await axios.get(endpoint);
         setPosts(res.data);
@@ -24,7 +28,10 @@ function PostContainer({ userId = null }) {
     };
 
     fetchArtworks();
-  }, [userId]);
+  }, [artistId]);
+  
+
+
 
   const handleArtworkClick = (artworkId) => {
     navigate(`/artworks/${artworkId}`);
@@ -49,6 +56,7 @@ function PostContainer({ userId = null }) {
         ))
       ) : (
         <p>No artworks found.</p>
+        
       )}
     </div>
   );

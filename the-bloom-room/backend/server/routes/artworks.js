@@ -5,9 +5,10 @@ const db = require("../db/db");
 
 const router = express.Router();
 
+// === Multer Setup for Uploads === //
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../uploads")); // One folder up only
+    cb(null, path.join(__dirname, "../uploads"));
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + "-" + file.originalname);
@@ -16,7 +17,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// POST new artwork
+
+
+
+// === POST new artwork === //
 router.post("/", upload.array("images", 10), (req, res) => {
   console.log("=== POST /artworks called ===");
   console.log("req.body:", req.body);
@@ -40,11 +44,10 @@ router.post("/", upload.array("images", 10), (req, res) => {
     }
 
     const artworkID = result.insertId;
-    console.log("Artwork inserted with ID:", artworkID);
+    console.log("✅ Artwork inserted with ID:", artworkID);
 
     if (req.files && req.files.length > 0) {
       const imageSql = `INSERT INTO artworkimages (Artwork_ID, Image_URL) VALUES ?`;
-
       const values = req.files.map(file => [artworkID, "/uploads/" + file.filename]);
 
       db.query(imageSql, [values], (imgErr) => {
@@ -52,7 +55,7 @@ router.post("/", upload.array("images", 10), (req, res) => {
           console.error("❌ Error inserting artwork images:", imgErr);
           return res.status(500).json({ error: "Error inserting images", details: imgErr });
         }
-        console.log("Artwork images inserted:", values);
+        console.log("✅ Artwork images inserted:", values);
         return res.json({ message: "Artwork and images uploaded successfully!" });
       });
     } else {
@@ -61,10 +64,76 @@ router.post("/", upload.array("images", 10), (req, res) => {
   });
 });
 
+// === GET artworks for a specific user/artist === //
+router.get("/user/:artistId", (req, res) => {
+  const { artistId } = req.params;
 
-//-- normalisation to get artworks and images together --//
+  console.log("🎨 [GET /user/:artistId] Route hit!");
+  console.log("➡️ Received artistId:", artistId);
 
-// GET all artworks with main image
+  const sql = `
+    SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
+           ai.Image_URL
+    FROM Artworks a
+    LEFT JOIN ArtworkImages ai ON a.Artwork_ID = ai.Artwork_ID
+    WHERE a.Artist_ID = ?
+    GROUP BY a.Artwork_ID
+  `;
+
+  console.log("🧠 Running SQL query to fetch artworks for Artist_ID:", artistId);
+
+  db.query(sql, [artistId], (err, results) => {
+    console.log("📡 SQL query executed.");
+
+    if (err) {
+      console.error("❌ SQL ERROR while fetching artist artworks:", err);
+      return res.status(500).json({ error: "Server error", details: err.message });
+    }
+
+    console.log("✅ SQL query successful. Number of artworks found:", results.length);
+
+    if (results.length === 0) {
+      console.warn("⚠️ No artworks found for artist with ID:", artistId);
+      return res.status(404).json({ message: "No artworks found for this artist" });
+    }
+
+    console.log("🎉 Sending artworks data back to client...");
+    res.json(results);
+  });
+});
+
+
+
+
+// === GET artworks for a specific user/artist === //
+router.get("/user/:artistId", (req, res) => {
+  const { artistId } = req.params;
+
+  const sql = `
+    SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
+           ai.Image_URL
+    FROM Artworks a
+    LEFT JOIN ArtworkImages ai ON a.Artwork_ID = ai.Artwork_ID
+    WHERE a.Artist_ID = ?
+    GROUP BY a.Artwork_ID
+  `;
+
+  db.query(sql, [artistId], (err, results) => {
+    if (err) {
+      console.error("❌ Error fetching artist artworks:", err);
+      return res.status(500).json({ error: "Server error" });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: "No artworks found for this artist" });
+    }
+
+    res.json(results);
+  });
+});
+
+
+// === GET all artworks (with one image each) === //
 router.get("/", (req, res) => {
   const sql = `
     SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
@@ -83,7 +152,8 @@ router.get("/", (req, res) => {
   });
 });
 
-// GET artworks by specific artist
+
+// === GET specific artwork by ID (with artist and images) === //
 router.get("/:id", (req, res) => {
   const { id } = req.params;
 
@@ -107,11 +177,9 @@ router.get("/:id", (req, res) => {
     WHERE a.Artwork_ID = ?
   `;
 
-  console.log("🔍 Running query for artwork ID:", id);
+  console.log("🔍 Fetching artwork with ID:", id);
 
   db.query(sql, [id], (err, results) => {
-    console.log("📜 SQL results:", results);
-
     if (err) {
       console.error("❌ Error fetching artwork:", err);
       return res.status(500).json({ message: "Error fetching artwork", error: err });
@@ -138,7 +206,6 @@ router.get("/:id", (req, res) => {
     };
 
     console.log("🎯 Final artwork object:", artwork);
-
     res.json(artwork);
   });
 });
