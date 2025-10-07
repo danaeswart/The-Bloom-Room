@@ -12,34 +12,38 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext); // ✅ use context properly
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  try {
+    const res = await axios.post("http://localhost:5000/auth/login", {
+      email,
+      password,
+      role,
+    });
 
-    try {
-      const res = await axios.post("http://localhost:5000/auth/login", {
-        email,
-        password,
-        role,
-      });
+    const user = res.data.user;
+    console.log("Logged in user:", user);
 
-      const user = res.data.user;
-      console.log("Logged in user:", user);
+    alert(`Welcome back, ${user.Username}!`);
+    setUser(user);
+    setRole(user.role); // Just to be sure
+    
 
-      alert(`Welcome back, ${user.Username}!`);
-      setUser(user); // ✅ Save globally
-
-      // Only artists can go to homelog
-      if (role === "artist") {
-        navigate("/homelog"); // ✅ no state passing needed anymore
-      } else {
-        alert("Only artists can access this page.");
-      }
-    } catch (err) {
-      console.error(err.response?.data || err.message);
-      alert(err.response?.data?.message || "Login failed!");
+    if (role === "artist") {
+      navigate("/homelog");
+    } else if (role === "buyer") {
+      navigate("/homebuy"); // ✅ buyer route
+    } else if (role === "admin") {
+      navigate("/adminhome"); // optional: admin route
+    } else {
+      alert("Unknown role");
     }
-  };
+  } catch (err) {
+    console.error(err.response?.data || err.message);
+    alert(err.response?.data?.message || "Login failed!");
+  }
+};
 
   return (
     <>

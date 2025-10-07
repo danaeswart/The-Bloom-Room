@@ -34,7 +34,7 @@ const Profile = () => {
         // 1. Fetch artist data
         const artistRes = await axios.get(`http://localhost:5000/artist/${userID}`);
         const artistData = artistRes.data;
-        console.log("Artist data received:", artistData);
+        // console.log("Artist data received:", artistData);
 
         let attrs = [];
         if (artistData.Account_Attributes) {
@@ -51,7 +51,7 @@ const Profile = () => {
         setProfileUrl(artistData.Profile_url || "");
         setArtistID(artistData.Artist_ID);
 
-        console.log("Artist ID set:", artistData.Artist_ID);
+        // console.log("Artist ID set:", artistData.Artist_ID);
 
         // 2. Fetch user data
         const userRes = await axios.get(`http://localhost:5000/users/${userID}`);

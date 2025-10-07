@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ProfileBuy from "./pages/ProfileBuy";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home"; // Assuming you have a Home component
@@ -9,6 +10,7 @@ import Profile from "./pages/Profile";
 import ArtworkPage from "./pages/ArtworkPage";
 import HomeLog from "./pages/HomeLog";
 import { UserProvider } from "./context/UserContext"; // ✅ import UserProvider
+import HomeBuy from "./pages/HomeBuy";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/artworks/:artworkId" element={<ArtworkPage />} />
+        <Route path="/homebuy" element={<HomeBuy />} />
+        <Route path="/profilebuy" element={<ProfileBuy />} />
  
       </Routes>
     </Router>

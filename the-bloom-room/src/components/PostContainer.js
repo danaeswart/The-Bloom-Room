@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./css/PostContainer.css";
 
 function PostContainer({ artistId = null }) {
- console.log("PostContainer received artistId:", artistId);
+//  console.log("PostContainer received artistId:", artistId);
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
@@ -12,11 +12,11 @@ function PostContainer({ artistId = null }) {
     const fetchArtworks = async () => {
       try {
         let endpoint = "http://localhost:5000/artworks";
-        console.log("Base endpoint:", endpoint);
+        // console.log("Base endpoint:", endpoint);
        
         if (artistId) {
         endpoint += `/user/${artistId}`;
-        console.log("Fetching artworks for artistId:", artistId);
+        // console.log("Fetching artworks for artistId:", artistId);
   }
 
 

@@ -64,7 +64,11 @@ function SignUp() {
       // Redirect depending on role
       if (role === "artist") {
         navigate("/homelog");
-      } else {
+      }
+      else if (role === "buyer") {
+        navigate("/homebuy");
+      }
+      else {
         navigate("/"); // Change to wherever you want other roles to go
       }
     } catch (err) {
@@ -206,6 +210,7 @@ function SignUp() {
               </Link>
             </p>
           </div>
+
         </form>
       </div>
     </>

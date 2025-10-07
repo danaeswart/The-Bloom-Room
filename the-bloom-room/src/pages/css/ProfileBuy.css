@@ -1,0 +1,122 @@
+.post-section {
+  width: 70%;
+  margin: 0px auto;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 20px;
+  position: relative;
+  width: 70%;
+  margin: auto;
+  margin-top: 5rem;
+  margin-bottom: 0px;
+}
+
+/* Edit button */
+.edit-btn {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  color: #555;
+  cursor: pointer;
+}
+.edit-btn:hover {
+  color: #000;
+}
+
+/* Flower section */
+.flower-section {
+  position: relative;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Profile picture */
+.profile-pic {
+  position: absolute;
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+}
+
+/* User info section */
+.user-info {
+  flex: 1;
+}
+
+.user-header {
+  display: flex;
+  gap: 20px;
+}
+
+.user-name {
+  margin: 0;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.user-username {
+  margin: -2px 0 10px 0;
+  font-size: 1.4rem;
+  color: #6777be;
+}
+
+.user-email {
+  font-size: 1rem;
+  color: #333;
+}
+
+.user-bio {
+  margin: 20px 0;
+  width: 70%;
+  font-size: 1.2rem;
+  color: #444;
+  line-height: 1.4;
+}
+
+.save-btn {
+  background: #2c4c34;
+  color: white;
+  border: none;
+  padding: 5px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s ease;
+}
+.save-btn:hover {
+  background: #005bb5;
+}
+
+.logout-btn {
+  background: #d9534f;
+  color: white;
+  border: none;
+  padding: 5px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.logout-btn:hover {
+  background: #c9302c;
+}
