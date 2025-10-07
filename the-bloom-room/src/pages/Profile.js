@@ -6,6 +6,7 @@ import "./css/Profile.css";
 import flowerIcon from "../assets/images/profile-flower.png";
 import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../context/UserContext"; // Adjust path if needed
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const [artistData, setArtistData] = useState(null);
