@@ -87,7 +87,10 @@ const ArtworkPage = () => {
           <h4>Price:</h4>
           <p className="medium">R{artwork.Price}</p>
 
-          <button className="request-btn">Send Request</button>
+          <Link to={`/order/${artwork.Artwork_ID}`}>
+  <button className="request-btn">Send Request</button>
+</Link>
+
         </div>
       </div>
     </>

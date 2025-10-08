@@ -28,6 +28,7 @@ const handleSubmit = async (e) => {
     alert(`Welcome back, ${user.Username}!`);
     setUser(user);
     setRole(user.role); // Just to be sure
+    localStorage.setItem("user", JSON.stringify(user)); // Save user to localStorage
     
 
     if (role === "artist") {

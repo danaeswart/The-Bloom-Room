@@ -1,0 +1,82 @@
+.order-page {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  width: 80%;
+  margin: auto;
+  margin-top: 10%;
+}
+
+.order-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.order-left img {
+  max-width: 400px;
+  border-radius: 10px;
+}
+
+.price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.slider {
+  position: relative;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  background: rgba(0,0,0,0.3);
+  color: white;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.arrow.left {
+  left: 0;
+}
+
+.arrow.right {
+  right: 0;
+}
+
+.order-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.order-right h3 {
+  margin-bottom: 10px;
+}
+
+.order-right textarea {
+  width: 100%;
+  height: 150px;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.request-btn {
+  background: #2C4C34;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.request-btn:hover {
+  background: #1f3d28;
+}

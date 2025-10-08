@@ -1,0 +1,113 @@
+/* ===== Page Layout ===== */
+.profile-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 40px;
+  width: 70%;
+  margin: 5rem auto 2rem auto;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* ===== Profile Image Section ===== */
+.profile-info img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* ===== Text Info ===== */
+.profile-info h2 {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: bold;
+  color: #222;
+}
+
+.profile-info h3 {
+  margin: 5px 0 10px 0;
+  font-size: 1.2rem;
+  color: #6777BE;
+  font-weight: 600;
+}
+
+.profile-info p {
+  margin: 0;
+  width: 70%;
+  font-size: 1.1rem;
+  color: #444;
+  line-height: 1.6;
+}
+
+/* ===== Artworks Section ===== */
+.artist-artworks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  width: 80%;
+  margin: 0 auto 5rem auto;
+  padding: 20px;
+}
+
+.artist-artworks div {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.artist-artworks div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+/* ===== Artwork Images ===== */
+.artist-artworks img {
+  width: 100%;
+  height: 220px;
+  border-radius: 15px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+/* ===== Artwork Details ===== */
+.artist-artworks h4 {
+  margin: 5px 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2C4C34;
+}
+
+.artist-artworks p {
+  margin: 0;
+  color: #555;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+  .profile-info {
+    flex-direction: column;
+    text-align: center;
+    width: 90%;
+  }
+
+  .profile-info img {
+    width: 140px;
+    height: 140px;
+  }
+
+  .artist-artworks {
+    width: 90%;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+}

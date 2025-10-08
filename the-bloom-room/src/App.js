@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProfileBuy from "./pages/ProfileBuy";
 import Login from "./pages/Login";
-import ProfilePageq from "./pages/ProfilePage";
+import ProfilePage from "./pages/ProfilePage";
+import Order from "./pages/Order";  
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home"; // Assuming you have a Home component
 import BloomPost from "./pages/BloomPost";
@@ -30,7 +31,8 @@ function App() {
         <Route path="/artworks/:artworkId" element={<ArtworkPage />} />
         <Route path="/homebuy" element={<HomeBuy />} />
         <Route path="/profilebuy" element={<ProfileBuy />} />
-        <Route path="/profile/:artistId" element={<ProfilePageq />} />
+        <Route path="/profile/:artistId" element={<ProfilePage />} />
+        <Route path="/order/:artworkId" element={<Order />} />
       </Routes>
     </Router>
     </UserProvider>

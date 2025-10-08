@@ -10,6 +10,7 @@ const artworksRoutes = require("./routes/artworks");
 const artistRoutes = require("./routes/artist");
 const usersRoutes = require("./routes/users");
 const buyerRoutes = require("./routes/buyer"); 
+const ordersRoutes = require("./routes/orders");
 
 const app = express();
 
@@ -21,11 +22,6 @@ app.use(express.json());
 console.log("Buyer routes:", buyerRoutes);
 
 
-//temporary test 
-app.get("/buyer/test", (req, res) => {
-  console.log("Direct buyer test route hit");
-  res.send("Buyer test route works");
-});
 
 
 // Buyer routes
@@ -38,6 +34,8 @@ app.use("/buyer", buyerRoutes);
 app.use("/users", usersRoutes);
 
 
+
+app.use("/orders", ordersRoutes);
 
 //artist routes
 app.use("/artist", artistRoutes);

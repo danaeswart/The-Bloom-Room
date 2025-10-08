@@ -27,15 +27,26 @@ const Profile = () => {
   // FETCH ARTIST DATA
   useEffect(() => {
     const fetchProfileData = async () => {
+      console.log("who we have", userID);
       if (!userID) return;
 
       try {
-        console.log("Fetching artist profile data for userID:", userID);
+        
+        
+        // 2. Fetch user data
+        const userRes = await axios.get(`http://localhost:5000/users/${userID}`);
+        const updatedUser = userRes.data.user;
+        console.log("User data received:", updatedUser);
+        console.log("Setting name and surname hoe:", updatedUser.Name, updatedUser.Surname);
+        setName(updatedUser.Name );
+        setSurname(updatedUser.Surname);
+        setUser(updatedUser);
+
 
         // 1. Fetch artist data
-        const artistRes = await axios.get(`http://localhost:5000/artist/${userID}`);
+        const artistRes = await axios.get(`http://localhost:5000/artist/user/${userID}`);
         const artistData = artistRes.data;
-        // console.log("Artist data received:", artistData);
+         console.log("Artist data received hoe:", artistData);
 
         let attrs = [];
         if (artistData.Account_Attributes) {
@@ -53,14 +64,6 @@ const Profile = () => {
         setArtistID(artistData.Artist_ID);
 
         // console.log("Artist ID set:", artistData.Artist_ID);
-
-        // 2. Fetch user data
-        const userRes = await axios.get(`http://localhost:5000/users/${userID}`);
-        const updatedUser = userRes.data.user;
-        console.log("User data received:", updatedUser);
-        setName(updatedUser.Name || "");
-        setSurname(updatedUser.Surname || "");
-        setUser(updatedUser);
 
         // 3. Fetch artworks for this artist
         console.log("Fetching artworks for artistID:", artistData.Artist_ID);
