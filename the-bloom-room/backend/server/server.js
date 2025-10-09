@@ -22,6 +22,7 @@ app.use(express.json());
 console.log("Buyer routes:", buyerRoutes);
 
 
+app.use("/orders", ordersRoutes);
 
 
 // Buyer routes
@@ -35,7 +36,6 @@ app.use("/users", usersRoutes);
 
 
 
-app.use("/orders", ordersRoutes);
 
 //artist routes
 app.use("/artist", artistRoutes);

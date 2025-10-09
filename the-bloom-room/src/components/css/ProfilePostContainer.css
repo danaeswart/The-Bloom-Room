@@ -1,0 +1,107 @@
+.request-badge {
+  position: absolute;
+  top: -18px; /* move further up */
+  right: -18px; /* move outside the box */
+  background-color: #ff5f5f;
+  color: white;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  border: 3px solid #fff; /* makes it pop from the card */
+  z-index: 10; /* ensures it stays above the image */
+  transition: transform 0.2s ease;
+}
+
+.request-badge:hover {
+  transform: scale(1.1);
+}
+/* Wrap each artwork + badge together */
+.post-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Move badge outside top-right of post-frame */
+.request-badge {
+  position: absolute;
+  top: -15px;   /* lifts badge above the post-frame */
+  right: -10px; /* moves it outside horizontally */
+  background-color: #ff5f5f;
+  color: white;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  z-index: 10; /* keeps it visible above frames */
+}
+
+
+
+.post-frame {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Main container styled like Pinterest */
+.post-container {
+  column-count: 3; /* Max 3 images per row */
+  column-gap: 30px; /* Space between columns */
+  
+  margin: 0 auto;
+  padding: 20px;
+  width: 75%;
+}
+
+/* Each post frame behaves like a masonry block */
+.post-frame {
+  display: inline-block; /* Inline-block to fit column flow */
+  width: 100%;
+  margin-bottom: 20px;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+/* Hover lift effect */
+.post-frame:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Image styling to fit Pinterest feel */
+.post-image {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  height: auto;
+}
+
+/* Responsive tweaks */
+@media (max-width: 992px) {
+  .post-container {
+    column-count: 2; /* Reduce to 2 images per row */
+  }
+}
+
+@media (max-width: 600px) {
+  .post-container {
+    column-count: 1; /* Single column on small screens */
+  }
+}
+

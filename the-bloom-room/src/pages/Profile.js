@@ -7,6 +7,7 @@ import flowerIcon from "../assets/images/profile-flower.png";
 import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../context/UserContext"; // Adjust path if needed
 import { Link } from "react-router-dom";
+import ProfilePostContainer from "../components/ProfilePostContainer";
 
 const Profile = () => {
   const [artistData, setArtistData] = useState(null);
@@ -254,7 +255,7 @@ const Profile = () => {
       <div className="post-section">
         {artistID ? (
           <>
-            <PostContainer artistId={artistID} />
+            <ProfilePostContainer artistId={artistID} />
             <p style={{ fontSize: "12px", color: "gray" }}>
               Debug: Artist ID passed to PostContainer = {artistID}
             </p>
