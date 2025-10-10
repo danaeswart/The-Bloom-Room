@@ -13,6 +13,7 @@ import ArtworkPage from "./pages/ArtworkPage";
 import HomeLog from "./pages/HomeLog";
 import { UserProvider } from "./context/UserContext"; // ✅ import UserProvider
 import HomeBuy from "./pages/HomeBuy";
+import ArtistArtwork from "./pages/ArtistArtworks";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/profilebuy" element={<ProfileBuy />} />
         <Route path="/profile/:artistId" element={<ProfilePage />} />
         <Route path="/order/:artworkId" element={<Order />} />
+        <Route path="/artistartworks/:artworkId" element={<ArtistArtwork />} />
       </Routes>
     </Router>
     </UserProvider>

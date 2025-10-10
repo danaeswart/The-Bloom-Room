@@ -210,4 +210,34 @@ router.get("/:id", (req, res) => {
   });
 });
 
+// === UPDATE Artwork details === //
+router.put("/:artworkId", (req, res) => {
+  const { artworkId } = req.params;
+  const { Artwork_Name, Description, Medium, Price } = req.body;
+
+  console.log("📝 Updating artwork:", artworkId);
+  console.log("➡️ Data received:", req.body);
+
+  const sql = `
+    UPDATE Artworks 
+    SET Artwork_Name = ?, Description = ?, Medium = ?, Price = ?
+    WHERE Artwork_ID = ?
+  `;
+
+  db.query(sql, [Artwork_Name, Description, Medium, Price, artworkId], (err, result) => {
+    if (err) {
+      console.error("❌ Error updating artwork:", err);
+      return res.status(500).json({ message: "Database error updating artwork", error: err });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Artwork not found" });
+    }
+
+    console.log("✅ Artwork updated successfully:", result);
+    res.json({ message: "Artwork updated successfully" });
+  });
+});
+
+
 module.exports = router;

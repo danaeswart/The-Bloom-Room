@@ -1,0 +1,68 @@
+/* ===== Edit Mode Styles ===== */
+.edit-input, .edit-textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.edit-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* ===== Requests Section ===== */
+.requests-section {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #f9f9f9;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.requests-section h3 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.request-card {
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.request-info p {
+  margin: 5px 0;
+}
+
+.request-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.approve-btn, .decline-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+}
+
+.approve-btn {
+  background-color: #2C4C34;
+}
+
+.decline-btn {
+  background-color: #FF6D41;
+}

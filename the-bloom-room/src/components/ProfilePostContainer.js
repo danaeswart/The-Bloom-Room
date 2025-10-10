@@ -35,7 +35,7 @@ function ProfilePostContainer({ artistId = null }) {
   }, [artistId]);
 
   const handleArtworkClick = (artworkId) => {
-    navigate(`/artworks/${artworkId}`);
+    navigate(`/artistartworks/${artworkId}`);
   };
 
   if (posts.length === 0) {
