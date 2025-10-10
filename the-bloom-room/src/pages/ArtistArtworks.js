@@ -28,8 +28,10 @@ const ArtistArtwork = () => {
 
   const fetchRequests = async () => {
     try {
+        console.log("Fetching requests for artworkId:", artworkId);
       const res = await axios.get(`http://localhost:5000/orders/artwork/${artworkId}`);
       setRequests(res.data);
+      console.log("Fetched requests:", res.data);
     } catch (err) {
       console.error("Error fetching requests:", err);
     }
@@ -59,6 +61,27 @@ const ArtistArtwork = () => {
       console.error("Error updating commission:", err);
     }
   };
+  
+const updateStatus = async (orderId, status) => {
+  console.log("💡 Updating order", orderId, "to status", status); // DEBUG
+  try {
+    const res = await axios.put(
+      `http://localhost:5000/orders/${orderId}/status`,
+      { status }
+    );
+    console.log("✅ Status updated:", res.data);
+
+    setRequests((prev) =>
+      prev.map((r) =>
+        r.Order_ID === orderId ? { ...r, Status: status } : r
+      )
+    );
+  } catch (err) {
+    console.error("❌ Error updating status:", err);
+  }
+};
+
+
 
   if (!artwork) return <p>Loading artwork...</p>;
 
@@ -144,36 +167,32 @@ const ArtistArtwork = () => {
           <p>No requests yet.</p>
         ) : (
           requests.map((req) => (
-            <div className="request-card" key={req.Commission_ID}>
-              <div className="request-info">
-                <p>
-                  <strong>Buyer:</strong> {req.Buyer_Username || req.Buyer_Name || "Unknown"}
-                </p>
-                <p>
-                  <strong>Message:</strong> {req.Message || "No message provided."}
-                </p>
-                <p>
-                  <strong>Status:</strong> {req.Status}
-                </p>
-              </div>
+         <div className="request-card" key={req.Order_ID}>
+    <div className="request-info">
+      <p><strong>Buyer:</strong> {req.Buyer_Name} {req.Buyer_Surname} (@{req.Buyer_Username})</p>
+      <p><strong>Message:</strong> {req.Message || "No message"}</p>
+      <p><strong>Status:</strong> {req.Status}</p>
+    </div>
 
-              {req.Status === "Pending" && (
-                <div className="request-actions">
-                  <button
-                    className="approve-btn"
-                    onClick={() => handleStatusChange(req.Commission_ID, "Approved")}
-                  >
-                    Approve ✅
-                  </button>
-                  <button
-                    className="decline-btn"
-                    onClick={() => handleStatusChange(req.Commission_ID, "Declined")}
-                  >
-                    Decline ❌
-                  </button>
-                </div>
-              )}
-            </div>
+   <div className="request-actions">
+      <button 
+        disabled={req.Status !== "Pending"} 
+        onClick={() => updateStatus(req.Order_ID, "Sold")}
+        className="approve-btn"
+      >
+        Approve
+      </button>
+      <button 
+        disabled={req.Status !== "Pending"} 
+        onClick={() => updateStatus(req.Order_ID, "Declined")}
+        className="decline-btn"
+      >
+        Decline
+      </button>
+    </div>
+
+
+</div>
           ))
         )}
       </div>
