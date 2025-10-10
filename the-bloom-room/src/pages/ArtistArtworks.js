@@ -61,7 +61,7 @@ const ArtistArtwork = () => {
       console.error("Error updating commission:", err);
     }
   };
-  
+
 const updateStatus = async (orderId, status) => {
   console.log("💡 Updating order", orderId, "to status", status); // DEBUG
   try {
@@ -71,15 +71,13 @@ const updateStatus = async (orderId, status) => {
     );
     console.log("✅ Status updated:", res.data);
 
-    setRequests((prev) =>
-      prev.map((r) =>
-        r.Order_ID === orderId ? { ...r, Status: status } : r
-      )
-    );
+    // REFRESH requests from the backend
+    fetchRequests();
   } catch (err) {
     console.error("❌ Error updating status:", err);
   }
 };
+
 
 
 
@@ -174,22 +172,25 @@ const updateStatus = async (orderId, status) => {
       <p><strong>Status:</strong> {req.Status}</p>
     </div>
 
-   <div className="request-actions">
-      <button 
-        disabled={req.Status !== "Pending"} 
-        onClick={() => updateStatus(req.Order_ID, "Sold")}
-        className="approve-btn"
-      >
-        Approve
-      </button>
-      <button 
-        disabled={req.Status !== "Pending"} 
-        onClick={() => updateStatus(req.Order_ID, "Declined")}
-        className="decline-btn"
-      >
-        Decline
-      </button>
-    </div>
+ <div className="request-actions">
+  {req.Status !== "Sold" && (
+    <button onClick={() => updateStatus(req.Order_ID, "Sold")} className="approve-btn">
+      Approve
+    </button>
+  )}
+
+  {req.Status === "Sold" && (
+    <button onClick={() => updateStatus(req.Order_ID, "Pending")} className="unapprove-btn">
+      Unapprove
+    </button>
+  )}
+
+  <button onClick={() => updateStatus(req.Order_ID, "Declined")} className="decline-btn">
+    Decline
+  </button>
+</div>
+
+
 
 
 </div>

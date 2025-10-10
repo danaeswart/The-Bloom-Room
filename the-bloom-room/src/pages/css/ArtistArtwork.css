@@ -66,3 +66,16 @@
 .decline-btn {
   background-color: #FF6D41;
 }
+
+.unapprove-btn {
+  background-color: orange;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.unapprove-btn:hover {
+  background-color: darkorange;
+}

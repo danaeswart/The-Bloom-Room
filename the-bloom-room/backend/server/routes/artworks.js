@@ -102,35 +102,59 @@ router.get("/user/:artistId", (req, res) => {
   });
 });
 
+//get artist by userID
+
+router.get("/:userID", (req, res) => {
+  const { userID } = req.params;
+
+  const sql = `
+    SELECT Artist_ID
+    FROM artist
+    WHERE User_ID = ?
+  `;
+
+  db.query(sql, [userID], (err, results) => {
+    if (err) {
+      console.error("❌ Error fetching artist by userID:", err);
+      return res.status(500).json({ error: "Database error", details: err });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ error: "Artist not found for this user" });
+    }
+
+    res.json(results[0]); // { Artist_ID: ... }
+  });
+});
 
 
 
 // === GET artworks for a specific user/artist === //
-router.get("/user/:artistId", (req, res) => {
-  const { artistId } = req.params;
+// router.get("/user/:artistId", (req, res) => {
+//   const { artistId } = req.params;
 
-  const sql = `
-    SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
-           ai.Image_URL
-    FROM Artworks a
-    LEFT JOIN ArtworkImages ai ON a.Artwork_ID = ai.Artwork_ID
-    WHERE a.Artist_ID = ?
-    GROUP BY a.Artwork_ID
-  `;
+//   const sql = `
+//     SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
+//            ai.Image_URL
+//     FROM Artworks a
+//     LEFT JOIN ArtworkImages ai ON a.Artwork_ID = ai.Artwork_ID
+//     WHERE a.Artist_ID = ?
+//     GROUP BY a.Artwork_ID
+//   `;
 
-  db.query(sql, [artistId], (err, results) => {
-    if (err) {
-      console.error("❌ Error fetching artist artworks:", err);
-      return res.status(500).json({ error: "Server error" });
-    }
+//   db.query(sql, [artistId], (err, results) => {
+//     if (err) {
+//       console.error("❌ Error fetching artist artworks:", err);
+//       return res.status(500).json({ error: "Server error" });
+//     }
 
-    if (results.length === 0) {
-      return res.status(404).json({ message: "No artworks found for this artist" });
-    }
+//     if (results.length === 0) {
+//       return res.status(404).json({ message: "No artworks found for this artist" });
+//     }
 
-    res.json(results);
-  });
-});
+//     res.json(results);
+//   });
+// });
 
 
 // === GET all artworks (with one image each) === //

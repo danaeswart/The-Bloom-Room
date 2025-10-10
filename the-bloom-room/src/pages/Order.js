@@ -35,29 +35,31 @@ const Order = () => {
   };
 
   const handleSubmit = async () => {
-    try {
+  try {
+    const user = localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user"))
+      : null;
 
-      const buyerId = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).User_ID : null;
-      console.log("Buyer ID:", buyerId);
-      if (!buyerId) {
-        alert("You must be logged in to request artwork.");
-        return;
-      }
-
-      await axios.post("http://localhost:5000/orders", {
-        Artwork_ID: artworkId,
-        Buyer_ID: buyerId,
-        Status: "Requested",
-        Message: message,
-      });
-
-      alert("Request sent successfully!");
-      setMessage("");
-    } catch (err) {
-      console.error(err);
-      alert("Error sending request.");
+    if (!user) {
+      alert("You must be logged in to request artwork.");
+      return;
     }
-  };
+
+    await axios.post("http://localhost:5000/orders", {
+      Artwork_ID: artworkId,
+      Buyer_ID: user.User_ID, // still sends User_ID to backend for lookup
+      Message: message,
+    });
+
+    alert("Request sent successfully!");
+    setMessage("");
+  } catch (err) {
+    console.error(err);
+    alert("Error sending request.");
+  }
+};
+
+
 
   if (!artwork) return <p>Loading artwork...</p>;
 

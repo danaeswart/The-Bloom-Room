@@ -1,24 +1,41 @@
-
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import "./css/ArtworkPage.css";
 import Navbar from "../components/Navbar";
 import axios from "axios";
-import { Link } from "react-router-dom";
-
 
 const ArtworkPage = () => {
-  const { artworkId } = useParams(); // from /artwork/:id
+  const { artworkId } = useParams();
   const [artwork, setArtwork] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState("right");
+  const [hasRequested, setHasRequested] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchArtwork = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/artworks/${artworkId}`);
         setArtwork(res.data);
-        console.log("Fetched artwork:", res.data);
+
+        // Check if user already requested this artwork
+        const user = localStorage.getItem("user")
+          ? JSON.parse(localStorage.getItem("user"))
+          : null;
+          console.log("Current user:::", user);
+
+        if (user) {
+          const requestsRes = await axios.get(
+            `http://localhost:5000/orders/user/${user.User_ID}`
+          );
+
+          const requested = requestsRes.data.some(
+            (order) => order.Artwork_ID === parseInt(artworkId)
+          );
+          setHasRequested(requested);
+        }
+
       } catch (err) {
         console.error("Error fetching artwork:", err);
       }
@@ -72,11 +89,15 @@ const ArtworkPage = () => {
 
         {/* Right - Artwork Info */}
         <div className="artwork-info">
-          <h2 className="art-title">{artwork.Artwork_Name}</h2>
+        <div className="art-title-status">
+  <h2 className="art-title">{artwork.Artwork_Name}</h2>
+  <span className={`art-status ${artwork.Status.toLowerCase()}`}>
+    {artwork.Status}
+  </span>
+</div>
           <p className="artist-name">
-  by <Link to={`/profile/${artwork.Artist_ID}`}>{artwork.Artist_Username}</Link>
-</p>
-
+            by <Link to={`/profile/${artwork.Artist_ID}`}>{artwork.Artist_Username}</Link>
+          </p>
 
           <h4>Description:</h4>
           <div className="description-box">{artwork.Description}</div>
@@ -87,10 +108,18 @@ const ArtworkPage = () => {
           <h4>Price:</h4>
           <p className="medium">R{artwork.Price}</p>
 
-          <Link to={`/order/${artwork.Artwork_ID}`}>
-  <button className="request-btn">Send Request</button>
-</Link>
-
+          {hasRequested ? (
+            <button
+              className="request-btn"
+              onClick={() => navigate(`/profile/${artwork.Artist_ID}`)}
+            >
+              Already Requested
+            </button>
+          ) : (
+            <Link to={`/order/${artwork.Artwork_ID}`}>
+              <button className="request-btn">Send Request</button>
+            </Link>
+          )}
         </div>
       </div>
     </>

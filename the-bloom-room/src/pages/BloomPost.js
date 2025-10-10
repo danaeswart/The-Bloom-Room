@@ -21,12 +21,16 @@ function BloomPost() {
   const fileInputRef = useRef();
 
   useEffect(() => {
+    
     if (user && user.Role === "artist") {
+      console.log("Fetching artist ID for user:", user.User_ID);
       fetch(`http://localhost:5000/artist/${user.User_ID}`)
         .then((res) => res.json())
         .then((data) => {
           setArtistID(data.Artist_ID);
+          console.log("Artist ID set to;:", data.Artist_ID);
         });
+        
     }
   }, [user]);
 
@@ -54,7 +58,9 @@ function BloomPost() {
   const handlePost = async (e) => {
     e.preventDefault();
 
+    if (!artistID) console.error("Artist ID not set");
     if (!artistID) return;
+
     if (!artworkName || !description) {
       alert("Please fill in all required fields.");
       return;
