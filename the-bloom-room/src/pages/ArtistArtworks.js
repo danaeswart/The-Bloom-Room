@@ -28,7 +28,7 @@ const ArtistArtwork = () => {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/commissions/artwork/${artworkId}`);
+      const res = await axios.get(`http://localhost:5000/orders/artwork/${artworkId}`);
       setRequests(res.data);
     } catch (err) {
       console.error("Error fetching requests:", err);

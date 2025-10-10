@@ -48,25 +48,54 @@ router.post("/", (req, res) => {
 
 //new code for the profile page to display the num or requests
 
-// === Get order counts for artworks of a specific artist ===
+// ✅ Get order counts per artwork for a specific artist
 router.get("/artist/:artistId/counts", (req, res) => {
-  const { artistId } = req.params;
+  const artistId = req.params.artistId;
 
   const sql = `
-    SELECT 
-      a.Artwork_ID, 
-      COUNT(o.Commission_ID) AS RequestCount
+    SELECT a.Artwork_ID, COUNT(o.Artwork_ID) AS RequestCount
     FROM artworks a
     LEFT JOIN orders o ON a.Artwork_ID = o.Artwork_ID
     WHERE a.Artist_ID = ?
-    GROUP BY a.Artwork_ID
+    GROUP BY a.Artwork_ID;
   `;
 
   db.query(sql, [artistId], (err, results) => {
     if (err) {
-      console.error("❌ Error fetching order counts:", err);
+      console.error("❌ SQL Error (get counts):", err);
+      return res.status(500).json({ error: "Failed to fetch order counts" });
+    }
+    console.log("✅ Counts data:", results);
+    res.json(results);
+  });
+});
+
+
+// get orders and show to artist user
+router.get("/artwork/:artworkId", (req, res) => {
+  const { artworkId } = req.params;
+
+  const sql = `
+    SELECT 
+      o.Order_ID,
+      o.Artwork_ID,
+      o.Buyer_ID,
+      o.Status,
+      o.RequestedAt,
+      o.Message,
+      b.Username AS Buyer_Username,
+      b.Name AS Buyer_Name
+    FROM orders o
+    JOIN buyer b ON o.Buyer_ID = b.Buyer_ID
+    WHERE o.Artwork_ID = ?
+  `;
+
+  db.query(sql, [artworkId], (err, results) => {
+    if (err) {
+      console.error("❌ Error fetching orders:", err);
       return res.status(500).json({ error: "Database error" });
     }
+
     res.json(results);
   });
 });
