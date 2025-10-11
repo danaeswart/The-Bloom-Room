@@ -4,7 +4,7 @@ const db = mysql.createConnection({
   host: "127.0.0.1",    // XAMPP MySQL runs locally
   user: "root",          // default XAMPP username
   password: "",          // default XAMPP password is empty
-  database: "the_bloom_room"
+  database: "bloomroomdb"
 });
 
 db.connect(err => {

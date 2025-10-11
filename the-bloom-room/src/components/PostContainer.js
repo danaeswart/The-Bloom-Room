@@ -3,60 +3,57 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./css/PostContainer.css";
 
-function PostContainer({ artistId = null }) {
-//  console.log("PostContainer received artistId:", artistId);
+function PostContainer() {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchArtworks = async () => {
       try {
-        let endpoint = "http://localhost:5000/artworks";
-        // console.log("Base endpoint:", endpoint);
-       
-        if (artistId) {
-        endpoint += `/user/${artistId}`;
-        // console.log("Fetching artworks for artistId:", artistId);
-  }
-
+        console.log("Fetching artworks from backend...");
+        const endpoint = "http://localhost:5000/artwork";
 
         const res = await axios.get(endpoint);
+        console.log("Response data from backend:", res.data);
+
         setPosts(res.data);
+        console.log("Posts state after setPosts:", res.data);
       } catch (err) {
         console.error("Error fetching artworks:", err);
       }
     };
 
     fetchArtworks();
-  }, [artistId]);
-  
-
-
+  }, []); // runs once on mount
 
   const handleArtworkClick = (artworkId) => {
+    console.log("Artwork clicked with ID:", artworkId);
     navigate(`/artworks/${artworkId}`);
   };
 
   return (
     <div className="post-container">
       {posts.length > 0 ? (
-        posts.map((artwork) => (
-          <div
-            key={artwork.Artwork_ID}
-            className="post-frame"
-            onClick={() => handleArtworkClick(artwork.Artwork_ID)}
-          >
-            <img
-              src={`http://localhost:5000${artwork.Image_URL}`}
-              alt={artwork.Artwork_Name}
-              className="post-image"
-            />
-            <p className="artwork-name">{artwork.Artwork_Name}</p>
-          </div>
-        ))
+        posts.map((artwork, index) => {
+          console.log(`Rendering artwork #${index}:`, artwork);
+          console.log("Image URL for this artwork:", artwork.Image_URL);
+          return (
+            <div
+              key={artwork.Artwork_ID}
+              className="post-frame"
+              onClick={() => handleArtworkClick(artwork.Artwork_ID)}
+            >
+              <img
+                src={`http://localhost:5000${artwork.Image_URL}`}
+                alt={artwork.Artwork_Name || "Artwork"}
+                className="post-image"
+              />
+              <p className="artwork-name">{artwork.Artwork_Name || "Untitled"}</p>
+            </div>
+          );
+        })
       ) : (
         <p>No artworks found.</p>
-        
       )}
     </div>
   );

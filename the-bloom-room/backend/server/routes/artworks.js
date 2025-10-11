@@ -33,7 +33,7 @@ router.post("/", upload.array("images", 10), (req, res) => {
   if (!description) return res.status(400).json({ error: "Description is required" });
 
   const sql = `
-    INSERT INTO artworks (Artwork_Name, Artist_ID, Description, Price, Status, Medium, Created_at)
+    INSERT INTO artwork (Artwork_Name, Artist_ID, Description, Price, Status, Medium, Created_at)
     VALUES (?, ?, ?, ?, 'available', ?, NOW())
   `;
 
@@ -74,7 +74,7 @@ router.get("/user/:artistId", (req, res) => {
   const sql = `
     SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
            ai.Image_URL
-    FROM Artworks a
+    FROM artwork a
     LEFT JOIN ArtworkImages ai ON a.Artwork_ID = ai.Artwork_ID
     WHERE a.Artist_ID = ?
     GROUP BY a.Artwork_ID
@@ -162,7 +162,7 @@ router.get("/", (req, res) => {
   const sql = `
     SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
            ai.Image_URL
-    FROM Artworks a
+    FROM artwork a
     LEFT JOIN ArtworkImages ai ON a.Artwork_ID = ai.Artwork_ID
     GROUP BY a.Artwork_ID
   `;
@@ -175,6 +175,38 @@ router.get("/", (req, res) => {
     res.json(results);
   });
 });
+
+
+// Example using MySQL
+// GET /artwork
+// GET /artwork
+router.get("/artwork", async (req, res) => {
+  try {
+    // Select artworks and their first image
+    const query = `
+      SELECT a.Artwork_ID, a.Artwork_Name, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
+             ai.Image_URL
+      FROM artworks a
+      LEFT JOIN artworkimages ai
+      ON a.Artwork_ID = ai.Artwork_ID
+      AND ai.Image_ID = (
+        SELECT MIN(Image_ID)
+        FROM artworkimages
+        WHERE Artwork_ID = a.Artwork_ID
+      )
+      ORDER BY a.Artwork_ID
+    `;
+
+    const [rows] = await db.execute(query);
+    res.json(rows);
+  } catch (err) {
+    console.error("Error fetching artworks with images:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+
 
 
 // === GET specific artwork by ID (with artist and images) === //
