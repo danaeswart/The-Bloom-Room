@@ -9,33 +9,26 @@ router.get("/test", (req, res) => {
   console.log("Buyer test route hit");
   res.json({ message: "Buyer route is working" });
 });
-
-// === GET buyer by User_ID === //
-router.get("/:userID", async (req, res) => {
+// === GET buyer by User_ID ===
+router.get("/:userID", (req, res) => {
   const { userID } = req.params;
 
-  try {
-    // Fetch buyer
-    const [buyer] = await db.query("SELECT * FROM buyer WHERE User_ID = ?", [userID]);
+  const sql = "SELECT * FROM buyer WHERE User_ID = ?";
 
-    if (!buyer.length) {
-      console.log(`⚠️ No buyer found for User_ID=${userID}, creating a new one...`);
-
-      // Insert a new buyer entry
-      await db.query("INSERT INTO buyer (User_ID, Bio, Profile_url) VALUES (?, '', '')", [userID]);
-
-      // Re-fetch the newly created buyer
-      const [newBuyer] = await db.query("SELECT * FROM buyer WHERE User_ID = ?", [userID]);
-
-      return res.json(newBuyer[0]); // Return single object
+  db.query(sql, [userID], (err, results) => {
+    if (err) {
+      console.error("Error fetching buyer:", err);
+      return res.status(500).json({ error: "Server error fetching buyer" });
     }
 
-    res.json(buyer[0]); // Return existing buyer object
-  } catch (err) {
-    console.error("Error fetching buyer:", err);
-    res.status(500).json({ error: "Server error fetching buyer" });
-  }
+    if (!results.length) {
+      return res.status(404).json({ error: "Buyer not found" });
+    }
+
+    res.json(results[0]);
+  });
 });
+
 
 // === UPDATE buyer bio only === //
 router.put("/:userID", async (req, res) => {

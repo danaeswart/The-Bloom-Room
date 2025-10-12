@@ -24,7 +24,8 @@ function BloomPost() {
     
     if (user && user.Role === "artist") {
       console.log("Fetching artist ID for user:", user.User_ID);
-      fetch(`http://localhost:5000/artist/${user.User_ID}`)
+      
+      fetch(`http://localhost:5000/artist/user/${user.User_ID}`)
         .then((res) => res.json())
         .then((data) => {
           setArtistID(data.Artist_ID);

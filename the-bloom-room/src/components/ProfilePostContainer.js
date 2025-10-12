@@ -15,9 +15,11 @@ function ProfilePostContainer({ artistId = null }) {
       try {
         const artworksRes = await axios.get(`http://localhost:5000/artworks/user/${artistId}`);
         const artworks = artworksRes.data;
+        console.log("Fetched artworks for artist:", artworks);
 
         const countsRes = await axios.get(`http://localhost:5000/orders/artist/${artistId}/counts`);
         const countsData = countsRes.data;
+        console.log("Fetched order counts for artist:", countsData);
 
         const countsMap = {};
         countsData.forEach((item) => {

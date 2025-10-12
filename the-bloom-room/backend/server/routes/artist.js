@@ -138,24 +138,70 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // === GET artist info by User_ID ===
+
+// Get artist by User_ID
 router.get("/user/:userId", (req, res) => {
   const userId = req.params.userId;
-  const query =
-    "SELECT Artist_ID, Bio, Profile_url, Account_Attributes FROM Artist WHERE User_ID = ?";
 
-  db.query(query, [userId], (err, results) => {
+  const sql = "SELECT * FROM artist WHERE User_ID = ?";
+  db.query(sql, [userId], (err, result) => {
     if (err) {
-      console.error("Error fetching artist:", err);
-      return res.status(500).json({ message: "Server error" });
+      console.error("Error fetching artist by user ID:", err);
+      return res.status(500).json({ message: "Database error" });
     }
-    if (results.length === 0) {
+
+    if (result.length === 0) {
       return res.status(404).json({ message: "Artist not found" });
     }
-    res.json(results[0]); // still returns Artist_ID for other pages
+
+    res.json(result[0]);
   });
 });
 
+
+// // === Get artist by User_ID ===
+// router.get("/:userId", (req, res) => {
+//   const userId = req.params.userId;
+
+//   const sql = "SELECT Artist_ID FROM artist WHERE User_ID = ?";
+//   db.query(sql, [userId], (err, result) => {
+//     if (err) {
+//       console.error("❌ Error fetching artist by user ID:", err);
+//       return res.status(500).json({ error: "Database error" });
+//     }
+
+//     if (result.length === 0) {
+//       return res.status(404).json({ error: "Artist not found for this user" });
+//     }
+
+//     // Return only the Artist_ID
+//     res.json(result[0]);
+//   });
+// });
+
 // === GET artist profile by Artist_ID (for Profile Page) ===
+
+
+// Get artworks by Artist_ID
+router.get("/user/:artistId", (req, res) => {
+  const artistId = req.params.artistId;
+  const sql = "SELECT * FROM artworks WHERE Artist_ID = ?";
+
+  db.query(sql, [artistId], (err, result) => {
+    if (err) {
+      console.error("Error fetching artworks for artist:", err);
+      return res.status(500).json({ message: "Database error" });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({ message: "No artworks found for this artist" });
+    }
+
+    res.json(result);
+  });
+});
+
+
 router.get("/:artistId", (req, res) => {
   const artistId = req.params.artistId;
 
@@ -170,7 +216,7 @@ router.get("/:artistId", (req, res) => {
       u.Name,
       u.Surname,
       u.Email
-    FROM Artist ar
+    FROM artist ar
     LEFT JOIN Users u ON ar.User_ID = u.User_ID
     WHERE ar.Artist_ID = ?
   `;
@@ -206,7 +252,7 @@ router.put("/:userId", upload.single("profile_url"), (req, res) => {
   }
 
   const query = `
-    UPDATE Artist
+    UPDATE artist
     SET Bio = ?, Profile_url = ?, Account_Attributes = ?
     WHERE User_ID = ?
   `;

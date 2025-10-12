@@ -36,6 +36,7 @@ useEffect(() => {
       setName(updatedUser.Name);
       setSurname(updatedUser.Surname);
       setEmail(updatedUser.Email);
+      console.log("Setting name and surname:", updatedUser.Name, updatedUser.Surname);
 
       // ✅ Fetch buyer-specific info
       const buyerRes = await axios.get(`http://localhost:5000/buyer/${userID}`);

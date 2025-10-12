@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 
+
 console.log("🚀 server.js is starting");
 
 // Routes
@@ -18,6 +19,10 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 console.log("Buyer routes:", buyerRoutes);
 
@@ -42,7 +47,7 @@ app.use("/artist", artistRoutes);
 
 
 // Static folder for uploaded images
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
 // Auth routes
