@@ -46,6 +46,8 @@ router.post("/", (req, res) => {
   });
 });
 
+
+
 router.put("/:orderId/status", (req, res) => {
   const { orderId } = req.params;
   const { status } = req.body;
@@ -57,7 +59,7 @@ router.put("/:orderId/status", (req, res) => {
     return res.status(400).json({ error: "Invalid status value" });
   }
 
-  // First find the artworkId for this order
+  // Find artworkId for this order
   const findOrderSql = `SELECT Artwork_ID FROM orders WHERE Order_ID = ?`;
   db.query(findOrderSql, [orderId], (err, results) => {
     if (err || results.length === 0) {
@@ -67,7 +69,7 @@ router.put("/:orderId/status", (req, res) => {
     const artworkId = results[0].Artwork_ID;
 
     if (status === "Sold") {
-      // Approve this order, decline all others for same artwork
+      // Approve this order, decline all others
       const sql = `
         UPDATE orders
         SET Status = CASE 
@@ -78,13 +80,13 @@ router.put("/:orderId/status", (req, res) => {
       `;
       db.query(sql, [orderId, artworkId], (err2) => {
         if (err2) {
-          console.error("❌ SQL Error updating statuses:", err2);
+          console.error("❌ SQL Error updating order statuses:", err2);
           return res.status(500).json({ error: "Database error" });
         }
 
-        // ALSO UPDATE artwork status to Sold
+        // Update artwork status to Sold
         const updateArtworkSql = `
-          UPDATE artworks
+          UPDATE artwork
           SET Status = 'Sold'
           WHERE Artwork_ID = ?
         `;
@@ -93,12 +95,13 @@ router.put("/:orderId/status", (req, res) => {
             console.error("❌ SQL Error updating artwork status:", err3);
             return res.status(500).json({ error: "Database error" });
           }
+
           res.json({ message: "Order approved, artwork marked as Sold, others declined" });
         });
       });
 
     } else if (status === "Pending") {
-      // Revert all orders for this artwork to pending
+      // Unapprove: revert all orders to Pending
       const revertSql = `
         UPDATE orders
         SET Status = 'Pending'
@@ -106,13 +109,13 @@ router.put("/:orderId/status", (req, res) => {
       `;
       db.query(revertSql, [artworkId], (err2) => {
         if (err2) {
-          console.error("❌ SQL Error reverting statuses:", err2);
+          console.error("❌ SQL Error reverting order statuses:", err2);
           return res.status(500).json({ error: "Database error" });
         }
 
-        // ALSO UPDATE artwork status back to Available
+        // Update artwork status to Available
         const updateArtworkSql = `
-          UPDATE artworks
+          UPDATE artwork
           SET Status = 'Available'
           WHERE Artwork_ID = ?
         `;
@@ -121,23 +124,31 @@ router.put("/:orderId/status", (req, res) => {
             console.error("❌ SQL Error updating artwork status:", err3);
             return res.status(500).json({ error: "Database error" });
           }
+
           res.json({ message: "Order unapproved, artwork marked as Available, all orders pending" });
         });
       });
 
     } else {
-      // Handle Declined manually if needed
-      const declineSql = `UPDATE orders SET Status = ? WHERE Order_ID = ?`;
-      db.query(declineSql, [status, orderId], (err2) => {
+      // Decline single order
+      const declineSql = `
+        UPDATE orders
+        SET Status = 'Declined'
+        WHERE Order_ID = ?
+      `;
+      db.query(declineSql, [orderId], (err2) => {
         if (err2) {
-          console.error("❌ SQL Error:", err2);
+          console.error("❌ SQL Error declining order:", err2);
           return res.status(500).json({ error: "Database error" });
         }
-        res.json({ message: "Status updated" });
+
+        // Optionally, you could set artwork to Unavailable if all orders declined
+        res.json({ message: "Order declined" });
       });
     }
   });
 });
+
 
 
 
@@ -177,6 +188,8 @@ router.put("/:orderId/status", (req, res) => {
 //     res.json(results);
 //   });
 // });
+
+// --------------------- comented this out
 
 
 router.get("/artist/:artistId/counts", (req, res) => {
@@ -220,7 +233,6 @@ router.get("/artwork/:artworkId", (req, res) => {
   o.Order_ID,
   o.Artwork_ID,
   o.Buyer_ID,
-  o.Artist_ID,
   o.Status,
   o.RequestedAt,
   o.Message,
@@ -232,9 +244,11 @@ router.get("/artwork/:artworkId", (req, res) => {
 FROM orders o
 LEFT JOIN buyer b ON o.Buyer_ID = b.Buyer_ID
 LEFT JOIN users u ON b.User_ID = u.User_ID
-LEFT JOIN artist a ON o.Artist_ID = a.Artist_ID
+LEFT JOIN artwork aw ON o.Artwork_ID = aw.Artwork_ID
+LEFT JOIN artist a ON aw.Artist_ID = a.Artist_ID
 LEFT JOIN users au ON a.User_ID = au.User_ID
 WHERE o.Artwork_ID = ?;
+
 
   `;
 
