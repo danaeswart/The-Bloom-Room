@@ -10,7 +10,6 @@ function Navbar() {
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
 
-  // Optional — for debugging
   console.log("🧠 Current user:", user);
 
   const handleLogout = () => {
@@ -35,7 +34,6 @@ function Navbar() {
           <>
             <Link to="/home" className="nav-link">Home</Link>
             <Link to="/about" className="nav-link">About</Link>
-            <Link to="/bloompost" className="nav-link">Bloompost</Link>
             <div className="login-icon">
               <Link to="/login">Login / Sign Up</Link>
             </div>
@@ -59,7 +57,6 @@ function Navbar() {
           <>
             <Link to="/homebuy" state={{ user }} className="nav-link">Home</Link>
             <Link to="/about" className="nav-link">About</Link>
-            <Link to="/profilebuy" state={{ user }} className="nav-link">Bloompost</Link>
             <div className="login-icon">
               <Link to="/profilebuy" state={{ user }}>Account</Link>
             </div>
