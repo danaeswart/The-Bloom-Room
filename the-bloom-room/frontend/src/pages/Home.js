@@ -9,7 +9,7 @@ import flower2 from "../assets/images/flower-blue.png";
 import flower3 from "../assets/images/flower-green.png"; 
 import flower4 from "../assets/images/flower-pink.png"; 
 import { useEffect } from "react";
-import About from "../pages/About";
+import About from "./About";
 import AboutBloomRoom from "../components/AboutBloomRoom";
 
 

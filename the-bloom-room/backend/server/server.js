@@ -83,9 +83,13 @@ if (app._router && app._router.stack) {
   console.log("⚠️ No routes found yet");
 }
 
-// Start server
-const PORT = 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// // Start server
+// const PORT = 5000;
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
 
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀:))))) Server running on port ${PORT}`);
+});

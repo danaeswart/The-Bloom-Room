@@ -1,18 +1,25 @@
 const mysql = require("mysql2");
+require('dotenv').config(); // now it will find it automatically
+
 
 const db = mysql.createConnection({
-  host: "127.0.0.1",    // XAMPP MySQL runs locally
-  user: "root",          // default XAMPP username
-  password: "",          // default XAMPP password is empty
-  database: "bloomroomdb"
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 3306,
 });
 
-db.connect(err => {
+console.log("DB_USER:", process.env.DB_USER);
+console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
+console.log("DB_NAME:", process.env.DB_NAME);
+
+db.connect((err) => {
   if (err) {
-    console.error("Database connection failed: ", err);
-    return;
+    console.error("❌ MySQL connection failed:", err);
+  } else {
+    console.log("✅ Connected to MySQL database");
   }
-  console.log("Connected to MySQL database!");
 });
 
 module.exports = db;
