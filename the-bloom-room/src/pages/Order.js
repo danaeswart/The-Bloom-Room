@@ -44,9 +44,11 @@ const Order = () => {
       alert("You must be logged in to request artwork.");
       return;
     }
-
+    console.log("Submitting order for artworkId:", artworkId, "with message:", message);
+    console.log("User ID:", user.User_ID);
     await axios.post("http://localhost:5000/orders", {
       Artwork_ID: artworkId,
+      
       Buyer_ID: user.User_ID, // still sends User_ID to backend for lookup
       Message: message,
     });

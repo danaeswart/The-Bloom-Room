@@ -79,3 +79,19 @@
 .unapprove-btn:hover {
   background-color: darkorange;
 }
+
+
+.delete-btn {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+
+.delete-btn:hover {
+  background-color: #d9363e;
+}

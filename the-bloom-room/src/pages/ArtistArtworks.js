@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import "./css/ArtworkPage.css";
+import { useNavigate, useParams } from "react-router-dom";
+
 
 const ArtistArtwork = () => {
   const { artworkId } = useParams();
@@ -10,6 +12,8 @@ const ArtistArtwork = () => {
   const [editMode, setEditMode] = useState(false);
   const [updatedArtwork, setUpdatedArtwork] = useState({});
   const [requests, setRequests] = useState([]);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     fetchArtwork();
@@ -52,6 +56,25 @@ const ArtistArtwork = () => {
       alert("Failed to update artwork.");
     }
   };
+
+const handleDelete = async () => {
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this artwork? This action cannot be undone."
+  );
+
+  if (!confirmDelete) return;
+
+  try {
+    await axios.delete(`http://localhost:5000/artworks/${artworkId}`);
+    alert("Artwork deleted successfully!");
+    navigate(`/profile/${artwork.Artist_ID}`);
+  } catch (err) {
+    console.error("Error deleting artwork:", err);
+    alert("Failed to delete artwork.");
+  }
+};
+
+
 
   const handleStatusChange = async (commissionId, newStatus) => {
     try {
@@ -136,6 +159,10 @@ const updateStatus = async (orderId, status) => {
               <button className="request-btn" onClick={handleSave}>
                 💾 Save Changes
               </button>
+              <button className="delete-btn" onClick={handleDelete}>
+  🗑️ Delete Artwork
+</button>
+
             </>
           ) : (
             <>

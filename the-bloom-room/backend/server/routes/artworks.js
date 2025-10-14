@@ -66,6 +66,7 @@ router.post("/", upload.array("images", 10), (req, res) => {
 
 // GET single artwork by Artwork_ID
 router.get("/:artworkId", (req, res) => {
+  console.log("🚀 [GET /:artworkId] Route hit!");
   const { artworkId } = req.params;
   const sql = `
     SELECT a.*, ai.Image_URL, u.Username AS Artist_Username
@@ -300,7 +301,7 @@ router.get("/artwork", async (req, res) => {
 
 
 
-// // === GET specific artwork by ID (with artist and images) === //
+// === put a new artwork === //
 // router.get("/:id", (req, res) => {
 //   const { id } = req.params;
 
@@ -383,6 +384,113 @@ router.put("/:artworkId", (req, res) => {
 
     console.log("✅ Artwork updated successfully:", result);
     res.json({ message: "Artwork updated successfully" });
+  });
+});
+
+// === DELETE an artwork, its images, and any related orders === //
+router.delete("/:artworkId", (req, res) => {
+  const { artworkId } = req.params;
+
+  console.log("🗑️ Deleting artwork with ID:", artworkId);
+
+  // Step 1 — Delete any orders linked to this artwork
+  const deleteOrdersSql = "DELETE FROM orders WHERE Artwork_ID = ?";
+  db.query(deleteOrdersSql, [artworkId], (orderErr, orderResult) => {
+    if (orderErr) {
+      console.error("❌ Error deleting orders for artwork:", orderErr);
+      return res
+        .status(500)
+        .json({ error: "Error deleting related orders", details: orderErr });
+    }
+
+    console.log(`📦 Deleted ${orderResult.affectedRows} order(s) for artwork ${artworkId}`);
+
+    // Step 2 — Delete all artwork images linked to this artwork
+    const deleteImagesSql = "DELETE FROM artworkimages WHERE Artwork_ID = ?";
+    db.query(deleteImagesSql, [artworkId], (imgErr, imgResult) => {
+      if (imgErr) {
+        console.error("❌ Error deleting images for artwork:", imgErr);
+        return res
+          .status(500)
+          .json({ error: "Error deleting artwork images", details: imgErr });
+      }
+
+      console.log(`🖼️ Deleted ${imgResult.affectedRows} image(s) for artwork ${artworkId}`);
+
+      // Step 3 — Delete the artwork itself
+      const deleteArtworkSql = "DELETE FROM artwork WHERE Artwork_ID = ?";
+      db.query(deleteArtworkSql, [artworkId], (artErr, artResult) => {
+        if (artErr) {
+          console.error("❌ Error deleting artwork:", artErr);
+          return res
+            .status(500)
+            .json({ error: "Error deleting artwork", details: artErr });
+        }
+
+        if (artResult.affectedRows === 0) {
+          console.warn("⚠️ No artwork found with ID:", artworkId);
+          return res.status(404).json({ message: "Artwork not found" });
+        }
+
+        console.log("✅ Artwork, related images, and orders deleted successfully!");
+        res.json({ message: "Artwork, related images, and orders deleted successfully!" });
+      });
+    });
+  });
+});
+
+// for buyer page to get their orders and then the artwork info fo theri profile
+// POST /artworks/bulk
+// Body: { artworkIds: [1,2,3] }
+router.post("/bulk", (req, res) => {
+  const { artworkIds } = req.body;
+
+  if (!artworkIds || artworkIds.length === 0) {
+    return res.status(400).json({ error: "No artwork IDs provided" });
+  }
+
+  const placeholders = artworkIds.map(() => "?").join(", ");
+
+  const sql = `
+    SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
+           ai.Image_ID, ai.Image_URL, u.Username AS Artist_Username
+    FROM artwork a
+    LEFT JOIN artworkimages ai ON a.Artwork_ID = ai.Artwork_ID
+    LEFT JOIN artist ar ON a.Artist_ID = ar.Artist_ID
+    LEFT JOIN users u ON ar.User_ID = u.User_ID
+    WHERE a.Artwork_ID IN (${placeholders})
+  `;
+
+  db.query(sql, artworkIds, (err, results) => {
+    if (err) {
+      console.error("❌ Error fetching bulk artworks:", err);
+      return res.status(500).json({ error: "Database error fetching artworks", details: err });
+    }
+
+    // Group images by Artwork_ID
+    const artworksMap = {};
+    results.forEach((row) => {
+      if (!artworksMap[row.Artwork_ID]) {
+        artworksMap[row.Artwork_ID] = {
+          Artwork_ID: row.Artwork_ID,
+          Artwork_Name: row.Artwork_Name,
+          Artist_ID: row.Artist_ID,
+          Artist_Username: row.Artist_Username,
+          Description: row.Description,
+          Price: row.Price,
+          Status: row.Status,
+          Medium: row.Medium,
+          Created_at: row.Created_at,
+          Images: [],
+        };
+      }
+      if (row.Image_URL) {
+        artworksMap[row.Artwork_ID].Images.push({ Image_ID: row.Image_ID, Image_URL: row.Image_URL });
+      }
+    });
+
+    const artworksArray = Object.values(artworksMap);
+    res.json(artworksArray);
   });
 });
 

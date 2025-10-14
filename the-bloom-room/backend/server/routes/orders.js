@@ -4,7 +4,7 @@ const router = express.Router();
 
 // === Create new order (default status = Pending) ===
 router.post("/", (req, res) => {
-  
+  console.log("🚀 Received new order request:", req.body);
 
   const { Artwork_ID, Buyer_ID, Message } = req.body;
 
@@ -284,6 +284,74 @@ router.get("/user/:userId", (req, res) => {
     res.json(results);
   });
 });
+
+// for buyer profile to see what orders he has made :
+
+
+// GET all orders for a specific buyer
+router.get("/buyer/:buyerId", (req, res) => {
+  console.log("🚀 Fetching orders for buyer: new log", req.params.buyerId);
+  const { buyerId } = req.params;
+
+  const sql = `
+    SELECT *
+    FROM orders
+    WHERE Buyer_ID = ?
+    ORDER BY RequestedAt DESC
+  `;
+
+  db.query(sql, [buyerId], (err, results) => {
+    if (err) {
+      console.error("❌ Error fetching buyer orders:", err);
+      return res.status(500).json({ error: "Database error fetching orders", details: err });
+    }
+
+    res.json(results);
+  });
+});
+
+// GET all orders for a buyer
+router.get("/buyer/:buyerId", async (req, res) => {
+  const { buyerId } = req.params;
+
+  try {
+    const [orders] = await db.query(
+      `SELECT o.Order_ID, o.Artwork_ID, o.Status, a.Artwork_Name, a.Medium, a.Price, 
+              ar.Artist_ID, u.Username AS Artist_Username
+       FROM orders o
+       JOIN artwork a ON o.Artwork_ID = a.Artwork_ID
+       JOIN artist ar ON a.Artist_ID = ar.Artist_ID
+       JOIN users u ON ar.User_ID = u.User_ID
+       WHERE o.Buyer_ID = ?`,
+      [buyerId]
+    );
+
+    res.json(orders);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch buyer orders" });
+  }
+});
+// === DELETE an order by ID ===
+router.delete("/:orderId", (req, res) => {
+  console.log("🚀 Attempting to delete order:", req.params.orderId);
+  const { orderId } = req.params;
+
+  db.query("DELETE FROM orders WHERE Order_ID = ?", [orderId], (err, result) => {
+    if (err) {
+      console.error("Error deleting order:", err);
+      return res.status(500).json({ error: "Error deleting order" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+
+    res.json({ message: "Order deleted successfully" });
+  });
+});
+
+
 
 
 module.exports = router;

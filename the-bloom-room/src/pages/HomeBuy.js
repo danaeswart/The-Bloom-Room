@@ -6,6 +6,7 @@ import "./css/Home.css";
 
 import { UserContext } from "../context/UserContext"; // ✅ import context
 import NavbarBuy from  "../components/NavbarBuy";
+import Navbar from "../components/Navbar";
 
 const HomeBuy = () => {
   const { user } = useContext(UserContext); // ✅ pull from global context
@@ -14,7 +15,8 @@ const HomeBuy = () => {
   return (
     <>
      
-      <NavbarBuy user={user} />
+      {/* <NavbarBuy user={user} /> */}
+      <Navbar />
       <div className="home-content">
         <h1>Welcome Home Buy, {user?.Name || "Guest"}</h1>
         <h2>Here's some art that's worth the watch:</h2>

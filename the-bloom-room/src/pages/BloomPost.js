@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./css/BloomPost.css";
 import NavbarLog from "../components/NavbarLog";
 import { UserContext } from "../context/UserContext";
-
+import Navbar from "../components/Navbar";
 function BloomPost() {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
@@ -104,7 +104,7 @@ function BloomPost() {
 
   return (
     <>
-      <NavbarLog />
+      <Navbar />
       <div className="upload-artwork-page">
         {/* Left - Carousel */}
         <div className="left-panel">
@@ -142,7 +142,7 @@ function BloomPost() {
         {/* Right - Form */}
         <div className="right-panel">
           <h2>Create Bloom Post</h2>
-          <form onSubmit={handlePost}>
+          <form onSubmit={handlePost} className="form-bloom-post">
             <label>
               Artwork Name:
               <input

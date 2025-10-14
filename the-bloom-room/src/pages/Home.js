@@ -10,6 +10,9 @@ import flower3 from "../assets/images/flower-green.png";
 import flower4 from "../assets/images/flower-pink.png"; 
 import { useEffect } from "react";
 import About from "../pages/About";
+import AboutBloomRoom from "../components/AboutBloomRoom";
+
+
 const Home = () => {
   useEffect(() => {
     const handleScroll = () => {
@@ -35,15 +38,23 @@ const Home = () => {
         <img src={flower2} alt="Flower 2" className="flower flower2" />
         <img src={flower3} alt="Flower 3" className="flower flower3" />
         <img src={flower4} alt="Flower 4" className="flower flower4" />
+          
       </div>
 
       <div className="home-content">
-        <h1>Welcome to</h1>
+       <h1>Welcome to</h1>
         <img src={logo} alt="Logo" className="home-logo" />
-        <button className="bloom-button">Create a Bloom Post</button>
+        <button className="bloom-button">Step into the Bloom Room</button>
+
+      <div className="about-bloom">
+           <AboutBloomRoom />
+      </div>
+     
+
         <div className="post-section">
           <PostContainer />
         </div>
+
       </div>
       <About />
     </>

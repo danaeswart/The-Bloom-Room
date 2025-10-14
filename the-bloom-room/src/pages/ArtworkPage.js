@@ -110,35 +110,39 @@ const ArtworkPage = () => {
   <h4>Price:</h4>
   <p className="medium">R{artwork.Price}</p>
 
-  {/* --- Button Logic --- */}
-  {(() => {
-    const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
+{/* --- Button Logic --- */}
+{(() => {
+  const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
 
-   if (!user) {
-  // Not logged in → maybe hide button
-  return null;
-} else if (user.User_ID === artwork.Artist_User_ID) {
-  // Artist viewing their own artwork → no button
-  return null;
-} else if (hasRequested) {
-  // Buyer already requested → go to profilebuy
-  return (
-    <button
-      className="request-btn"
-      onClick={() => navigate(`/profilebuy`)}
-    >
-      Already Requested
-    </button>
-  );
-} else {
-  // Buyer has not requested
-  return (
-    <Link to={`/order/${artwork.Artwork_ID}`}>
-      <button className="request-btn">Send Request</button>
-    </Link>
-  );
-}
-  })()}
+  if (!user) {
+    // Not logged in → hide button
+    return null;
+  } else if (user.User_ID === artwork.Artist_User_ID) {
+    // Artist viewing their own artwork → hide button
+    return null;
+  } else if (artwork.Status.toLowerCase() === "sold") {
+    // Artwork is sold → hide button
+    return null;
+  } else if (hasRequested) {
+    // Buyer already requested → go to profilebuy
+    return (
+      <button
+        className="request-btn"
+        onClick={() => navigate(`/profilebuy`)}
+      >
+        Already Requested
+      </button>
+    );
+  } else {
+    // Buyer has not requested
+    return (
+      <Link to={`/order/${artwork.Artwork_ID}`}>
+        <button className="request-btn">Send Request</button>
+      </Link>
+    );
+  }
+})()}
+
 </div>
 
       </div>

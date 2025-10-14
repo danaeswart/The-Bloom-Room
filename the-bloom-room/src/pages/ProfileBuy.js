@@ -5,7 +5,8 @@ import "./css/ProfileBuy.css";
 import flowerIcon from "../assets/images/profile-flower.png";
 import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../context/UserContext";
-
+import BuyerPostContainer from "../components/BuyerPostContainer";
+import Navbar from "../components/Navbar";
 const ProfileBuy = () => {
   const [buyerData, setBuyerData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -14,6 +15,8 @@ const ProfileBuy = () => {
   const [surname, setSurname] = useState("");
   const [profileUrl, setProfileUrl] = useState("");
   const [email, setEmail] = useState("");
+  const [buyerID, setBuyerID] = useState(null);
+
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -40,13 +43,13 @@ useEffect(() => {
 
       // ✅ Fetch buyer-specific info
       const buyerRes = await axios.get(`http://localhost:5000/buyer/${userID}`);
-      console.log("Buyer data response:", buyerRes.data);
+      
       const buyerData = buyerRes.data; // no .buyer here
 
       console.log("Buyer data received:", buyerData);
 
      
-
+      setBuyerID(buyerData.Buyer_ID);
       // From buyer table
       setProfileUrl(buyerData.Profile_url);
       setBio(buyerData.Bio);
@@ -76,37 +79,49 @@ useEffect(() => {
   console.log("=== Saving buyer profile changes ===");
 
   try {
-    // Update user base info (name, surname, email)
+    // 1️⃣ Update base user info
     const userData = { name, surname, email };
+    console.log("Updating user data to:", userData);
     await axios.put(`http://localhost:5000/users/${userID}`, userData);
 
-    // Update buyer bio
+    // 2️⃣ Update buyer bio
+    console.log("Updating buyer bio to:", bio);
     await axios.put(`http://localhost:5000/buyer/${userID}`, { bio });
 
-    // Update profile picture if changed
-    if (profileUrl instanceof File) {
-      const formData = new FormData();
-      formData.append("profile_url", profileUrl);
-      await axios.put(`http://localhost:5000/users/profile/${userID}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-    }
+    // 3️⃣ Update profile picture if it's a new file
+    // if (profileUrl instanceof File) {
+    //   const formData = new FormData();
+    //   formData.append("profile_url", profileUrl);
+    //   await axios.put(`http://localhost:5000/users/profile/${userID}`, formData, {
+    //     headers: { "Content-Type": "multipart/form-data" },
+    //   });
+    // }
 
-    // Refresh both user + buyer data after saving
-    const userRes = await axios.get(`http://localhost:5000/users/${userID}`);
-    const buyerRes = await axios.get(`http://localhost:5000/buyer/${userID}`);
+    // 4️⃣ Re-fetch user and buyer data
+    const [userRes, buyerRes] = await Promise.all([
+      axios.get(`http://localhost:5000/users/${userID}`),
+      axios.get(`http://localhost:5000/buyer/${userID}`)
+    ]);
 
-    setUser(userRes.data.user);
-    setBuyerData(buyerRes.data.buyer);
-    setBio(buyerRes.data.buyer.Bio || "");
-    setProfileUrl(buyerRes.data.buyer.Profile_url || "");
+    const updatedUser = userRes.data.user;
+    const updatedBuyer = buyerRes.data; // no .buyer, based on your GET /buyer/:userID route
 
+    // 5️⃣ Update React state
+    setUser(updatedUser);
+    setBuyerData(updatedBuyer);
+    setBio(updatedBuyer.Bio || "");
+    setProfileUrl(updatedBuyer.Profile_url || "");
+
+    // Exit editing mode
     setIsEditing(false);
+
+    console.log("✅ Buyer profile updated successfully!");
   } catch (error) {
     console.error("❌ Error updating buyer profile:", error);
     alert("Something went wrong while saving your changes.");
   }
 };
+
 
   const handleLogout = () => {
     console.log("Logging out...");
@@ -117,7 +132,7 @@ useEffect(() => {
 
   return (
     <>
-      <NavbarBuy />
+      <Navbar />
 
       <div className="profile-card" style={{ marginTop: "5rem" }}>
         <div className="left-section">
@@ -176,7 +191,12 @@ useEffect(() => {
             </div>
           )}
         </div>
+
+
+
+      
       </div>
+       {buyerID && <BuyerPostContainer buyerId={buyerID} />}
     </>
   );
 };

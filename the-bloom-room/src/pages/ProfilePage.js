@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import Navbar from "../components/Navbar";
+import NavbarLog from "../components/NavbarLog";
 import PostContainer from "../components/PostContainer"; // import PostContainer
 import "./css/Profile.css"; // reuse same profile CSS
 import flowerIcon from "../assets/images/profile-flower.png";
-
+import Navbar from "../components/Navbar";
 
 const ProfilePage = () => {
   const { artistId } = useParams(); // gets :artistId from URL

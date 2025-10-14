@@ -14,6 +14,8 @@ import HomeLog from "./pages/HomeLog";
 import { UserProvider } from "./context/UserContext"; // ✅ import UserProvider
 import HomeBuy from "./pages/HomeBuy";
 import ArtistArtwork from "./pages/ArtistArtworks";
+import BuyRequests from "./pages/BuyRequest";
+import Feed from "./pages/Feed";
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
         <Route path="/profile/:artistId" element={<ProfilePage />} />
         <Route path="/order/:artworkId" element={<Order />} />
         <Route path="/artistartworks/:artworkId" element={<ArtistArtwork />} />
+        <Route path="/buyrequests/:artworkId" element={<BuyRequests />} />
+        <Route path="/feed" element={<Feed />} />
       </Routes>
     </Router>
     </UserProvider>

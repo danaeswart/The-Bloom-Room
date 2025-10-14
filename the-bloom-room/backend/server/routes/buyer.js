@@ -4,14 +4,11 @@ const db = require("../db/db");
 
 console.log("🚀 Buyer route file loaded with routes: /test and /:userID");
 
-
-router.get("/test", (req, res) => {
-  console.log("Buyer test route hit");
-  res.json({ message: "Buyer route is working" });
-});
 // === GET buyer by User_ID ===
 router.get("/:userID", (req, res) => {
+  console.log("it gets here ");
   const { userID } = req.params;
+  console.log("Fetching buyer with User_ID:", userID);
 
   const sql = "SELECT * FROM buyer WHERE User_ID = ?";
 
@@ -29,25 +26,59 @@ router.get("/:userID", (req, res) => {
   });
 });
 
+router.get("/orders/:buyerID", async (req, res) => {
+  const { buyerID } = req.params;
+
+  try {
+    const [orders] = await db.query("SELECT * FROM orders WHERE Buyer_ID = ?", [buyerID]);
+    res.json(orders);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch buyer orders" });
+  }
+});
 
 // === UPDATE buyer bio only === //
-router.put("/:userID", async (req, res) => {
+router.put("/:userID", (req, res) => {
   const { userID } = req.params;
   const { bio } = req.body;
 
-  try {
-    if (bio === undefined) {
-      return res.status(400).json({ error: "No bio provided for update" });
+  if (bio === undefined) {
+    return res.status(400).json({ error: "No bio provided for update" });
+  }
+
+  db.query("UPDATE buyer SET Bio = ? WHERE User_ID = ?", [bio, userID], (err, result) => {
+    if (err) {
+      console.error("Error updating buyer bio:", err);
+      return res.status(500).json({ error: "Error updating buyer bio" });
     }
 
-    await db.query("UPDATE buyer SET Bio = ? WHERE User_ID = ?", [bio, userID]);
+    db.query("SELECT * FROM buyer WHERE User_ID = ?", [userID], (err2, updatedBuyer) => {
+      if (err2) {
+        console.error("Error fetching updated buyer:", err2);
+        return res.status(500).json({ error: "Error fetching updated buyer" });
+      }
 
-    const [updatedBuyer] = await db.query("SELECT * FROM buyer WHERE User_ID = ?", [userID]);
-    res.json({ message: "Buyer bio updated successfully", buyer: updatedBuyer[0] });
+      res.json({ message: "Buyer bio updated successfully", buyer: updatedBuyer[0] });
+    });
+  });
+});
+
+
+
+router.delete("/:orderID", async (req, res) => {
+  const { orderID } = req.params;
+  try {
+    await db.query("DELETE FROM orders WHERE Order_ID = ?", [orderID]);
+    res.json({ message: "Order deleted successfully" });
   } catch (err) {
-    console.error("Error updating buyer bio:", err);
-    res.status(500).json({ error: "Error updating buyer bio" });
+    console.error(err);
+    res.status(500).json({ error: "Failed to delete order" });
   }
 });
+
+
+
+
 module.exports = router;
 

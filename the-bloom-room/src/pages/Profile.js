@@ -8,7 +8,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../context/UserContext"; // Adjust path if needed
 import { Link } from "react-router-dom";
 import ProfilePostContainer from "../components/ProfilePostContainer";
-
+import Navbar from "../components/Navbar";
 const Profile = () => {
   const [artistData, setArtistData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -168,7 +168,7 @@ const Profile = () => {
 
   return (
     <>
-      <NavbarLog />
+      <Navbar />
 
       <div className="profile-card">
         <div className="left-section">
