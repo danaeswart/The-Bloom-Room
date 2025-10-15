@@ -118,10 +118,10 @@
 
 //-----------new
 
-const express = require("express");
-const db = require("../db/db");
-const multer = require("multer");
-const path = require("path");
+import express from "express";
+import db from "../db/db.js";      // note the .js at the end
+import multer from "multer";
+import path from "path";
 
 const router = express.Router();
 
@@ -217,7 +217,7 @@ router.get("/:artistId", (req, res) => {
       u.Surname,
       u.Email
     FROM artist ar
-    LEFT JOIN Users u ON ar.User_ID = u.User_ID
+    LEFT JOIN users u ON ar.User_ID = u.User_ID
     WHERE ar.Artist_ID = ?
   `;
 
@@ -267,4 +267,6 @@ router.put("/:userId", upload.single("profile_url"), (req, res) => {
   });
 });
 
-module.exports = router;
+
+// export router for ES modules
+export default router;

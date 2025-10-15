@@ -38,14 +38,10 @@ function SignUp() {
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/auth/signup", {
-        email,
-        password,
-        username,
-        name,
-        surname,
-        role,
-      });
+     const res = await axios.post(
+  "https://the-bloom-room-5.onrender.com/auth/signup",
+  { email, password, username, name, surname, role }
+);
 
       console.log("Signup success:", res.data);
       alert("Account created successfully!");

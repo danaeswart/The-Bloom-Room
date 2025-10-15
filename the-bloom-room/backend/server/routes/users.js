@@ -1,12 +1,15 @@
-const express = require("express");
-const db = require("../db/db"); // make sure this is your MySQL connection
+import express from "express";
+import db from "../db/db.js";      // note the .js at the end
+import multer from "multer";
+import path from "path";
+
 const router = express.Router();
 
 // GET /users/:id
 router.get("/:id", (req, res) => {
   const userId = req.params.id;
 
-  const query = "SELECT User_ID, Username, Email, Name, Surname, Role FROM Users WHERE User_ID = ?";
+  const query = "SELECT User_ID, Username, Email, Name, Surname, Role FROM users WHERE User_ID = ?";
   db.query(query, [userId], (err, results) => {
     if (err) {
       console.error("DB error:", err);
@@ -27,7 +30,7 @@ router.put("/:userId", (req, res) => {
   const { name, surname } = req.body;
 
   const query = `
-    UPDATE Users
+    UPDATE users
     SET Name = ?, Surname = ?
     WHERE User_ID = ?
   `;
@@ -42,4 +45,6 @@ router.put("/:userId", (req, res) => {
 });
 
 
-module.exports = router;
+// export router for ES modules
+export default router;
+

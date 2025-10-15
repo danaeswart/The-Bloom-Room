@@ -1,17 +1,28 @@
-const express = require("express");
-const cors = require("cors");
-const path = require("path");
+// const express = require("express");
+// const cors = require("cors");
+// const path = require("path");
 
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import db from "./db/db.js";
+
+//for image uploads
+import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 console.log("🚀 server.js is starting");
 
 // Routes
-const authRoutes = require("./routes/auth");
-const artworksRoutes = require("./routes/artworks");
-const artistRoutes = require("./routes/artist");
-const usersRoutes = require("./routes/users");
-const buyerRoutes = require("./routes/buyer"); 
-const ordersRoutes = require("./routes/orders");
+import authRoutes from "./routes/auth.js";
+import artworksRoutes from "./routes/artworks.js";
+import artistRoutes from "./routes/artist.js";
+import usersRoutes from "./routes/users.js";
+import buyerRoutes from "./routes/buyer.js";
+import ordersRoutes from "./routes/orders.js";
+
 
 const app = express();
 

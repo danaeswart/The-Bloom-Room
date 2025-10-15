@@ -1,6 +1,9 @@
-const express = require("express");
+import express from "express";
+import db from "../db/db.js";      // note the .js at the end
+import multer from "multer";
+import path from "path";
+
 const router = express.Router();
-const db = require("../db/db");
 
 console.log("🚀 Buyer route file loaded with routes: /test and /:userID");
 
@@ -79,6 +82,5 @@ router.delete("/:orderID", async (req, res) => {
 
 
 
-
-module.exports = router;
-
+// export router for ES modules
+export default router;

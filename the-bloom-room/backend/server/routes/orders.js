@@ -1,5 +1,8 @@
-const express = require("express");
-const db = require("../db/db");
+import express from "express";
+import db from "../db/db.js";      // note the .js at the end
+import multer from "multer";
+import path from "path";
+
 const router = express.Router();
 
 // === Create new order (default status = Pending) ===
@@ -354,4 +357,6 @@ router.delete("/:orderId", (req, res) => {
 
 
 
-module.exports = router;
+// export router for ES modules
+export default router;
+

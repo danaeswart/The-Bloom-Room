@@ -1,6 +1,7 @@
-const express = require("express");
-const bcrypt = require("bcrypt");
-const db = require("../db/db");
+import express from "express";
+import db from "../db/db.js";      // note the .js at the end
+import multer from "multer";
+import path from "path";
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ router.post("/signup", async (req, res) => {
     }
 
     // Check if user already exists
-    const checkQuery = "SELECT * FROM Users WHERE Email = ?";
+    const checkQuery = "SELECT * FROM users WHERE Email = ?";
     db.query(checkQuery, [email], async (err, results) => {
       if (err) {
         console.error("Error checking user:", err);
@@ -29,7 +30,7 @@ router.post("/signup", async (req, res) => {
 
       // Insert user with correct column names
       const insertQuery = `
-        INSERT INTO Users (Email, PasswordHash, Username, Name, Surname, Role, Status)
+        INSERT INTO users (Email, PasswordHash, Username, Name, Surname, Role, Status)
         VALUES (?, ?, ?, ?, ?, ?, 'unverified')
       `;
 
@@ -64,7 +65,7 @@ router.post("/login", (req, res) => {
     return res.status(400).json({ message: "Email, password, and role are required" });
   }
 
-  const query = "SELECT * FROM Users WHERE Email = ? AND Role = ?";
+  const query = "SELECT * FROM users WHERE Email = ? AND Role = ?";
   db.query(query, [email, role], async (err, results) => {
     if (err) {
       console.error("Error fetching user:", err);
@@ -98,4 +99,6 @@ router.post("/login", (req, res) => {
   });
 });
 
-module.exports = router;
+// export router for ES modules
+export default router;
+

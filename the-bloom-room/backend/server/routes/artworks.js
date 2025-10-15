@@ -1,7 +1,7 @@
-const express = require("express");
-const multer = require("multer");
-const path = require("path");
-const db = require("../db/db");
+import express from "express";
+import db from "../db/db.js";      // note the .js at the end
+import multer from "multer";
+import path from "path";
 
 const router = express.Router();
 
@@ -126,7 +126,7 @@ router.get("/:id", (req, res) => {
     FROM artwork a
     LEFT JOIN ArtworkImages ai ON a.Artwork_ID = ai.Artwork_ID
     LEFT JOIN Artist ar ON a.Artist_ID = ar.Artist_ID
-    LEFT JOIN Users u ON ar.User_ID = u.User_ID
+    LEFT JOIN users u ON ar.User_ID = u.User_ID
     WHERE a.Artwork_ID = ?
   `;
 
@@ -495,4 +495,6 @@ router.post("/bulk", (req, res) => {
 });
 
 
-module.exports = router;
+
+// export router for ES modules
+export default router;

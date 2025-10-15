@@ -25,26 +25,27 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `AddReview` (IN `pArtworkID` INT, IN `pUserID` INT, IN `pComment` CHAR(50))   BEGIN
-    INSERT INTO ArtworkReview (Artwork_ID, User_ID, Comment)
-    VALUES (pArtworkID, pUserID, pComment);
-END$$
+-- CREATE PROCEDURE `AddReview` (IN `pArtworkID` INT, IN `pUserID` INT, IN `pComment` CHAR(50))   BEGIN
+--     INSERT INTO ArtworkReview (Artwork_ID, User_ID, Comment)
+--     VALUES (pArtworkID, pUserID, pComment);
+-- END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ApproveUser` (IN `pUserID` INT)   BEGIN
+CREATE PROCEDURE `ApproveUser` (IN `pUserID` INT)   BEGIN
     UPDATE Users SET Status='verified' WHERE User_ID = pUserID;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `CreateArtistAcc` (IN `pUserID` INT)   BEGIN
+CREATE PROCEDURE `CreateArtistAcc` (IN `pUserID` INT)
+BEGIN
     INSERT INTO Artist (User_ID, Bio, Profile_url, Account_Attributes)
     VALUES (pUserID, 'New to Bloom Room', NULL, JSON_ARRAY('Bold', 'Colourful', 'Fun'));
-END$$
+END;
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `CreateUser` (IN `pEmail` VARCHAR(100), IN `pPasswordHash` VARCHAR(255), IN `pRole` ENUM('artist','buyer','admin'), IN `pUsername` VARCHAR(100), IN `pName` VARCHAR(50), IN `pSurname` VARCHAR(50))   BEGIN
+CREATE  PROCEDURE `CreateUser` (IN `pEmail` VARCHAR(100), IN `pPasswordHash` VARCHAR(255), IN `pRole` ENUM('artist','buyer','admin'), IN `pUsername` VARCHAR(100), IN `pName` VARCHAR(50), IN `pSurname` VARCHAR(50))   BEGIN
     INSERT INTO Users (Email, PasswordHash, Role, Username, Name, Surname)
     VALUES (pEmail, pPasswordHash, pRole, pUsername, pName, pSurname);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `PlaceOrder` (IN `pArtworkID` INT, IN `pUserID` INT)   BEGIN
+CREATE PROCEDURE `PlaceOrder` (IN `pArtworkID` INT, IN `pUserID` INT)   BEGIN
     INSERT INTO Orders (Artwork_ID, User_ID, Status)
     VALUES (pArtworkID, pUserID, 'Pending');
 END$$
@@ -53,14 +54,32 @@ DELIMITER ;
 
 -- --------------------------------------------------------
 
+
+CREATE TABLE `users` (
+  `User_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Email` varchar(100) NOT NULL,
+  `PasswordHash` varchar(255) NOT NULL,
+  `Role` enum('artist','buyer','admin') NOT NULL,
+  `CreatedAt` datetime DEFAULT current_timestamp(),
+  `Username` varchar(100) NOT NULL,
+  `Name` varchar(50) NOT NULL,
+  `Surname` varchar(50) NOT NULL,
+  `Status` enum('verified','unverified') DEFAULT 'unverified',
+  PRIMARY KEY (`User_ID`),
+  UNIQUE KEY `Email` (`Email`),
+  UNIQUE KEY `Username` (`Username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
 --
 -- Table structure for table `admin`
 --
 
 CREATE TABLE `admin` (
-  `Admin_ID` int(11) NOT NULL,
+  `Admin_ID` int(11) NOT NULL AUTO_INCREMENT,
   `User_ID` int(11) NOT NULL,
-  `Profile_url` varchar(50) DEFAULT NULL
+  `Profile_url` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Admin_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -77,12 +96,13 @@ INSERT INTO `admin` (`Admin_ID`, `User_ID`, `Profile_url`) VALUES
 --
 
 CREATE TABLE `approval` (
-  `Approval_ID` int(11) NOT NULL,
+  `Approval_ID` int(11) NOT NULL AUTO_INCREMENT,
   `User_ID` int(11) NOT NULL,
   `Admin_ID` int(11) NOT NULL,
   `Status` enum('Pending','Approved','Declined') DEFAULT 'Pending',
   `Approval_type` enum('artist','buyer') NOT NULL,
-  `Created_at` datetime DEFAULT current_timestamp()
+  `Created_at` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`Approval_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -104,11 +124,15 @@ INSERT INTO `approval` (`Approval_ID`, `User_ID`, `Admin_ID`, `Status`, `Approva
 --
 
 CREATE TABLE `artist` (
-  `Artist_ID` int(11) NOT NULL,
-  `Bio` text DEFAULT 'New to Bloom Room',
+  `Artist_ID` int(11) NOT NULL AUTO_INCREMENT,
   `User_ID` int(11) NOT NULL,
+  `Bio` text,
   `Profile_url` varchar(255) DEFAULT NULL,
-  `Account_Attributes` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`Account_Attributes`))
+  `Account_Attributes` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL 
+      CHECK (json_valid(`Account_Attributes`)),
+  PRIMARY KEY (`Artist_ID`),
+  UNIQUE KEY `User_ID` (`User_ID`),
+  CONSTRAINT `artist_ibfk_1` FOREIGN KEY (`User_ID`) REFERENCES `users` (`User_ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -235,11 +259,14 @@ INSERT INTO `buyer` (`Buyer_ID`, `Bio`, `User_ID`, `Profile_url`) VALUES
 --
 
 CREATE TABLE `orders` (
-  `Commission_ID` int(11) NOT NULL,
+  `Order_ID` int(11) NOT NULL,
   `Artwork_ID` int(11) NOT NULL,
   `Buyer_ID` int(11) NOT NULL,
   `Status` enum('Pending','Approved','Declined','Completed') DEFAULT 'Pending',
-  `RequestedAt` datetime DEFAULT current_timestamp()
+  `RequestedAt` datetime DEFAULT current_timestamp(),
+   PRIMARY KEY (`Order_ID`),
+  UNIQUE KEY `Artwork_ID` (`Artwork_ID`),
+   UNIQUE KEY `Buyer_ID` (`Buyer_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -262,19 +289,7 @@ INSERT INTO `orders` (`Commission_ID`, `Artwork_ID`, `Buyer_ID`, `Status`, `Requ
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
-  `User_ID` int(11) NOT NULL,
-  `Email` varchar(100) NOT NULL,
-  `PasswordHash` varchar(255) NOT NULL,
-  `Role` enum('artist','buyer','admin') NOT NULL,
-  `CreatedAt` datetime DEFAULT current_timestamp(),
-  `Username` varchar(100) NOT NULL,
-  `Name` varchar(50) NOT NULL,
-  `Surname` varchar(50) NOT NULL,
-  `Status` enum('verified','unverified') DEFAULT 'unverified'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
 -- Dumping data for table `users`
 --
 
@@ -486,3 +501,8 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+DROP PROCEDURE IF EXISTS `ApproveUser`$$
+CREATE PROCEDURE `ApproveUser` (IN `pUserID` INT)
+BEGIN
+    UPDATE Users SET Status='verified' WHERE User_ID = pUserID;
+END$$
