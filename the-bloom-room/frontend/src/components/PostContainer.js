@@ -11,7 +11,7 @@ function PostContainer() {
     const fetchArtworks = async () => {
       try {
         console.log("Fetching artworks from backend...");
-        const endpoint = "http://localhost:5000/artwork";
+        const endpoint = "https://the-bloom-room-5.onrender.com/artwork";
 
         const res = await axios.get(endpoint);
         console.log("Response data from backend:", res.data);
@@ -44,7 +44,7 @@ function PostContainer() {
               onClick={() => handleArtworkClick(artwork.Artwork_ID)}
             >
               <img
-                src={`http://localhost:5000${artwork.Image_URL}`}
+                src={`https://the-bloom-room-5.onrender.com${artwork.Image_URL}`}
                 alt={artwork.Artwork_Name || "Artwork"}
                 className="post-image"
               />

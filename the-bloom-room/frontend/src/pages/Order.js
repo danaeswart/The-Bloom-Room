@@ -13,7 +13,7 @@ const Order = () => {
   useEffect(() => {
     const fetchArtwork = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/artworks/${artworkId}`);
+        const res = await axios.get(`https://the-bloom-room-5.onrender.com/artworks/${artworkId}`);
         setArtwork(res.data);
       } catch (err) {
         console.error("Error fetching artwork:", err);
@@ -46,7 +46,7 @@ const Order = () => {
     }
     console.log("Submitting order for artworkId:", artworkId, "with message:", message);
     console.log("User ID:", user.User_ID);
-    await axios.post("http://localhost:5000/orders", {
+    await axios.post("https://the-bloom-room-5.onrender.com/orders", {
       Artwork_ID: artworkId,
       
       Buyer_ID: user.User_ID, // still sends User_ID to backend for lookup
@@ -77,7 +77,7 @@ const Order = () => {
                 &#10094;
               </button>
               <img
-                src={`http://localhost:5000${artwork.Images[currentIndex].Image_URL}`}
+                src={`https://the-bloom-room-5.onrender.com${artwork.Images[currentIndex].Image_URL}`}
                 alt={`Artwork ${currentIndex + 1}`}
               />
               <button className="arrow right" onClick={nextImage}>

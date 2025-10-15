@@ -22,7 +22,7 @@ const ArtistArtwork = () => {
 
   const fetchArtwork = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/artworks/${artworkId}`);
+      const res = await axios.get(`https://the-bloom-room-5.onrender.com/artworks/${artworkId}`);
       setArtwork(res.data);
       setUpdatedArtwork(res.data);
     } catch (err) {
@@ -33,7 +33,7 @@ const ArtistArtwork = () => {
   const fetchRequests = async () => {
     try {
         console.log("Fetching requests for artworkId:", artworkId);
-      const res = await axios.get(`http://localhost:5000/orders/artwork/${artworkId}`);
+      const res = await axios.get(`https://the-bloom-room-5.onrender.com/orders/artwork/${artworkId}`);
       setRequests(res.data);
       console.log("Fetched requests:", res.data);
     } catch (err) {
@@ -47,7 +47,7 @@ const ArtistArtwork = () => {
 
   const handleSave = async () => {
     try {
-      await axios.put(`http://localhost:5000/artworks/${artworkId}`, updatedArtwork);
+      await axios.put(`https://the-bloom-room-5.onrender.com/artworks/${artworkId}`, updatedArtwork);
       setArtwork(updatedArtwork);
       setEditMode(false);
       alert("Artwork updated successfully!");
@@ -65,7 +65,7 @@ const handleDelete = async () => {
   if (!confirmDelete) return;
 
   try {
-    await axios.delete(`http://localhost:5000/artworks/${artworkId}`);
+    await axios.delete(`https://the-bloom-room-5.onrender.com/artworks/${artworkId}`);
     alert("Artwork deleted successfully!");
     navigate(`/profile/${artwork.Artist_ID}`);
   } catch (err) {
@@ -78,7 +78,7 @@ const handleDelete = async () => {
 
   const handleStatusChange = async (commissionId, newStatus) => {
     try {
-      await axios.put(`http://localhost:5000/commissions/${commissionId}`, { Status: newStatus });
+      await axios.put(`https://the-bloom-room-5.onrender.com/commissions/${commissionId}`, { Status: newStatus });
       fetchRequests(); // refresh list
     } catch (err) {
       console.error("Error updating commission:", err);
@@ -89,7 +89,7 @@ const updateStatus = async (orderId, status) => {
   console.log("💡 Updating order", orderId, "to status", status); // DEBUG
   try {
     const res = await axios.put(
-      `http://localhost:5000/orders/${orderId}/status`,
+      `https://the-bloom-room-5.onrender.com/orders/${orderId}/status`,
       { status }
     );
     console.log("✅ Status updated:", res.data);
@@ -114,7 +114,7 @@ const updateStatus = async (orderId, status) => {
         <div className="carousel">
           {artwork.Images?.length > 0 && (
             <img
-              src={`http://localhost:5000${artwork.Images[0].Image_URL}`}
+              src={`https://the-bloom-room-5.onrender.com${artwork.Images[0].Image_URL}`}
               alt="Artwork"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />

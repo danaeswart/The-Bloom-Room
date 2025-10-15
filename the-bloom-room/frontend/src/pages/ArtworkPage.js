@@ -16,7 +16,7 @@ const ArtworkPage = () => {
   useEffect(() => {
     const fetchArtwork = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/artworks/${artworkId}`);
+        const res = await axios.get(`https://the-bloom-room-5.onrender.com/artworks/${artworkId}`);
         setArtwork(res.data);
 
         // Check if user already requested this artwork
@@ -27,7 +27,7 @@ const ArtworkPage = () => {
 
         if (user) {
           const requestsRes = await axios.get(
-            `http://localhost:5000/orders/user/${user.User_ID}`
+            `https://the-bloom-room-5.onrender.com/orders/user/${user.User_ID}`
           );
 
           const requested = requestsRes.data.some(
@@ -75,7 +75,7 @@ const ArtworkPage = () => {
               <div className={`image-container ${direction}`}>
                 <img
                   key={currentIndex}
-                  src={`http://localhost:5000${artwork.Images[currentIndex].Image_URL}`}
+                  src={`https://the-bloom-room-5.onrender.com${artwork.Images[currentIndex].Image_URL}`}
                   alt={`Artwork ${currentIndex + 1}`}
                 />
               </div>

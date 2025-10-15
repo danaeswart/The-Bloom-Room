@@ -30,7 +30,7 @@ useEffect(() => {
       console.log("user id we got bitch", userID);
 
       // Fetch base user info
-      const userRes = await axios.get(`http://localhost:5000/users/${userID}`);
+      const userRes = await axios.get(`https://the-bloom-room-5.onrender.com/users/${userID}`);
       
       const updatedUser = userRes.data.user;
         console.log("Updated user:", updatedUser);
@@ -42,7 +42,7 @@ useEffect(() => {
       console.log("Setting name and surname:", updatedUser.Name, updatedUser.Surname);
 
       // ✅ Fetch buyer-specific info
-      const buyerRes = await axios.get(`http://localhost:5000/buyer/${userID}`);
+      const buyerRes = await axios.get(`https://the-bloom-room-5.onrender.com/buyer/${userID}`);
       
       const buyerData = buyerRes.data; // no .buyer here
 
@@ -82,11 +82,11 @@ useEffect(() => {
     // 1️⃣ Update base user info
     const userData = { name, surname, email };
     console.log("Updating user data to:", userData);
-    await axios.put(`http://localhost:5000/users/${userID}`, userData);
+    await axios.put(`https://the-bloom-room-5.onrender.com/users/${userID}`, userData);
 
     // 2️⃣ Update buyer bio
     console.log("Updating buyer bio to:", bio);
-    await axios.put(`http://localhost:5000/buyer/${userID}`, { bio });
+    await axios.put(`https://the-bloom-room-5.onrender.com/buyer/${userID}`, { bio });
 
     // 3️⃣ Update profile picture if it's a new file
     // if (profileUrl instanceof File) {
@@ -99,8 +99,8 @@ useEffect(() => {
 
     // 4️⃣ Re-fetch user and buyer data
     const [userRes, buyerRes] = await Promise.all([
-      axios.get(`http://localhost:5000/users/${userID}`),
-      axios.get(`http://localhost:5000/buyer/${userID}`)
+      axios.get(`https://the-bloom-room-5.onrender.com/users/${userID}`),
+      axios.get(`https://the-bloom-room-5.onrender.com/${userID}`)
     ]);
 
     const updatedUser = userRes.data.user;

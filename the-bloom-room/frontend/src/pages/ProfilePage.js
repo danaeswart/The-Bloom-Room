@@ -14,7 +14,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const artistRes = await axios.get(`http://localhost:5000/artist/${artistId}`);
+        const artistRes = await axios.get(`https://the-bloom-room-5.onrender.com/artist/${artistId}`);
         setArtist(artistRes.data);
       } catch (err) {
         console.error(err);
@@ -36,7 +36,7 @@ const ProfilePage = () => {
     <img src={flowerIcon} alt="Flower" />
     {artist.Profile_url && (
       <img
-        src={`http://localhost:5000${artist.Profile_url}`}
+        src={`https://the-bloom-room-5.onrender.com/${artist.Profile_url}`}
         alt="Artist Profile"
         className="profile-pic"
       />

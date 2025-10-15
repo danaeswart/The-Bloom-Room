@@ -13,11 +13,11 @@ function ProfilePostContainer({ artistId = null }) {
       if (!artistId) return;
 
       try {
-        const artworksRes = await axios.get(`http://localhost:5000/artworks/user/${artistId}`);
+        const artworksRes = await axios.get(`https://the-bloom-room-5.onrender.com/artworks/user/${artistId}`);
         const artworks = artworksRes.data;
         console.log("Fetched artworks for artist:", artworks);
 
-        const countsRes = await axios.get(`http://localhost:5000/orders/artist/${artistId}/counts`);
+        const countsRes = await axios.get(`https://the-bloom-room-5.onrender.com/orders/artist/${artistId}/counts`);
         const countsData = countsRes.data;
         console.log("Fetched order counts for artist:", countsData);
 
@@ -64,7 +64,7 @@ function ProfilePostContainer({ artistId = null }) {
               onClick={() => handleArtworkClick(artwork.Artwork_ID)}
             >
               <img
-                src={`http://localhost:5000${artwork.Image_URL}`}
+                src={`https://the-bloom-room-5.onrender.com${artwork.Image_URL}`}
                 alt={artwork.Artwork_Name}
                 className="post-image"
               />

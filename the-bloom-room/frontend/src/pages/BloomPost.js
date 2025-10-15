@@ -25,7 +25,7 @@ function BloomPost() {
     if (user && user.Role === "artist") {
       console.log("Fetching artist ID for user:", user.User_ID);
       
-      fetch(`http://localhost:5000/artist/user/${user.User_ID}`)
+      fetch(`https://the-bloom-room-5.onrender.com/artist/user/${user.User_ID}`)
         .then((res) => res.json())
         .then((data) => {
           setArtistID(data.Artist_ID);
@@ -79,7 +79,7 @@ function BloomPost() {
     });
 
     try {
-      const res = await fetch("http://localhost:5000/artworks", {
+      const res = await fetch("https://the-bloom-room-5.onrender.com/artworks", {
         method: "POST",
         body: formData,
       });

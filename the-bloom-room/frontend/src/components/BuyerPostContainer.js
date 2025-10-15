@@ -15,7 +15,7 @@ function BuyerPostContainer({ buyerId }) {
 
     try {
       console.log("Fetching orders for buyerId:", buyerId);
-      const ordersRes = await axios.get(`http://localhost:5000/orders/buyer/${buyerId}`);
+      const ordersRes = await axios.get(`https://the-bloom-room-5.onrender.com/orders/buyer/${buyerId}`);
       const orders = ordersRes.data;
       console.log("Buyer orders:", orders);
 
@@ -28,7 +28,7 @@ function BuyerPostContainer({ buyerId }) {
         return;
       }
 
-      const artworksRes = await axios.post(`http://localhost:5000/artworks/bulk`, { artworkIds });
+      const artworksRes = await axios.post(`https://the-bloom-room-5.onrender.com/artworks/bulk`, { artworkIds });
       const artworks = artworksRes.data;
 
       const merged = artworks.map((art) => {
@@ -68,7 +68,7 @@ function BuyerPostContainer({ buyerId }) {
             onClick={() => handleArtworkClick(art.Artwork_ID)}
           >
             <img
-              src={`http://localhost:5000${art.Images[0]?.Image_URL || "/uploads/default.png"}`}
+              src={`https://the-bloom-room-5.onrender.com${art.Images[0]?.Image_URL || "/uploads/default.png"}`}
               alt={art.Artwork_Name}
               className="post-image"
             />

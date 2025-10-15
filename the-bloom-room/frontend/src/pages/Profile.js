@@ -35,7 +35,7 @@ const Profile = () => {
         
         
         // 2. Fetch user data
-        const userRes = await axios.get(`http://localhost:5000/users/${userID}`);
+        const userRes = await axios.get(`https://the-bloom-room-5.onrender.com/users/${userID}`);
         const updatedUser = userRes.data.user;
         console.log("User data received:", updatedUser);
         console.log("Setting name and surname hoe:", updatedUser.Name, updatedUser.Surname);
@@ -45,7 +45,7 @@ const Profile = () => {
 
 
         // 1. Fetch artist data
-        const artistRes = await axios.get(`http://localhost:5000/artist/user/${userID}`);
+        const artistRes = await axios.get(`https://the-bloom-room-5.onrender.com/artist/user/${userID}`);
         const artistData = artistRes.data;
          console.log("Artist data received hoe:", artistData);
 
@@ -68,7 +68,7 @@ const Profile = () => {
 
         // 3. Fetch artworks for this artist
         console.log("Fetching artworks for artistID:", artistData.Artist_ID);
-        const artworksRes = await axios.get(`http://localhost:5000/artworks/user/${artistData.Artist_ID}`);
+        const artworksRes = await axios.get(`https://the-bloom-room-5.onrender.com/artworks/user/${artistData.Artist_ID}`);
         console.log("Artworks data received:", artworksRes.data);
         setUserArtworks(artworksRes.data);
       } catch (err) {
@@ -85,7 +85,7 @@ const Profile = () => {
 
       try {
         console.log("Fetching artworks in second useEffect for userID:", userID);
-        const res = await axios.get(`http://localhost:5000/artworks/user/${userID}`);
+        const res = await axios.get(`https://the-bloom-room-5.onrender.com/artworks/user/${userID}`);
         console.log("User artworks data:", res.data);
         setUserArtworks(res.data);
       } catch (err) {
@@ -125,9 +125,9 @@ const Profile = () => {
 
     try {
       const userData = { name, surname };
-      console.log("Sending PUT request to:", `http://localhost:5000/users/${userID}`);
+      console.log("Sending PUT request to:", `https://the-bloom-room-5.onrender.com/users/${userID}`);
       console.log("User data being sent:", userData);
-      await axios.put(`http://localhost:5000/users/${userID}`, userData);
+      await axios.put(`https://the-bloom-room-5.onrender.com/users/${userID}`, userData);
 
       const formData = new FormData();
       formData.append("bio", bio);
@@ -139,16 +139,16 @@ const Profile = () => {
         formData.append("profile_url", profileUrl);
       }
 
-      console.log("Sending PUT request to:", `http://localhost:5000/artist/${userID}`);
+      console.log("Sending PUT request to:", `https://the-bloom-room-5.onrender.com/artist/${userID}`);
       console.log("Artist data being sent:", formData);
 
-      await axios.put(`http://localhost:5000/artist/${userID}`, formData, {
+      await axios.put(`https://the-bloom-room-5.onrender.com/artist/${userID}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
       console.log("✅ Profile updated successfully (users + artist)");
 
-      const userRes = await axios.get(`http://localhost:5000/users/${userID}`);
+      const userRes = await axios.get(`https://the-bloom-room-5.onrender.com/users/${userID}`);
       const updatedUser = userRes.data.user;
       setUser(updatedUser);
 
