@@ -84,6 +84,8 @@ app.get("/", (req, res) => {
   res.send("Backend is running");
 });
 
+app.get("/test", (req, res) => res.json({ message: "Test route works! yay" }));
+
 
 
 
@@ -114,4 +116,9 @@ if (app._router && app._router.stack) {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀:))))) Server running on port ${PORT}`);
+});
+
+app.use((err, req, res, next) => {
+  console.error("💥 Server error from server.js:", err);
+  res.status(500).json({ message: "Internal server error" });
 });
