@@ -56,6 +56,9 @@ function SignUp() {
         Role: role,
       };
       setUser(newUser);
+      // After setUser(newUser)
+      localStorage.setItem("user", JSON.stringify(newUser));
+
 
       // Redirect depending on role
       if (role === "artist") {

@@ -8,9 +8,10 @@ function Navbar() {
 
   // Get user from localStorage
   const storedUser = localStorage.getItem("user");
+  // console.log("🌐 Stored user from localStorage:", storedUser);
   const user = storedUser ? JSON.parse(storedUser) : null;
 
-  console.log("🧠 Current user:", user);
+  // console.log("🧠 Current user:", user);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
