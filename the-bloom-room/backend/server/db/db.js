@@ -32,11 +32,18 @@
 import mysql from "mysql2";
 import dotenv from "dotenv";
 import fs from "fs";
+import path from "path"; 
+import { fileURLToPath } from "url";
 
 dotenv.config(); // Load environment variables from .env
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const caPath = path.resolve(__dirname, "../ca.pem");
+console.log("🔍 Loading CA cert from:", caPath);
 // Read the CA certificate (place ca.pem in the same folder or adjust the path)
-const ca = fs.readFileSync("../ca.pem"); 
+const ca = fs.readFileSync(caPath);
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -44,14 +51,14 @@ const db = mysql.createConnection({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   port: process.env.DB_PORT,
-  ssl: { ca: ca } // Use the certificate for a secure connection
+  ssl: { ca } // Use the certificate for a secure connection
 });
 
 db.connect((err) => {
   if (err) {
-    console.error("❌ MySQL connection failed:", err);
+    console.error("❌ MySQL connection failed on da web:", err);
   } else {
-    console.log("✅ Connected to MySQL database");
+    console.log("✅ Connected to MySQL database on da web");
   }
 });
 
