@@ -13,7 +13,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-console.log("🚀 server.js is starting");
+console.log("🚀 server.js is starting from server.js");
 
 // Routes
 import authRoutes from "./routes/auth.js";
@@ -28,7 +28,8 @@ const app = express();
 
 
 // Middleware
-app.use(cors());
+// app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 
