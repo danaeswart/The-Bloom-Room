@@ -40,7 +40,7 @@ dotenv.config(); // Load environment variables from .env
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const caPath = path.resolve(__dirname, "../ca.pem");
+const caPath = path.resolve(__dirname, "../../ca.pem");
 console.log("🔍 Loading CA cert from:", caPath);
 // Read the CA certificate (place ca.pem in the same folder or adjust the path)
 const ca = fs.readFileSync(caPath);
