@@ -29,11 +29,17 @@ const app = express();
 
 // Middleware
 // app.use(cors());
-app.use(cors({
-  origin: "https://the-bloom-room-frontend.onrender.com",
-  methods: ["GET","POST","PUT","DELETE"],
-  credentials: true
-}));
+
+//backend calls ---------------------------------------------
+// app.use(cors({
+//   origin: "https://the-bloom-room-frontend.onrender.com",
+//   methods: ["GET","POST","PUT","DELETE"],
+//   credentials: true
+// }));
+
+app.use(cors({ origin: "*" }));
+
+
 app.use(express.json());
 
 
