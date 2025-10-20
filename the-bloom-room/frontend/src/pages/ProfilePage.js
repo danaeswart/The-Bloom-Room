@@ -6,6 +6,7 @@ import PostContainer from "../components/PostContainer"; // import PostContainer
 import "./css/Profile.css"; // reuse same profile CSS
 import flowerIcon from "../assets/images/profile-flower.png";
 import Navbar from "../components/Navbar";
+import { BASE_URL } from "../Config";
 
 const ProfilePage = () => {
   const { artistId } = useParams(); // gets :artistId from URL
@@ -14,7 +15,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const artistRes = await axios.get(`https://the-bloom-room-5.onrender.com/artist/${artistId}`);
+        const artistRes = await axios.get(`${BASE_URL}/artist/${artistId}`);
         setArtist(artistRes.data);
       } catch (err) {
         console.error(err);
@@ -36,7 +37,7 @@ const ProfilePage = () => {
     <img src={flowerIcon} alt="Flower" />
     {artist.Profile_url && (
       <img
-        src={`https://the-bloom-room-5.onrender.com/${artist.Profile_url}`}
+        src={`${BASE_URL}/${artist.Profile_url}`}
         alt="Artist Profile"
         className="profile-pic"
       />

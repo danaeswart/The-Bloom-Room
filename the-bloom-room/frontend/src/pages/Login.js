@@ -2,13 +2,13 @@ import React, { useState, useContext } from "react";
 import "./css/Login.css";
 import NavBar from "../components/Navbar";
 import axios from "axios";
-
+import { BASE_URL } from "../Config"; // ✅ import BASE_URL
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext"; // ✅ import context
 
 function Login() {
 
-    const BASE_URL = "https://the-bloom-room-5.onrender.com";
+    
 
   const [role, setRole] = useState("artist");
   const [email, setEmail] = useState("");

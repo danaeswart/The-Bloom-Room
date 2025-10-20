@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import "./css/Order.css";
-
+import { BASE_URL } from "../Config";
 const Order = () => {
   const { artworkId } = useParams();
   const [artwork, setArtwork] = useState(null);
@@ -13,7 +13,7 @@ const Order = () => {
   useEffect(() => {
     const fetchArtwork = async () => {
       try {
-        const res = await axios.get(`https://the-bloom-room-5.onrender.com/artworks/${artworkId}`);
+        const res = await axios.get(`${BASE_URL}/artworks/${artworkId}`);
         setArtwork(res.data);
       } catch (err) {
         console.error("Error fetching artwork:", err);
@@ -46,7 +46,7 @@ const Order = () => {
     }
     console.log("Submitting order for artworkId:", artworkId, "with message:", message);
     console.log("User ID:", user.User_ID);
-    await axios.post("https://the-bloom-room-5.onrender.com/orders", {
+    await axios.post(`${BASE_URL}/orders`, {
       Artwork_ID: artworkId,
       
       Buyer_ID: user.User_ID, // still sends User_ID to backend for lookup
@@ -77,7 +77,8 @@ const Order = () => {
                 &#10094;
               </button>
               <img
-                src={`https://the-bloom-room-5.onrender.com${artwork.Images[currentIndex].Image_URL}`}
+              // maybe issue herer
+                src={`${BASE_URL}${artwork.Images[currentIndex].Image_URL}`}
                 alt={`Artwork ${currentIndex + 1}`}
               />
               <button className="arrow right" onClick={nextImage}>

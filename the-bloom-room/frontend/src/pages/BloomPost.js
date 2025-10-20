@@ -4,9 +4,12 @@ import "./css/BloomPost.css";
 import NavbarLog from "../components/NavbarLog";
 import { UserContext } from "../context/UserContext";
 import Navbar from "../components/Navbar";
+import axios from "axios";
+import { BASE_URL } from "../Config";
+
 function BloomPost() {
 
-  const BASE_URL = "https://the-bloom-room-backend.onrender.com";
+ 
 
   const navigate = useNavigate();
   const { user } = useContext(UserContext);

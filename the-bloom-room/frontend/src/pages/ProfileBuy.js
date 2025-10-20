@@ -7,6 +7,8 @@ import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import BuyerPostContainer from "../components/BuyerPostContainer";
 import Navbar from "../components/Navbar";
+import { BASE_URL } from "../Config";
+
 const ProfileBuy = () => {
   const [buyerData, setBuyerData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -30,7 +32,7 @@ useEffect(() => {
       console.log("user id we got bitch", userID);
 
       // Fetch base user info
-      const userRes = await axios.get(`https://the-bloom-room-5.onrender.com/users/${userID}`);
+      const userRes = await axios.get(`${BASE_URL}/users/${userID}`);
       
       const updatedUser = userRes.data.user;
         console.log("Updated user:", updatedUser);
@@ -42,7 +44,7 @@ useEffect(() => {
       console.log("Setting name and surname:", updatedUser.Name, updatedUser.Surname);
 
       // ✅ Fetch buyer-specific info
-      const buyerRes = await axios.get(`https://the-bloom-room-5.onrender.com/buyer/${userID}`);
+      const buyerRes = await axios.get(`${BASE_URL}/buyer/${userID}`);
       
       const buyerData = buyerRes.data; // no .buyer here
 
@@ -82,11 +84,11 @@ useEffect(() => {
     // 1️⃣ Update base user info
     const userData = { name, surname, email };
     console.log("Updating user data to:", userData);
-    await axios.put(`https://the-bloom-room-5.onrender.com/users/${userID}`, userData);
+    await axios.put(`${BASE_URL}/users/${userID}`, userData);
 
     // 2️⃣ Update buyer bio
     console.log("Updating buyer bio to:", bio);
-    await axios.put(`https://the-bloom-room-5.onrender.com/buyer/${userID}`, { bio });
+    await axios.put(`${BASE_URL}/buyer/${userID}`, { bio });
 
     // 3️⃣ Update profile picture if it's a new file
     // if (profileUrl instanceof File) {
@@ -99,8 +101,8 @@ useEffect(() => {
 
     // 4️⃣ Re-fetch user and buyer data
     const [userRes, buyerRes] = await Promise.all([
-      axios.get(`https://the-bloom-room-5.onrender.com/users/${userID}`),
-      axios.get(`https://the-bloom-room-5.onrender.com/${userID}`)
+      axios.get(`${BASE_URL}/users/${userID}`),
+      axios.get(`${BASE_URL}/${userID}`)
     ]);
 
     const updatedUser = userRes.data.user;

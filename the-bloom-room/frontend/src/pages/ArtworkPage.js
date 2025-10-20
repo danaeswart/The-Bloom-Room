@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import "./css/ArtworkPage.css";
 import Navbar from "../components/Navbar";
 import axios from "axios";
+import { BASE_URL } from "../Config";
 
 const ArtworkPage = () => {
   const { artworkId } = useParams();
@@ -16,7 +17,7 @@ const ArtworkPage = () => {
   useEffect(() => {
     const fetchArtwork = async () => {
       try {
-        const res = await axios.get(`https://the-bloom-room-5.onrender.com/artworks/${artworkId}`);
+        const res = await axios.get(`${BASE_URL}/artworks/${artworkId}`);
         setArtwork(res.data);
 
         // Check if user already requested this artwork
@@ -27,7 +28,7 @@ const ArtworkPage = () => {
 
         if (user) {
           const requestsRes = await axios.get(
-            `https://the-bloom-room-5.onrender.com/orders/user/${user.User_ID}`
+            `${BASE_URL}/orders/user/${user.User_ID}`
           );
 
           const requested = requestsRes.data.some(
@@ -75,7 +76,7 @@ const ArtworkPage = () => {
               <div className={`image-container ${direction}`}>
                 <img
                   key={currentIndex}
-                  src={`https://the-bloom-room-5.onrender.com${artwork.Images[currentIndex].Image_URL}`}
+                  src={`${BASE_URL}${artwork.Images[currentIndex].Image_URL}`}
                   alt={`Artwork ${currentIndex + 1}`}
                 />
               </div>

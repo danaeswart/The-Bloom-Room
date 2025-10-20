@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "./css/ArtworkPage.css";
 import axios from "axios";
-
+import { BASE_URL } from "../Config";
 const BuyRequests = () => {
   const { artworkId } = useParams();
   const [artwork, setArtwork] = useState(null);
@@ -30,11 +30,11 @@ const BuyRequests = () => {
       if (!buyerId || !artworkId) return;
 
       try {
-        const artworkRes = await axios.get(`https://the-bloom-room-5.onrender.com/artworks/${artworkId}`);
+        const artworkRes = await axios.get(`${BASE_URL}/artworks/${artworkId}`);
         const fetchedArtwork = artworkRes.data;
         setArtwork(fetchedArtwork);
 
-        const ordersRes = await axios.get(`https://the-bloom-room-5.onrender.com/orders/buyer/${buyerId}`);
+        const ordersRes = await axios.get(`${BASE_URL}/orders/buyer/${buyerId}`);
         const order = ordersRes.data.find((o) => o.Artwork_ID === parseInt(artworkId));
 
         if (order) {
@@ -69,7 +69,7 @@ const BuyRequests = () => {
   const handleDeleteRequest = async () => {
     if (!orderId) return;
     try {
-      await axios.delete(`https://the-bloom-room-5.onrender.com/orders/${orderId}`);
+      await axios.delete(`${BASE_URL}/orders/${orderId}`);
       alert("Request deleted successfully");
       navigate("/profilebuy");
     } catch (err) {
@@ -94,7 +94,7 @@ const BuyRequests = () => {
               <div className={`image-container ${direction}`}>
                 <img
                   key={currentIndex}
-                  src={`https://the-bloom-room-5.onrender.com${artwork.Images[currentIndex].Image_URL}`}
+                  src={`${BASE_URL}${artwork.Images[currentIndex].Image_URL}`}
                   alt={`Artwork ${currentIndex + 1}`}
                 />
               </div>
