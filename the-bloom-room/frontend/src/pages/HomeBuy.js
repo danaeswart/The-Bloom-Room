@@ -22,7 +22,7 @@ const HomeBuy = () => {
         <h2>Here's some art that's worth the watch:</h2>
 
         <div className="post-section">
-          <PostContainer />
+          {/* <PostContainer /> */}
         </div>
 
         <button className="bloom-button">Create a Bloom Post</button>

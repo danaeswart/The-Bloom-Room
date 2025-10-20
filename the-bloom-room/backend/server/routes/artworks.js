@@ -237,7 +237,11 @@ router.get("/", (req, res) => {
            ai.Image_URL
     FROM artwork a
     LEFT JOIN artworkimages ai ON a.Artwork_ID = ai.Artwork_ID
-    GROUP BY a.Artwork_ID
+   WHERE ai.Image_ID = (
+    SELECT MIN(Image_ID) 
+    FROM artworkimages 
+    WHERE Artwork_ID = a.Artwork_ID
+)
   `;
 
   db.query(sql, (err, results) => {
