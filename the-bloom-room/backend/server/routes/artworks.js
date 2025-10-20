@@ -229,33 +229,6 @@ router.get("/:userID", (req, res) => {
 
 
 
-// === GET artworks for a specific user/artist === //
-// router.get("/user/:artistId", (req, res) => {
-//   const { artistId } = req.params;
-
-//   const sql = `
-//     SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
-//            ai.Image_URL
-//     FROM Artworks a
-//     LEFT JOIN ArtworkImages ai ON a.Artwork_ID = ai.Artwork_ID
-//     WHERE a.Artist_ID = ?
-//     GROUP BY a.Artwork_ID
-//   `;
-
-//   db.query(sql, [artistId], (err, results) => {
-//     if (err) {
-//       console.error("❌ Error fetching artist artworks:", err);
-//       return res.status(500).json({ error: "Server error" });
-//     }
-
-//     if (results.length === 0) {
-//       return res.status(404).json({ message: "No artworks found for this artist" });
-//     }
-
-//     res.json(results);
-//   });
-// });
-
 
 // === GET all artworks (with one image each) === //
 router.get("/", (req, res) => {
@@ -301,62 +274,6 @@ router.get("/artwork", async (req, res) => {
 
 
 
-// === put a new artwork === //
-// router.get("/:id", (req, res) => {
-//   const { id } = req.params;
-
-//   const sql = `
-//     SELECT 
-//       a.Artwork_ID, 
-//       a.Artwork_Name, 
-//       a.Artist_ID, 
-//       u.Username AS Artist_Username, 
-//       a.Description, 
-//       a.Price, 
-//       a.Status, 
-//       a.Medium, 
-//       a.Created_at,
-//       ai.Image_ID, 
-//       ai.Image_URL
-//     FROM Artworks a
-//     LEFT JOIN ArtworkImages ai ON a.Artwork_ID = ai.Artwork_ID
-//     LEFT JOIN Artist ar ON a.Artist_ID = ar.Artist_ID
-//     LEFT JOIN Users u ON ar.User_ID = u.User_ID
-//     WHERE a.Artwork_ID = ?
-//   `;
-
-//   console.log("🔍 Fetching artwork with ID:", id);
-
-//   db.query(sql, [id], (err, results) => {
-//     if (err) {
-//       console.error("❌ Error fetching artwork:", err);
-//       return res.status(500).json({ message: "Error fetching artwork", error: err });
-//     }
-
-//     if (results.length === 0) {
-//       console.log("⚠️ No artwork found for ID:", id);
-//       return res.status(404).json({ message: "Artwork not found" });
-//     }
-
-//     const artwork = {
-//       Artwork_ID: results[0].Artwork_ID,
-//       Artwork_Name: results[0].Artwork_Name,
-//       Artist_ID: results[0].Artist_ID,
-//       Artist_Username: results[0].Artist_Username || "Unknown Artist",
-//       Description: results[0].Description,
-//       Price: results[0].Price,
-//       Status: results[0].Status,
-//       Medium: results[0].Medium,
-//       Created_at: results[0].Created_at,
-//       Images: results
-//         .map(r => ({ Image_ID: r.Image_ID, Image_URL: r.Image_URL }))
-//         .filter(img => img.Image_ID)
-//     };
-
-//     console.log("🎯 Final artwork object:", artwork);
-//     res.json(artwork);
-//   });
-// });
 
 // === UPDATE Artwork details === //
 router.put("/:artworkId", (req, res) => {
