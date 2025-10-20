@@ -7,6 +7,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext"; // ✅ import context
 
 function Login() {
+
+    const BASE_URL = "http://localhost:5000";
+
   const [role, setRole] = useState("artist");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,7 +19,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
-    const res = await axios.post("https://the-bloom-room-5.onrender.com/auth/login", {
+    const res = await axios.post(`${BASE_URL}/auth/login`, {
       email,
       password,
       role,
