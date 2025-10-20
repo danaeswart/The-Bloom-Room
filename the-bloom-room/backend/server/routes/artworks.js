@@ -124,7 +124,7 @@ router.get("/:id", (req, res) => {
       ai.Image_ID, 
       ai.Image_URL
     FROM artwork a
-    LEFT JOIN ArtworkImages ai ON a.Artwork_ID = ai.Artwork_ID
+    LEFT JOIN artworkimages ai ON a.Artwork_ID = ai.Artwork_ID
     LEFT JOIN Artist ar ON a.Artist_ID = ar.Artist_ID
     LEFT JOIN users u ON ar.User_ID = u.User_ID
     WHERE a.Artwork_ID = ?
@@ -175,7 +175,7 @@ router.get("/user/:artistId", (req, res) => {
     SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
            ai.Image_URL
     FROM artwork a
-    LEFT JOIN ArtworkImages ai ON a.Artwork_ID = ai.Artwork_ID
+    LEFT JOIN artworkimages ai ON a.Artwork_ID = ai.Artwork_ID
     WHERE a.Artist_ID = ?
     GROUP BY a.Artwork_ID
   `;
@@ -263,7 +263,7 @@ router.get("/", (req, res) => {
     SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
            ai.Image_URL
     FROM artwork a
-    LEFT JOIN ArtworkImages ai ON a.Artwork_ID = ai.Artwork_ID
+    LEFT JOIN artworkimages ai ON a.Artwork_ID = ai.Artwork_ID
     GROUP BY a.Artwork_ID
   `;
 

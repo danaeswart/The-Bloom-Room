@@ -8,7 +8,7 @@ import { UserContext } from "../context/UserContext"; // ✅ import context
 
 function Login() {
 
-    const BASE_URL = "http://localhost:5000";
+    const BASE_URL = "https://the-bloom-room-5.onrender.com";
 
   const [role, setRole] = useState("artist");
   const [email, setEmail] = useState("");
