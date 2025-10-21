@@ -171,7 +171,7 @@ app.use(cors({
 }));
 
 // Handle OPTIONS preflight globally
-app.options("*", cors());
+// app.options("*", cors());
 
 
 
