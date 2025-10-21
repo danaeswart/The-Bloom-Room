@@ -207,19 +207,32 @@ app.listen(PORT, () => {
 // =========================
 // Debugging: list routes
 // =========================
-if (app._router && app._router.stack) {
-  console.log("📌 Registered routes:");
-  app._router.stack.forEach((middleware) => {
-    if (middleware.route) {
-      console.log(middleware.route.path);
-    } else if (middleware.name === "router") {
-      middleware.handle.stack.forEach((handler) => {
-        if (handler.route) {
-          console.log(handler.route.path);
-        }
-      });
-    }
-  });
-} else {
-  console.log("⚠️ No routes found yet");
-}
+// if (app._router && app._router.stack) {
+//   console.log("📌 Registered routes:");
+//   app._router.stack.forEach((middleware) => {
+//     if (middleware.route) {
+//       console.log(middleware.route.path);
+//     } else if (middleware.name === "router") {
+//       middleware.handle.stack.forEach((handler) => {
+//         if (handler.route) {
+//           console.log(handler.route.path);
+//         }
+//       });
+//     }
+//   });
+// } else {
+//   console.log("⚠️ No routes found yet");
+// }
+
+console.log("📌 Registered routes:");
+app._router.stack.forEach(middleware => {
+  if (middleware.route) {
+    console.log(middleware.route.path);
+  } else if (middleware.name === "router") {
+    middleware.handle.stack.forEach(handler => {
+      if (handler.route) {
+        console.log(handler.route.path);
+      }
+    });
+  }
+});

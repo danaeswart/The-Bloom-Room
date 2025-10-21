@@ -4,6 +4,7 @@ import multer from "multer";
 import path from "path";
 import bcrypt from "bcrypt";
 
+
 const router = express.Router();
 
 // SIGNUP route
@@ -99,6 +100,7 @@ router.post("/login", (req, res) => {
     });
   });
 });
+
 
 // export router for ES modules
 export default router;
