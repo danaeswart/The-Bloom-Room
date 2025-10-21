@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react"; // <-- added useState for menu toggle
 import { Link, useNavigate } from "react-router-dom";
 import "./css/Navbar.css";
 import logo from "../assets/images/logo.png";
@@ -13,6 +13,9 @@ function Navbar() {
 
   // console.log("🧠 Current user:", user);
 
+
+  const [menuOpen, setMenuOpen] = useState(false); // <-- new state to handle mobile menu toggle
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     navigate("/login");
@@ -25,8 +28,21 @@ function Navbar() {
         <img src={logo} alt="Logo" className="logo-img" />
       </div>
 
+
+
+ {/* Hamburger icon for mobile */}
+      <div
+        className={`hamburger ${menuOpen ? "open" : ""}`}
+        onClick={() => setMenuOpen(!menuOpen)} // <-- toggles menu open/close
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    
+
       {/* Right side - Links */}
-      <div className="navbar-links">
+      <div className={`navbar-links ${menuOpen ? "mobile-open" : ""}`}>
         {/* --- Feed link visible to everyone --- */}
         <Link to="/feed" className="nav-link">Feed</Link>
 

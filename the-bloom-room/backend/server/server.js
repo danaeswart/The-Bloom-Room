@@ -153,7 +153,8 @@ const app = express();
 // Enable CORS and handle preflight
 const allowedOrigins = [
   "https://the-bloom-room-frontend.onrender.com",
-  "https://the-bloom-room-5.onrender.com" // backend can call itself if needed
+  "https://the-bloom-room-5.onrender.com",
+  "http://localhost:3000" 
 ];
 
 app.use(cors({

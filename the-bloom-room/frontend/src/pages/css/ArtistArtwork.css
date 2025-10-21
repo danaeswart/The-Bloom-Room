@@ -95,3 +95,172 @@
 .delete-btn:hover {
   background-color: #d9363e;
 }
+
+
+
+/* -------------------------
+  Edit mode inputs
+  ------------------------- */
+.edit-input {
+  font-size: 1.5rem;             /* similar to .user-name/.attribute-input */
+  font-weight: 500;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: #2C4C34;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 6px 10px;
+  width: 100%;
+  max-width: 400px;
+  outline: none;
+  background: #fff;
+  margin-bottom: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.edit-input:focus {
+  border-color: #2C4C34;
+  box-shadow: 0 0 5px rgba(44, 76, 52, 0.4);
+}
+
+.edit-textarea {
+  font-size: 1.2rem;              /* similar to .edit-bio */
+  color: #444;
+  line-height: 1.4;
+  width: 100%;
+  max-width: 400px;
+  min-height: 100px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 12px;
+  resize: vertical;
+  outline: none;
+  font-family: inherit;
+  margin-bottom: 12px;
+}
+
+.edit-textarea:focus {
+  border-color: #2C4C34;
+  box-shadow: 0 0 5px rgba(44, 76, 52, 0.3);
+}
+
+/* -------------------------
+  Buttons
+  ------------------------- */
+.request-btn {
+  background-color: #1f5112;  /* match .attribute-add */
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-right: 10px;
+  transition: background 0.2s ease;
+}
+
+.request-btn:hover {
+  background-color: #2C4C34;
+}
+
+.delete-btn {
+  background-color: #f6b9a6;  /* match .attribute-remove */
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s ease;
+}
+
+.delete-btn:hover {
+  background-color: #2C4C34;
+}
+
+/* Optional: artwork page layout adjustments */
+.artwork-page {
+  display: flex;
+  gap: 2rem;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 3rem auto;
+  flex-wrap: wrap;
+}
+
+.carousel {
+  flex: 1;
+  min-width: 300px;
+  max-width: 600px;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.artwork-info {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.art-title {
+  font-size: 2.5rem;
+  color: #2C4C34;
+  margin-bottom: 10px;
+}
+
+.description-box {
+  background: #f5f5f5;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  color: #444;
+}
+
+.medium {
+  font-size: 1.2rem;
+  color: #2C4C34;
+}
+
+/* Requests section */
+.requests-section {
+  max-width: 1200px;
+  margin: 3rem auto;
+}
+
+.request-card {
+  border: 1px solid #ccc;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.request-actions button {
+  margin-left: 6px;
+  border: none;
+  border-radius: 12px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  color: #fff;
+}
+
+.approve-btn {
+  background-color: #1f5112;
+}
+
+.unapprove-btn {
+  background-color: #f6b9a6;
+}
+
+.decline-btn {
+  background-color: #FF6D41;
+}
+
+.request-actions button:hover {
+  background-color: #2C4C34;
+}

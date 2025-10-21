@@ -29,7 +29,7 @@ const handleSubmit = async (e) => {
     const user = res.data.user;
     console.log("Logged in user:", user);
 
-    alert(`Welcome back, ${user.Username}!`);
+    // alert(`Welcome back, ${user.Username}!`);
     setUser(user);
     setRole(user.role); // Just to be sure
     localStorage.setItem("user", JSON.stringify(user)); // Save user to localStorage

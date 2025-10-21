@@ -158,10 +158,10 @@ const updateStatus = async (orderId, status) => {
               />
 
               <button className="request-btn" onClick={handleSave}>
-                💾 Save Changes
+                 Save Changes
               </button>
               <button className="delete-btn" onClick={handleDelete}>
-  🗑️ Delete Artwork
+   Delete Artwork
 </button>
 
             </>
@@ -178,7 +178,7 @@ const updateStatus = async (orderId, status) => {
               <p className="medium">R{artwork.Price}</p>
 
               <button className="request-btn" onClick={() => setEditMode(true)}>
-                ✏️ Edit Artwork
+                 Edit Artwork
               </button>
             </>
           )}
@@ -202,20 +202,21 @@ const updateStatus = async (orderId, status) => {
 
  <div className="request-actions">
   {req.Status !== "Sold" && (
+  <>
     <button onClick={() => updateStatus(req.Order_ID, "Sold")} className="approve-btn">
       Approve
     </button>
-  )}
-
-  {req.Status === "Sold" && (
-    <button onClick={() => updateStatus(req.Order_ID, "Pending")} className="unapprove-btn">
-      Unapprove
+    <button onClick={() => updateStatus(req.Order_ID, "Declined")} className="decline-btn">
+      Decline
     </button>
-  )}
+  </>
+)}
 
-  <button onClick={() => updateStatus(req.Order_ID, "Declined")} className="decline-btn">
-    Decline
+{req.Status === "Sold" && (
+  <button onClick={() => updateStatus(req.Order_ID, "Pending")} className="unapprove-btn">
+    Unapprove
   </button>
+)}
 </div>
 
 

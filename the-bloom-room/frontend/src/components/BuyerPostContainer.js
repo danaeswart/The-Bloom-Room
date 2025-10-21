@@ -28,7 +28,7 @@ function BuyerPostContainer({ buyerId }) {
         return;
       }
 
-      const artworksRes = await axios.post(`${BASE_URL}/artworks/bulk`, { artworkIds });
+      const artworksRes = await axios.post(`${BASE_URL}/artwork/bulk`, { artworkIds });
       const artworks = artworksRes.data;
 
       const merged = artworks.map((art) => {

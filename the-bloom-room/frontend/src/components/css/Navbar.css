@@ -7,9 +7,12 @@
   /* background-color: #ce9661; */
   border-bottom: 2px solid #eee;
   height: 7%;
-  position: fixed;
+  position: relative;
   top: 0;
-  width: 100%;
+  width: 100%; 
+   max-width: 20000px; /* cap the navbar width */
+  margin: 0 auto;    /* center it on large screens */
+  box-sizing: border-box; /* include padding in width calculation */
   z-index: 100 !important;
 
   
@@ -71,4 +74,7 @@
   color: white;
 
 }
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; background-color: #B3B866; /* background-color: #ce9661; */ border-bottom: 2px solid #eee; height: 7%; position: relative; top: 0; width: 100%; z-index: 100 !important; } .navbar-logo .logo-img { height: 50px; cursor: pointer; } .navbar-links { display: flex; flex-direction: row; justify-content: space-around; align-items: center; gap: 25px; padding-right: 60px; width: 30%; font-size: 20px; } .nav-link { text-decoration: none; color: #2C4C34; font-weight: 500; transition: color 0.3s ease; } .nav-link:hover { color: #FF6D41; } /* Circular login icon */ .login-icon { font-size: 18px; background: none; border: none; cursor: pointer; color: #ffffff; transition: color 0.3s ease; background-color: #ffffff; padding: 20px; border-radius: 30px; } .login-icon a { text-decoration: none; /* Remove underline */ color: #000000; /* White text */ font-weight: bold; /* Optional */ font-size: 16px; /* Match your design */ display: block; /* Fill clickable area */ } .login-icon:hover { background-color: #ffded4; color: white; } /* --- Hamburger Menu Styles --- */ .hamburger { display: none; /* hidden by default */ flex-direction: column; cursor: pointer; gap: 5px; padding: 10px; z-index: 1001; /* make sure it's on top */ position: absolute; top: 15px; /* adjust based on navbar height */ right: 20px; /* position at right corner */ } .hamburger span { width: 25px; height: 3px; background-color: #333; /* dark color for visibility */ transition: all 0.3s ease; } .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); } .hamburger.open span:nth-child(2) { opacity: 0; } .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); } /* Mobile Styles */ @media (max-width: 768px) { .navbar-links { display: none; /* hide links by default */ flex-direction: column; width: 100%; background-color: #fff; position: absolute; top: 70px; left: 0; box-shadow: 0 5px 10px rgba(0,0,0,0.1); padding: 20px 0; z-index: 999; } .navbar-links.mobile-open { display: flex; /* show links when menu is open */ flex-direction: column; background-color: #064e3b; /* dark green background */ width: 100%; position: absolute; top: 70px; left: 0; padding: 20px 0; box-shadow: 0 5px 10px rgba(0,0,0,0.2); z-index: 999; } /* Style each link inside dropdown */ .navbar-links.mobile-open .nav-link, .navbar-links.mobile-open .login-link { /* <- updated selector to target login links too */ display: block; /* make sure links are visible */ color: #d1fae5; /* light green text */ padding: 12px 20px; text-decoration: none; transition: background-color 0.2s ease, color 0.2s ease; } /* Hover / active effect */ .navbar-links.mobile-open .nav-link:hover, .navbar-links.mobile-open .login-link:hover { background-color: #10b981; /* lighter green on hover/click */ color: #ffffff; /* optional: make text white for contrast */ border-radius: 5px; } .nav-link { padding: 10px 20px; } /* Show hamburger on mobile */ .hamburger { display: flex; } }
+
+
 

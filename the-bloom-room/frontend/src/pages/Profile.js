@@ -184,7 +184,19 @@ const Profile = () => {
               />
             )}
           </div>
-          {isEditing && <input type="file" onChange={handleProfileImageChange} />}
+         {isEditing && (
+  <>
+    <input
+      type="file"
+      id="profileUpload"
+      onChange={handleProfileImageChange}
+      className="profile-upload-input"
+    />
+    <label htmlFor="profileUpload" className="profile-upload">
+      Upload Profile Image
+    </label>
+  </>
+)}
         </div>
 
         <div className="user-info">
