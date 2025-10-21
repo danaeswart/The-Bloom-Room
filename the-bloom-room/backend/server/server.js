@@ -225,14 +225,19 @@ app.listen(PORT, () => {
 // }
 
 console.log("📌 Registered routes:");
-app._router.stack.forEach(middleware => {
-  if (middleware.route) {
-    console.log(middleware.route.path);
-  } else if (middleware.name === "router") {
-    middleware.handle.stack.forEach(handler => {
-      if (handler.route) {
-        console.log(handler.route.path);
-      }
-    });
-  }
-});
+
+if (app._router && Array.isArray(app._router.stack)) {
+  app._router.stack.forEach((middleware) => {
+    if (middleware.route) {
+      console.log(middleware.route.path);
+    } else if (middleware.name === "router" && middleware.handle && Array.isArray(middleware.handle.stack)) {
+      middleware.handle.stack.forEach((handler) => {
+        if (handler.route) {
+          console.log(handler.route.path);
+        }
+      });
+    }
+  });
+} else {
+  console.log("⚠️ No routes found yet");
+}
