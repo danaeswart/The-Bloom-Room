@@ -31,13 +31,13 @@ const app = express();
 // app.use(cors());
 
 //backend calls for web ---------------------------------------------
-// app.use(cors({
-//   origin: "https://the-bloom-room-frontend.onrender.com",
-//   methods: ["GET","POST","PUT","DELETE"],
-//   credentials: true
-// }));
+app.use(cors({
+  origin: "https://the-bloom-room-frontend.onrender.com",
+  methods: ["GET","POST","PUT","DELETE"],
+  credentials: true
+}));
 
-app.use(cors({ origin: "*" }));
+// app.use(cors({ origin: "*" }));
 
 
 app.use(express.json());
