@@ -70,7 +70,7 @@ const Profile = () => {
 
         // 3. Fetch artworks for this artist
         console.log("Fetching artworks for artistID:", artistData.Artist_ID);
-        const artworksRes = await axios.get(`${BASE_URL}/artworks/user/${artistData.Artist_ID}`);
+        const artworksRes = await axios.get(`${BASE_URL}/artwork/user/${artistData.Artist_ID}`);
         console.log("Artworks data received:", artworksRes.data);
         setUserArtworks(artworksRes.data);
       } catch (err) {
@@ -87,7 +87,7 @@ const Profile = () => {
 
       try {
         console.log("Fetching artworks in second useEffect for userID:", userID);
-        const res = await axios.get(`${BASE_URL}/artworks/user/${userID}`);
+        const res = await axios.get(`${BASE_URL}/artwork/user/${userID}`);
         console.log("User artworks data:", res.data);
         setUserArtworks(res.data);
       } catch (err) {

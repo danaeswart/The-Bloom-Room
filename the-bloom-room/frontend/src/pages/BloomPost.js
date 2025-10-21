@@ -85,7 +85,7 @@ function BloomPost() {
     });
 
     try {
-      const res = await fetch(`${BASE_URL}/artworks`, {
+      const res = await fetch(`${BASE_URL}/artwork`, {
         method: "POST",
         body: formData,
       });
