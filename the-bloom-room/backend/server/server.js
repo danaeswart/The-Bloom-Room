@@ -151,15 +151,27 @@ const app = express();
 // CORS
 // =========================
 // Enable CORS and handle preflight
+const allowedOrigins = [
+  "https://the-bloom-room-frontend.onrender.com",
+  "https://the-bloom-room-5.onrender.com" // backend can call itself if needed
+];
+
 app.use(cors({
-  origin: [
-    "http://localhost:3000", // local dev
-    "https://the-bloom-room-frontend.onrender.com" // deployed frontend
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: function(origin, callback){
+    if(!origin) return callback(null, true); // allow requests like Postman or same-origin
+    if(allowedOrigins.indexOf(origin) === -1){
+      const msg = `The CORS policy for this site does not allow access from the specified Origin.`;
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
   credentials: true,
+  methods: ["GET","POST","PUT","DELETE","OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
+// Handle OPTIONS preflight globally
+app.options("*", cors());
 
 
 
@@ -173,7 +185,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // static 
 // Routes
 // =========================
 app.use("/auth", authRoutes);
-app.use("/artworks", artworksRoutes); // main artworks route
+app.use("/artwork", artworksRoutes); // main artworks route
 app.use("/artist", artistRoutes);
 app.use("/users", usersRoutes);
 app.use("/buyer", buyerRoutes);
