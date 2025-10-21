@@ -150,12 +150,21 @@ const app = express();
 // =========================
 // CORS
 // =========================
+// Enable CORS and handle preflight
 app.use(cors({
-  origin: "https://the-bloom-room-frontend.onrender.com", // frontend URL
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+  origin: "https://the-bloom-room-frontend.onrender.com",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
+// Handle OPTIONS preflight globally
+app.options("*", cors({
+  origin: "https://the-bloom-room-frontend.onrender.com",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 // =========================
 // Middleware
 // =========================
