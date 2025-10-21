@@ -48,9 +48,7 @@ const AboutBloomRoom = () => {
       <section className="hero" ref={(el) => (sectionRefs.current[0] = el)}>
         <h1>Welcome to The Bloom Room 🌿</h1>
         <p>
-         The Bloom Room is a creative community where ideas flourish and inspiration never stops. Here, you can explore a variety of projects, artworks, and designs shared by passionate creators from all over. It’s more than just a platform to browse—it’s a space to interact, share, and grow your own creativity. Showcase your own projects, save content that sparks your imagination, and even request custom artworks or creations tailored to your vision.
-
-Whether you’re an artist, designer, writer, or simply someone who loves discovering new ideas, The Bloom Room gives you the tools and space to connect with like-minded minds. Cultivate your ideas, collaborate with others, and watch your creativity bloom in a space designed to inspire, create, and connect.
+          A creative space to grow your ideas, share your projects, and connect with a community of inspired minds.
         </p>
         <a href="/feed">
           <button>Explore Feed</button>

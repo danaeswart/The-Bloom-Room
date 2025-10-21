@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import "./css/SignUp.css";
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "../components/Navbar";
-
+import { BASE_URL } from "../Config"; // ✅ import BASE_URL
 import axios from "axios";
 import { UserContext } from "../context/UserContext"; // ✅ Import context
 
@@ -39,9 +39,9 @@ function SignUp() {
 
     try {
      const res = await axios.post(
-  "https://the-bloom-room-5.onrender.com/auth/signup",
+  `${BASE_URL}/auth/signup`,
   { email, password, username, name, surname, role }
-);
+, { withCredentials: true });
 
       console.log("Signup success:", res.data);
       alert("Account created successfully!");

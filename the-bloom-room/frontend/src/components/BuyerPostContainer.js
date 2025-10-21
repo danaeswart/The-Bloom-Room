@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./css/ProfilePostContainer.css";
-
+import { BASE_URL } from "../Config";
 function BuyerPostContainer({ buyerId }) {
    
   const [requestedArtworks, setRequestedArtworks] = useState([]);
@@ -15,7 +15,7 @@ function BuyerPostContainer({ buyerId }) {
 
     try {
       console.log("Fetching orders for buyerId:", buyerId);
-      const ordersRes = await axios.get(`https://the-bloom-room-5.onrender.com/orders/buyer/${buyerId}`);
+      const ordersRes = await axios.get(`${BASE_URL}/orders/buyer/${buyerId}`);
       const orders = ordersRes.data;
       console.log("Buyer orders:", orders);
 
@@ -28,7 +28,7 @@ function BuyerPostContainer({ buyerId }) {
         return;
       }
 
-      const artworksRes = await axios.post(`https://the-bloom-room-5.onrender.com/artworks/bulk`, { artworkIds });
+      const artworksRes = await axios.post(`${BASE_URL}/artworks/bulk`, { artworkIds });
       const artworks = artworksRes.data;
 
       const merged = artworks.map((art) => {
@@ -68,7 +68,7 @@ function BuyerPostContainer({ buyerId }) {
             onClick={() => handleArtworkClick(art.Artwork_ID)}
           >
             <img
-              src={`https://the-bloom-room-5.onrender.com${art.Images[0]?.Image_URL || "/uploads/default.png"}`}
+              src={`${BASE_URL}${art.Images[0]?.Image_URL || "/uploads/default.png"}`}
               alt={art.Artwork_Name}
               className="post-image"
             />

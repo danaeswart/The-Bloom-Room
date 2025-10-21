@@ -158,13 +158,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-// Handle OPTIONS preflight globally
-app.options("*", cors({
-  origin: "https://the-bloom-room-frontend.onrender.com",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  credentials: true,
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+
 // =========================
 // Middleware
 // =========================

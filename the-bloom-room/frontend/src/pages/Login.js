@@ -24,7 +24,7 @@ const handleSubmit = async (e) => {
       email,
       password,
       role,
-    });
+    }, { withCredentials: true });
 
     const user = res.data.user;
     console.log("Logged in user:", user);
