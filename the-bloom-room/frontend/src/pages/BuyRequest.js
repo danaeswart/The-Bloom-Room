@@ -30,7 +30,7 @@ const BuyRequests = () => {
       if (!buyerId || !artworkId) return;
 
       try {
-        const artworkRes = await axios.get(`${BASE_URL}/artworks/${artworkId}`);
+        const artworkRes = await axios.get(`${BASE_URL}/artwork/${artworkId}`);
         const fetchedArtwork = artworkRes.data;
         setArtwork(fetchedArtwork);
 

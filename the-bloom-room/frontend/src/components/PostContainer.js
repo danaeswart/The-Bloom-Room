@@ -29,7 +29,7 @@ function PostContainer() {
 
   const handleArtworkClick = (artworkId) => {
     console.log("Artwork clicked with ID:", artworkId);
-    navigate(`/artworks/${artworkId}`);
+    navigate(`/artwork/${artworkId}`);
   };
 
   return (

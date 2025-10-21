@@ -17,7 +17,7 @@ const ArtworkPage = () => {
   useEffect(() => {
     const fetchArtwork = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/artworks/${artworkId}`);
+        const res = await axios.get(`${BASE_URL}/artwork/${artworkId}`);
         setArtwork(res.data);
 
         // Check if user already requested this artwork

@@ -23,7 +23,7 @@ const ArtistArtwork = () => {
 
   const fetchArtwork = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/artworks/${artworkId}`);
+      const res = await axios.get(`${BASE_URL}/artwork/${artworkId}`);
       setArtwork(res.data);
       setUpdatedArtwork(res.data);
     } catch (err) {
@@ -48,7 +48,7 @@ const ArtistArtwork = () => {
 
   const handleSave = async () => {
     try {
-      await axios.put(`${BASE_URL}/artworks/${artworkId}`, updatedArtwork);
+      await axios.put(`${BASE_URL}/artwork/${artworkId}`, updatedArtwork);
       setArtwork(updatedArtwork);
       setEditMode(false);
       alert("Artwork updated successfully!");
@@ -66,7 +66,7 @@ const handleDelete = async () => {
   if (!confirmDelete) return;
 
   try {
-    await axios.delete(`${BASE_URL}/artworks/${artworkId}`);
+    await axios.delete(`${BASE_URL}/artwork/${artworkId}`);
     alert("Artwork deleted successfully!");
     navigate(`/profile/${artwork.Artist_ID}`);
   } catch (err) {

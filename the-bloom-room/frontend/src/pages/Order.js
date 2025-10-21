@@ -13,7 +13,7 @@ const Order = () => {
   useEffect(() => {
     const fetchArtwork = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/artworks/${artworkId}`);
+        const res = await axios.get(`${BASE_URL}/artwork/${artworkId}`);
         setArtwork(res.data);
       } catch (err) {
         console.error("Error fetching artwork:", err);
