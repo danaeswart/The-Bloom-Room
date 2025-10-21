@@ -14,7 +14,7 @@ function ProfilePostContainer({ artistId = null }) {
       if (!artistId) return;
 
       try {
-        const artworksRes = await axios.get(`${BASE_URL}/artworks/user/${artistId}`);
+        const artworksRes = await axios.get(`${BASE_URL}/artwork/user/${artistId}`);
         const artworks = artworksRes.data;
         console.log("Fetched artworks for artist:", artworks);
 
