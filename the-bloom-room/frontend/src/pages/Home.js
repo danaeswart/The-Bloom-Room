@@ -52,7 +52,7 @@ const Home = () => {
      
 
         <div className="post-section">
-          {/* <PostContainer /> */}
+          <PostContainer />
         </div>
 
       </div>

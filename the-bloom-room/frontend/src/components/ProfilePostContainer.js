@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./css/ProfilePostContainer.css";
+import { BASE_URL } from "../Config";
 
 function ProfilePostContainer({ artistId = null }) {
   const [posts, setPosts] = useState([]);
@@ -13,11 +14,11 @@ function ProfilePostContainer({ artistId = null }) {
       if (!artistId) return;
 
       try {
-        const artworksRes = await axios.get(`https://the-bloom-room-5.onrender.com/artworks/user/${artistId}`);
+        const artworksRes = await axios.get(`${BASE_URL}/artworks/user/${artistId}`);
         const artworks = artworksRes.data;
         console.log("Fetched artworks for artist:", artworks);
 
-        const countsRes = await axios.get(`https://the-bloom-room-5.onrender.com/orders/artist/${artistId}/counts`);
+        const countsRes = await axios.get(`${BASE_URL}/orders/artist/${artistId}/counts`);
         const countsData = countsRes.data;
         console.log("Fetched order counts for artist:", countsData);
 
@@ -64,7 +65,7 @@ function ProfilePostContainer({ artistId = null }) {
               onClick={() => handleArtworkClick(artwork.Artwork_ID)}
             >
               <img
-                src={`https://the-bloom-room-5.onrender.com${artwork.Image_URL}`}
+                src={`${BASE_URL}${artwork.Image_URL}`}
                 alt={artwork.Artwork_Name}
                 className="post-image"
               />
