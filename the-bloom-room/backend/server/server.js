@@ -32,7 +32,7 @@ const app = express();
 
 //backend calls for web ---------------------------------------------
 app.use(cors({
-  origin: "https://the-bloom-room-frontend.onrender.com",
+  origin: "https://the-bloom-room-backend.onrender.com",
   methods: ["GET","POST","PUT","DELETE"],
   credentials: true
 }));
