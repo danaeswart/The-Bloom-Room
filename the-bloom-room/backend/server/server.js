@@ -147,6 +147,10 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
 // =========================
 // CORS
 // =========================
@@ -155,7 +159,7 @@ const allowedOrigins = [
   "https://the-bloom-room-frontend.onrender.com",
   "https://the-bloom-room-5.onrender.com",
   "http://localhost:3000" ,
-  "http://localhost:5000" 
+  "http://localhost:5000"
 ];
 
 app.use(cors({
@@ -172,6 +176,9 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
+
+
+
 // Handle OPTIONS preflight globally
 // app.options("*", cors());
 
@@ -180,7 +187,7 @@ app.use(cors({
 // =========================
 // Middleware
 // =========================
-app.use(express.json());
+
 // app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // static images
 
 // =========================
@@ -238,20 +245,20 @@ app.listen(PORT, () => {
 //   console.log("⚠️ No routes found yet");
 // }
 
-console.log("📌 Registered routes:");
+// console.log("📌 Registered routes:");
 
-if (app._router && Array.isArray(app._router.stack)) {
-  app._router.stack.forEach((middleware) => {
-    if (middleware.route) {
-      console.log(middleware.route.path);
-    } else if (middleware.name === "router" && middleware.handle && Array.isArray(middleware.handle.stack)) {
-      middleware.handle.stack.forEach((handler) => {
-        if (handler.route) {
-          console.log(handler.route.path);
-        }
-      });
-    }
-  });
-} else {
-  console.log("⚠️ No routes found yet");
-}
+// if (app._router && Array.isArray(app._router.stack)) {
+//   app._router.stack.forEach((middleware) => {
+//     if (middleware.route) {
+//       console.log(middleware.route.path);
+//     } else if (middleware.name === "router" && middleware.handle && Array.isArray(middleware.handle.stack)) {
+//       middleware.handle.stack.forEach((handler) => {
+//         if (handler.route) {
+//           console.log(handler.route.path);
+//         }
+//       });
+//     }
+//   });
+// } else {
+//   console.log("⚠️ No routes found yet");
+// }
