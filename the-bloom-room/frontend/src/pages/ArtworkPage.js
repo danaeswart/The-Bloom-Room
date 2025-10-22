@@ -76,7 +76,7 @@ const ArtworkPage = () => {
               <div className={`image-container ${direction}`}>
                 <img
                   key={currentIndex}
-                  src={`${BASE_URL}${artwork.Images[currentIndex].Image_URL}`}
+                  src={artwork.Images[currentIndex].Image_URL}
                   alt={`Artwork ${currentIndex + 1}`}
                 />
               </div>

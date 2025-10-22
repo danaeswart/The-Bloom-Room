@@ -5,6 +5,7 @@ import "./css/ProfilePostContainer.css";
 import { BASE_URL } from "../Config";
 
 function ProfilePostContainer({ artistId = null }) {
+  console.log("ProfilePostContainer artistId:", artistId);
   const [posts, setPosts] = useState([]);
   const [orderCounts, setOrderCounts] = useState({});
   const navigate = useNavigate();

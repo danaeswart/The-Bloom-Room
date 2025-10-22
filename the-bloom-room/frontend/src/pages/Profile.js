@@ -21,6 +21,7 @@ const Profile = () => {
   const [profileUrl, setProfileUrl] = useState("");
   const [userArtworks, setUserArtworks] = useState([]);
   const [artistID, setArtistID] = useState(null);
+const [profileFile, setProfileFile] = useState(null); // holds the selected file
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -52,16 +53,16 @@ const Profile = () => {
          console.log("Artist data received hoe:", artistData);
 
         let attrs = [];
-        if (artistData.Account_Attributes) {
-          try {
-            attrs = JSON.parse(artistData.Account_Attributes);
-            if (typeof attrs === "string") attrs = JSON.parse(attrs);
-            if (!Array.isArray(attrs)) attrs = [attrs];
-          } catch (err) {
-            console.error("Error parsing attributes:", err);
-          }
-        }
-        setAttributes(attrs || []);
+if (artistData.Account_Attributes) {
+  try {
+    attrs = JSON.parse(artistData.Account_Attributes); // first parse
+    if (typeof attrs === "string") attrs = JSON.parse(attrs); // parse again if double-encoded
+    if (!Array.isArray(attrs)) attrs = [attrs];
+  } catch (err) {
+    console.error("Error parsing attributes:", err);
+  }
+}
+setAttributes(attrs);
         setBio(artistData.Bio || "");
         setProfileUrl(artistData.Profile_url || "");
         setArtistID(artistData.Artist_ID);
@@ -81,22 +82,22 @@ const Profile = () => {
     fetchProfileData();
   }, [userID]);
 
-  useEffect(() => {
-    const fetchUserArtworks = async () => {
-      if (!userID) return;
+  // useEffect(() => {
+  //   const fetchUserArtworks = async () => {
+  //     if (!userID) return;
 
-      try {
-        console.log("Fetching artworks in second useEffect for userID:", userID);
-        const res = await axios.get(`${BASE_URL}/artwork/user/${userID}`);
-        console.log("User artworks data:", res.data);
-        setUserArtworks(res.data);
-      } catch (err) {
-        console.error("Error fetching user artworks:", err);
-      }
-    };
+  //     try {
+  //       console.log("Fetching artworks in second useEffect for userID:", userID);
+  //       const res = await axios.get(`${BASE_URL}/artwork/user/${userID}`);
+  //       console.log("User artworks data:", res.data);
+  //       setUserArtworks(res.data);
+  //     } catch (err) {
+  //       console.error("Error fetching user artworks:", err);
+  //     }
+  //   };
 
-    fetchUserArtworks();
-  }, [userID]);
+  //   fetchUserArtworks();
+  // }, [userID]);
 
   const handleAttributeChange = (index, value) => {
     const newAttrs = [...attributes];
@@ -118,48 +119,58 @@ const Profile = () => {
   };
 
   const handleProfileImageChange = (e) => {
-    setProfileUrl(e.target.files[0]);
+    setProfileFile(e.target.files[0]);
   };
 
   const handleSave = async () => {
-    console.log("=== Saving profile changes ===");
-    console.log("User ID:", userID);
+  console.log("=== Saving profile changes ===");
 
-    try {
-      const userData = { name, surname };
-      console.log("Sending PUT request to:", `${BASE_URL}/users/${userID}`);
-      console.log("User data being sent:", userData);
-      await axios.put(`${BASE_URL}/users/${userID}`, userData);
+  try {
+    // 1. Update basic user info
+    await axios.put(`${BASE_URL}/users/${userID}`, { name, surname });
 
-      const formData = new FormData();
-      formData.append("bio", bio);
-      formData.append("account_attributes", JSON.stringify(attributes));
+    // 2. Upload profile image if selected
+    let uploadedProfileUrl = profileUrl;
+    console.log("Profile file to upload:----------", profileFile);
+    console.log("baseurl", BASE_URL);
+    if (profileFile && artistID) {
+  const formData = new FormData();
+  formData.append("file", profileFile);
+  console.log("Uploading profile image for artistID:", artistID);
 
-      if (profileUrl instanceof File) {
-        formData.append("profile_url", profileUrl);
-      } else if (profileUrl) {
-        formData.append("profile_url", profileUrl);
-      }
+  const res = await axios.post(
+    `${BASE_URL}/artist/upload-profile/${artistID}`,
+    formData,
+    { headers: { "Content-Type": "multipart/form-data" } }
+  );
 
-      console.log("Sending PUT request to:", `${BASE_URL}/artist/${userID}`);
-      console.log("Artist data being sent:", formData);
+  console.log("Uploaded profile URL:", res.data.profileUrl);
+  setProfileUrl(res.data.profileUrl);
+}
 
-      await axios.put(`${BASE_URL}/artist/${userID}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+    // 3. Update artist info
+    const artistFormData = new FormData();
+    artistFormData.append("bio", bio);
+    artistFormData.append("account_attributes", JSON.stringify(attributes));
+    if (uploadedProfileUrl) artistFormData.append("profile_url", uploadedProfileUrl);
 
-      console.log("✅ Profile updated successfully (users + artist)");
+    await axios.put(`${BASE_URL}/artist/${artistID}`, artistFormData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
 
-      const userRes = await axios.get(`${BASE_URL}/users/${userID}`);
-      const updatedUser = userRes.data.user;
-      setUser(updatedUser);
+    console.log("✅ Profile updated successfully");
 
-      setIsEditing(false);
-    } catch (error) {
-      console.error("❌ Error updating profile:", error);
-      alert("Something went wrong while saving your changes.");
-    }
-  };
+    // 4. Refresh user
+    const userRes = await axios.get(`${BASE_URL}/users/${userID}`);
+    setUser(userRes.data.user);
+
+    setIsEditing(false);
+  } catch (error) {
+    console.error("❌ Error updating profile:", error);
+    alert("Something went wrong while saving your changes.");
+  }
+};
+
 
   const handleLogout = () => {
     console.log("Logging out...");
@@ -178,10 +189,14 @@ const Profile = () => {
             <img src={flowerIcon} alt="Flower" />
             {profileUrl && (
               <img
-                src={typeof profileUrl === "string" ? profileUrl : URL.createObjectURL(profileUrl)}
-                alt="User Profile"
-                className="profile-pic"
-              />
+  src={
+    profileFile
+      ? URL.createObjectURL(profileFile) // show selected file
+      : profileUrl // fallback to current Cloudinary URL
+  }
+  alt="User Profile"
+  className="profile-pic"
+/>
             )}
           </div>
          {isEditing && (
@@ -189,7 +204,8 @@ const Profile = () => {
     <input
       type="file"
       id="profileUpload"
-      onChange={handleProfileImageChange}
+      accept="image/*"
+      onChange={(e) => setProfileFile(e.target.files[0])}
       className="profile-upload-input"
     />
     <label htmlFor="profileUpload" className="profile-upload">

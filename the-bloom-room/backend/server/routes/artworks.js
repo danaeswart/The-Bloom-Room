@@ -2,17 +2,23 @@ import express from "express";
 import db from "../db/db.js";      // note the .js at the end
 import multer from "multer";
 import path from "path";
-
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import upload from "../upload.js"; // multer-cloudinary middleware
 import cloudinary from "../cloudinary.js";
 import { fileURLToPath } from "url";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const storage = multer.memoryStorage(); // keep files in memory temporarily
 
-const router = express.Router();
+const profileStorage = new CloudinaryStorage({
+  cloudinary,
+  params: { folder: "artist_profiles", allowed_formats: ["jpg","jpeg","png"] },
+});
 
+const profileUpload = multer({ storage: profileStorage });
+const router = express.Router();
 // === Multer Setup for Uploads === //
 // const storage = multer.diskStorage({
 //   destination: (req, file, cb) => {
@@ -24,6 +30,49 @@ const router = express.Router();
 // });
 
 // const upload = multer({ storage });
+
+
+// === GET artworks for a specific user/artist === //
+router.get("/user/:artistId", (req, res) => {
+  const { artistId } = req.params;
+  console.log("🎨 Route /user/:artistId triggered with:", artistId);
+  console.log("🎨 [GET /user/:artistId] Route hit!");
+  console.log("➡️ Received artistId:", artistId);
+
+  const sql = `
+   SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
+       ai.Image_URL
+FROM artwork a
+LEFT JOIN artworkimages ai
+  ON ai.Image_ID = (
+      SELECT MIN(Image_ID)
+      FROM artworkimages
+      WHERE Artwork_ID = a.Artwork_ID
+  )
+WHERE a.Artist_ID = ?
+
+`;
+  console.log("🧠 Running SQL query to fetch artworks for Artist_ID:", artistId);
+
+  db.query(sql, [artistId], (err, results) => {
+    console.log("📡 SQL query executed.");
+
+    if (err) {
+      console.error("❌ SQL ERROR while fetching artist artworks:", err);
+      return res.status(500).json({ error: "Server error", details: err.message });
+    }
+
+    console.log("✅ SQL query successful. Number of artworks found:", results.length);
+
+    if (results.length === 0) {
+      console.warn("⚠️ No artworks found for artist with ID:", artistId);
+      return res.status(404).json({ message: "No artworks found for this artist" });
+    }
+
+    console.log("🎉 Sending artworks data back to client...");
+    res.json(results);
+  });
+});
 
 // === GET specific artwork by ID (with artist and images) === //
 router.get("/:id", (req, res) => {
@@ -85,47 +134,6 @@ router.get("/:id", (req, res) => {
 
 
 
-// === GET artworks for a specific user/artist === //
-router.get("/user/:artistId", (req, res) => {
-  const { artistId } = req.params;
-
-  console.log("🎨 [GET /user/:artistId] Route hit!");
-  console.log("➡️ Received artistId:", artistId);
-
-  const sql = `
-   SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
-       ai.Image_URL
-FROM artwork a
-LEFT JOIN artworkimages ai
-  ON ai.Image_ID = (
-      SELECT MIN(Image_ID)
-      FROM artworkimages
-      WHERE Artwork_ID = a.Artwork_ID
-  )
-WHERE a.Artist_ID = ?
-
-`;
-  console.log("🧠 Running SQL query to fetch artworks for Artist_ID:", artistId);
-
-  db.query(sql, [artistId], (err, results) => {
-    console.log("📡 SQL query executed.");
-
-    if (err) {
-      console.error("❌ SQL ERROR while fetching artist artworks:", err);
-      return res.status(500).json({ error: "Server error", details: err.message });
-    }
-
-    console.log("✅ SQL query successful. Number of artworks found:", results.length);
-
-    if (results.length === 0) {
-      console.warn("⚠️ No artworks found for artist with ID:", artistId);
-      return res.status(404).json({ message: "No artworks found for this artist" });
-    }
-
-    console.log("🎉 Sending artworks data back to client...");
-    res.json(results);
-  });
-});
 
 //get artist by userID
 
@@ -497,6 +505,23 @@ router.post("/bulk", (req, res) => {
   });
 });
 
+// artist.js
+
+router.post("/upload-profile/:artistId", profileUpload.single("file"), async (req, res) => {
+  try {
+    const { artistId } = req.params;
+    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+
+    const profileUrl = req.file.path; // already Cloudinary URL
+
+    await db.query("UPDATE artist SET Profile_url = ? WHERE Artist_ID = ?", [profileUrl, artistId]);
+
+    res.json({ profileUrl });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to upload profile image" });
+  }
+});
 
 
 // export router for ES modules

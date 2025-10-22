@@ -68,7 +68,7 @@ function BuyerPostContainer({ buyerId }) {
             onClick={() => handleArtworkClick(art.Artwork_ID)}
           >
             <img
-              src={`${BASE_URL}${art.Images[0]?.Image_URL || "/uploads/default.png"}`}
+              src={art.Images[0]?.Image_URL || "/uploads/default.png"}
               alt={art.Artwork_Name}
               className="post-image"
             />

@@ -154,7 +154,8 @@ const app = express();
 const allowedOrigins = [
   "https://the-bloom-room-frontend.onrender.com",
   "https://the-bloom-room-5.onrender.com",
-  "http://localhost:3000" 
+  "http://localhost:3000" ,
+  "http://localhost:5000" 
 ];
 
 app.use(cors({

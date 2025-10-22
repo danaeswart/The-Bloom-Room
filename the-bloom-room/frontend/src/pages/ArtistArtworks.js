@@ -115,7 +115,7 @@ const updateStatus = async (orderId, status) => {
         <div className="carousel">
           {artwork.Images?.length > 0 && (
             <img
-              src={`${BASE_URL}${artwork.Images[0].Image_URL}`}
+              src={artwork.Images[0].Image_URL}
               alt="Artwork"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
