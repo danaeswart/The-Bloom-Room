@@ -1,5 +1,5 @@
 html, body {
-  
+   overflow-x: hidden; /* <-- add this to prevent horizontal scroll */
   margin: 0;
    
 }
@@ -176,3 +176,171 @@ html, body {
 }
 
 /* Sign up label */
+
+/* -------------------------
+  Flower Decorations
+------------------------- */
+.flower {
+  position: absolute;
+ z-index: -1; /* <- move behind all content */  pointer-events: none; /* so they don't block clicks */
+  transition: transform 0.1s ease-out;
+}
+
+/* Individual flower positions */
+.flower1 {
+  top: 10%;
+  left: 5%;
+  width: 80px;
+}
+
+.flower2 {
+  top: 20%;
+  right: 10%;
+  width: 100px;
+}
+
+.flower3 {
+  bottom: 15%;
+  left: 15%;
+  width: 90px;
+}
+
+.flower4 {
+  bottom: 10%;
+  right: 5%;
+  width: 70px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .flower1 { top: 5%; left: 3%; width: 60px; }
+  .flower2 { top: 15%; right: 5%; width: 80px; }
+  .flower3 { bottom: 10%; left: 5%; width: 70px; }
+  .flower4 { bottom: 5%; right: 3%; width: 50px; }
+}
+
+@media (max-width: 768px) {
+  .flower1 { top: 2%; left: 2%; width: 50px; }
+  .flower2 { top: 10%; right: 3%; width: 60px; }
+  .flower3 { bottom: 8%; left: 3%; width: 50px; }
+  .flower4 { bottom: 3%; right: 2%; width: 40px; }
+}
+
+@media (max-width: 480px) {
+  .flower1, .flower2, .flower3, .flower4 {
+    display: none; /* hide flowers on very small screens */
+  }
+}
+
+/* -------------------------
+  Mobile responsiveness
+------------------------- */
+@media (max-width: 768px) {
+  /* Container adjustments */
+  .login-container {
+    width: 95%;
+    padding: 10px;
+    height: auto;
+    align-items: center;
+  }
+
+  /* Role selection */
+  .role-selection {
+    width: 90%;
+    height: 60px;
+  }
+
+  .role-button {
+    font-size: 14px;
+    height: 80%;
+    width: 90%;
+  }
+
+  /* Form layout - stack columns */
+  .form-columsn-container {
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .form-column {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .input-holder {
+    width: 100%;
+  }
+
+  .login-input {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+
+  /* Login button */
+  .login-button {
+    width: 70%;
+    padding: 14px 20px;
+    font-size: 14px;
+  }
+
+  /* Flowers - smaller */
+  .flower1, .flower2, .flower3, .flower4 {
+    display: none;
+  }
+  .flower{
+    display: none;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+  .login-container{
+    margin-top: 1%;
+  }
+  .role-selection {
+    height: 50px;
+  }
+  .form-columns-container , .form-column {
+    gap: 10px;
+  }
+  .login-label{
+    font-size: 16px;
+    margin-bottom: 0px;
+  }
+  .login-input {
+    font-size: 14px;
+    padding: 15px 20px;
+  }
+  .form-submit-section{
+    margin-top: 5%;
+  }
+  .imput-holder{
+    width: 100%;
+    gap: 4px;
+  }
+  .role-button {
+    font-size: 12px;
+    height: 70%;
+  }
+
+  .login-button {
+    width: 80%;
+    padding: 12px 16px;
+    font-size: 12px;
+  }
+
+  /* Hide flowers on very small screens */
+  .flower1, .flower2, .flower3, .flower4 {
+    display: none;
+  }
+  .login-container img{
+    display: none;
+  }
+
+  .flower{
+    display: none;
+  }
+
+}

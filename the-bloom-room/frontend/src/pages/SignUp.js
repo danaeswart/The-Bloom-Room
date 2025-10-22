@@ -5,6 +5,11 @@ import NavBar from "../components/Navbar";
 import { BASE_URL } from "../Config"; // ✅ import BASE_URL
 import axios from "axios";
 import { UserContext } from "../context/UserContext"; // ✅ Import context
+import flower1 from "../assets/images/flower-red.png"; 
+import flower2 from "../assets/images/flower-blue.png"; 
+import flower3 from "../assets/images/flower-green.png"; 
+import flower4 from "../assets/images/flower-pink.png"; 
+
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -81,6 +86,7 @@ function SignUp() {
      
       <NavBar />
       <div className="login-container">
+
         <h2 className="login-title">Sign Up</h2>
 
         {/* Role selection */}
@@ -211,6 +217,14 @@ function SignUp() {
           </div>
 
         </form>
+
+        
+        {/* Flower Decorations */}
+<img src={flower1} alt="Flower 1" className="flower flower1" />
+<img src={flower2} alt="Flower 2" className="flower flower2" />
+<img src={flower3} alt="Flower 3" className="flower flower3" />
+<img src={flower4} alt="Flower 4" className="flower flower4" />
+
       </div>
     </>
   );

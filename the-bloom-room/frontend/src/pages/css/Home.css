@@ -129,3 +129,64 @@ h1{
 .about-bloom{
   width: 100vw;
 }
+
+/* -------------------------
+  Mobile flower adjustments
+------------------------- */
+@media (max-width: 500px) { /* adjust this breakpoint if needed */
+  
+ .home-content h1{
+    font-size: 2.5rem;
+  }
+  .home-content{
+    margin-top: 40%;
+  }
+  .home-logo {
+    width: 70%;
+  }
+  .about-bloom{
+   margin-top: 80%;
+  }
+
+  .home-background {
+    height: 100VH; /* allow scrolling on mobile */
+  }
+
+  /* Flower 1 - top left */
+  .flower1 {
+    top: 10%;
+    left: -10%;
+    width: 50vw;  /* smaller width for mobile */
+    max-width: 300px;
+  }
+
+  /* Flower 2 - bottom right */
+  .flower2 {
+    top: 5%;
+    right: -30%;
+    width: 70vw;
+    max-width: 300px;
+  }
+
+  /* Flower 3 - bottom left */
+  .flower3 {
+    bottom: 5%;
+    left: -15%;
+    width: 50vw;
+    max-width: 300px;
+  }
+
+  /* Flower 4 - top right */
+  .flower4 {
+    top: 75%;
+    right: -5%;
+    width: 40vw;
+    max-width: 300px;
+  }
+
+  .bloom-button{
+    width: 80%;
+    font-size: 24px;
+    padding: 12px 20px;
+  }
+}

@@ -65,6 +65,13 @@ const ArtworkPage = () => {
     <>
       <Navbar />
       <div className="artwork-page">
+
+      <div className="back-button-container">
+  <button className="back-button" onClick={() => navigate(-1)}>
+    ← Back
+  </button>
+</div>
+
         {/* Left - Carousel */}
         <div className="carousel">
           {artwork.Images?.length > 0 && (
@@ -117,7 +124,7 @@ const ArtworkPage = () => {
   if (!user) {
     // Not logged in → show button that prompts login
    return (
-  <Link to="/login">
+  <Link to="/login" className="request-btn-contianer">
     <button className="request-btn">
       Login to Request Artwork
     </button>

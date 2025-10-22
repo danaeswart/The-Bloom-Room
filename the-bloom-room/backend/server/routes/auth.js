@@ -60,6 +60,8 @@ router.post("/signup", async (req, res) => {
 
 // LOGIN route
 // auth.js
+
+
 router.post("/login", (req, res) => {
   const { email, password, role } = req.body;
 
@@ -100,6 +102,7 @@ router.post("/login", (req, res) => {
     });
   });
 });
+
 
 
 // export router for ES modules

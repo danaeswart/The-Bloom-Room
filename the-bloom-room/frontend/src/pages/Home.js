@@ -14,6 +14,13 @@ import AboutBloomRoom from "../components/AboutBloomRoom";
 
 
 const Home = () => {
+
+  // Clear user from localStorage on render
+  useEffect(() => {
+    localStorage.removeItem("user"); // this sets user to null
+  }, []); // runs only once on mount
+
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;

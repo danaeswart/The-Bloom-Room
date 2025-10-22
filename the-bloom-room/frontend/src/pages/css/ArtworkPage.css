@@ -1,22 +1,26 @@
+/* -------------------------
+  Base Artwork Page Styles
+------------------------- */
 .artwork-page {
   display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 2rem;
-  padding: 40px;
+  padding: 20px;
   max-width: 1200px;
-  margin: 0 auto;
-  margin-top: 80px;
+  margin: 3rem auto;
+  flex-wrap: wrap; /* allows wrapping on smaller screens */
+  justify-content: center;
+  align-items: flex-start;
 }
 
 /* ----- Carousel ----- */
 .carousel {
-  position: relative;
-  width: 600px;
-  height: 600px;
+  flex: 1;
+  min-width: 300px;
+  max-width: 600px;
+  height: 400px;
   overflow: hidden;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  position: relative;
 }
 
 .image-container {
@@ -24,6 +28,7 @@
   height: 100%;
   display: flex;
 }
+
 .image-container img {
   width: 100%;
   height: 100%;
@@ -40,20 +45,12 @@
 }
 
 @keyframes slideInFromRight {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
 }
 @keyframes slideInFromLeft {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
 }
 
 /* Arrows */
@@ -70,279 +67,11 @@
   border-radius: 50%;
   z-index: 2;
 }
-.arrow.left {
-  left: 10px;
-}
-.arrow.right {
-  right: 10px;
-}
-.arrow:hover {
-  background: rgba(19, 13, 132, 0.6);
-}
+.arrow.left { left: 10px; }
+.arrow.right { right: 10px; }
+.arrow:hover { background: rgba(19, 13, 132, 0.6); }
 
 /* ----- Artwork Info ----- */
-.artwork-info {
-  flex: 1;
-  max-width: 500px;
-}
-
-.art-title {
-  font-size: 3rem;
-  margin-bottom: 0px;
-}
-
-.artist-name {
-  font-size: 1.5rem;
-  color: #6777BE;
-  margin-bottom: 20px;
-  margin-top: -10px;
-}
-
-.artist-name span {
-  font-weight: bold;
-}
-
-h4 {
-  margin: 10px 0 10px;
-  font-size: 1rem;
-  color: #7B8099;
-}
-
-
-
-.description-box {
-  border: 1px solid #FF6D41;
-  border-radius: 10px;
-  padding: 12px;
-  font-size: 1rem;
-  line-height: 1.4;
-  margin-bottom: 20px;
-  
-}
-
-.medium {
-  font-size: 1rem;
-  margin-bottom: 20px;
-  color: #333;
-  margin-top: -10px;
-}
-
-.request-btn {
-  background: #2C4C34;
-  color: white;
-  border: none;
-  padding: 15px 50px;
-  border-radius: 50px;
-  cursor: pointer;
-  font-size: 1.2rem;
-  transition: background 0.2s ease;
-}
-.request-btn:hover {
-  background: #FF6D41;
-}
-
-.comment-section {
-  width: 100%;
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  border-radius: 12px;
-  background: #f9f9f9;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-.comment-section h3 {
-  margin-bottom: 15px;
-  font-size: 1.4rem;
-}
-
-.comment-form {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.comment-form input {
-  flex: 1;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 0.95rem;
-}
-
-.comment-form button {
-  background: #0073e6;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.comment-form button:hover {
-  background: #005bb5;
-}
-
-.comments-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.comment {
-  background: #fff;
-  padding: 10px 14px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-
-.comment .comment-name {
-  font-weight: bold;
-  margin-bottom: 4px;
-  display: block;
-}
-
-.comment .comment-text {
-  margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.3;
-}
-
-
-.art-title-status {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.art-status {
-  font-size: 1.5rem;
-  padding: 3px 8px;
- 
-  border-radius: 5px;
-  text-transform: capitalize;
-  font-weight: bold;
-}
-
-.art-status.available {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.art-status.unavailable {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
-.art-status.sold {
-  background-color: #ffeeba;
-  color: #856404;
-}
-
-
-/* -------------------------
-  Edit mode inputs
-  ------------------------- */
-.edit-input {
-  font-size: 1.5rem;             /* similar to .user-name/.attribute-input */
-  font-weight: 500;
-  font-family:'Times New Roman', serif;
-  color: #2C4C34;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  padding: 6px 10px;
-  width: 100%;
-  max-width: 400px;
-  outline: none;
-  background: #fff;
-  margin-bottom: 12px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.edit-input:focus {
-  border-color: #2C4C34;
-  box-shadow: 0 0 5px rgba(44, 76, 52, 0.4);
-}
-
-.edit-textarea {
-  font-size: 1.2rem;              /* similar to .edit-bio */
-  color: #444;
-  line-height: 1.4;
-  width: 100%;
-  max-width: 400px;
-  min-height: 100px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  padding: 8px 12px;
-  resize: vertical;
-  outline: none;
-  font-family: inherit;
-  margin-bottom: 12px;
-}
-
-.edit-textarea:focus {
-  border-color: #2C4C34;
-  box-shadow: 0 0 5px rgba(44, 76, 52, 0.3);
-}
-
-/* -------------------------
-  Buttons
-  ------------------------- */
-.request-btn {
-  background-color: #1f5112;  /* match .attribute-add */
-  color: #fff;
-  border: none;
-  padding: 15px 20px;
-  border-radius: 15px;
-  cursor: pointer;
-  font-size: 1rem;
-  margin-right: 10px;
-    max-width: 250px;
-  transition: background 0.2s ease;
-}
-
-.request-btn:hover {
-  background-color: #2C4C34;
-}
-
-.delete-btn {
-  background-color: #e84e1f;  /* match .attribute-remove */
-  color: #ffffff;
-  border: none;
-  padding: 15px 20px;
-  border-radius: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  max-width: 250px;
-  font-size: 1rem;
-  transition: background 0.2s ease;
-}
-
-.delete-btn:hover {
-  background-color: #2C4C34;
-}
-
-/* Optional: artwork page layout adjustments */
-.artwork-page {
-  display: flex;
-  gap: 2rem;
-  padding: 20px;
-  max-width: 1200px;
-  margin: 3rem auto;
-  flex-wrap: wrap;
-}
-
-.carousel {
-  flex: 1;
-  min-width: 300px;
-  max-width: 600px;
-  height: 400px;
-  overflow: hidden;
-  border-radius: 12px;
-}
-
 .artwork-info {
   flex: 1;
   min-width: 300px;
@@ -355,6 +84,13 @@ h4 {
   font-size: 2.5rem;
   color: #2C4C34;
   margin-bottom: 10px;
+}
+
+.artist-name {
+  font-size: 1.5rem;
+  color: #6777BE;
+  margin-bottom: 20px;
+  margin-top: -10px;
 }
 
 .description-box {
@@ -370,44 +106,132 @@ h4 {
   color: #2C4C34;
 }
 
-/* Requests section */
-.requests-section {
-  max-width: 1200px;
-  margin: 3rem auto;
-}
-
-.request-card {
-  border: 1px solid #ccc;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.request-actions button {
-  margin-left: 6px;
-  border: none;
-  border-radius: 12px;
-  padding: 6px 12px;
+.request-btn, .back-button {
   cursor: pointer;
-  transition: background 0.2s ease;
-  color: #fff;
+  transition: background-color 0.3s ease;
 }
 
-.approve-btn {
+.back-button-container {
+  width: 100%;
+  text-align: left;
+  margin: 20px 0;
+}
+
+/* ----- Status Styling ----- */
+.art-title-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.art-status {
+  font-size: 1.5rem;
+  padding: 3px 8px;
+  border-radius: 5px;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.art-status.available { background-color: #d4edda; color: #155724; }
+.art-status.unavailable { background-color: #f8d7da; color: #721c24; }
+.art-status.sold { background-color: #ffeeba; color: #856404; }
+
+/* -------------------------
+  Buttons
+------------------------- */
+.request-btn {
   background-color: #1f5112;
+  color: #fff;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 15px;
+  font-size: 1rem;
+  margin-right: 10px;
+  max-width: 250px;
 }
 
-.unapprove-btn {
-  background-color: #f6b9a6;
+.request-btn:hover { background-color: #2C4C34; }
+
+.delete-btn {
+  background-color: #e84e1f;
+  color: #fff;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  max-width: 250px;
+  font-size: 1rem;
+  transition: background 0.2s ease;
 }
 
-.decline-btn {
+.delete-btn:hover { background-color: #2C4C34; }
+
+.back-button {
   background-color: #FF6D41;
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  font-size: 1rem;
+  border-radius: 10px;
+}
+.back-button:hover { background-color: #2C4C34; }
+
+/* -------------------------
+  Responsive Styles
+------------------------- */
+@media (max-width: 1024px) {
+  .artwork-page {
+    gap: 1.5rem;
+    padding: 15px;
+  }
+
+  .carousel {
+    max-width: 500px;
+    height: 350px;
+  }
+
+  .art-title { font-size: 2rem; }
+  .artist-name { font-size: 1.3rem; }
+  .description-box, .medium { font-size: 1rem; }
+  .request-btn { padding: 12px 18px; font-size: 0.95rem; }
 }
 
-.request-actions button:hover {
-  background-color: #2C4C34;
+@media (max-width: 768px) {
+  .artwork-page {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .carousel {
+    width: 100%;
+    max-width: 100%;
+    height: 300px;
+  }
+
+  .artwork-info {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .art-title { font-size: 1.8rem; text-align: center; }
+  .artist-name { font-size: 1.1rem; text-align: center; }
+  .description-box, .medium { font-size: 0.95rem; }
+  .request-btn { width: 100%; padding: 12px; font-size: 1rem; }
+  .back-button { width: 100%; padding: 10px; font-size: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .artwork-page { margin: 0.1rem 20px; margin-bottom: 5%;}
+  .carousel { height: 220px; }
+  .art-status { font-size: 1.1rem; padding: 2px 6px; }
+  .art-title { font-size: 1.8rem; }
+  .artist-name { font-size: 1.5rem; display: flex; justify-content: flex-start;}
+  .artwork-info { gap: 4px; }
+  .description-box, .medium { font-size: 0.9rem; }
+  .request-btn-contianer{display: flex;justify-content: center; }
+  .request-btn, .back-button { font-size: 0.95rem; padding: 20px; width: 100%;display: flex;justify-content: center; }
+  .arrow { font-size: 1.5rem; padding: 2px 12px; }
 }

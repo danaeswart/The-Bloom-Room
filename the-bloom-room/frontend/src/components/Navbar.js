@@ -1,15 +1,24 @@
 import React, { useState } from "react"; // <-- added useState for menu toggle
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation  } from "react-router-dom";
 import "./css/Navbar.css";
 import logo from "../assets/images/logo.png";
+import { useEffect } from "react";
+
 
 function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
+const currentPath = location.pathname;
+console.log("📍 Current path:", currentPath);
+
+
 
   // Get user from localStorage
   const storedUser = localStorage.getItem("user");
+  
   // console.log("🌐 Stored user from localStorage:", storedUser);
   const user = storedUser ? JSON.parse(storedUser) : null;
+  console.log("user:", user, "currentPath:", currentPath);
 
   // console.log("🧠 Current user:", user);
 
@@ -46,16 +55,19 @@ function Navbar() {
         {/* --- Feed link visible to everyone --- */}
         <Link to="/feed" className="nav-link">Feed</Link>
 
+        
+
         {/* --- If no user logged in --- */}
-        {!user && (
-          <>
-            <Link to="/home" className="nav-link">Home</Link>
-            <Link to="/about" className="nav-link">About</Link>
-            <div className="login-icon">
-              <Link to="/login">Login / Sign Up</Link>
-            </div>
-          </>
-        )}
+     {/* --- If no user logged in --- */}
+{!user && (
+  <>
+    <Link to="/home" className="nav-link">Home</Link>
+    <Link to="/about" className="nav-link">About</Link>
+    <div className="login-icon">
+      <Link to="/login">Login / Sign Up</Link>
+    </div>
+  </>
+)}
 
         {/* --- If logged in as artist --- */}
         {user && user.Role === "artist" && (

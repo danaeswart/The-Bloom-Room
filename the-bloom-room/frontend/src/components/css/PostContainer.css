@@ -62,7 +62,12 @@
 
 @media (max-width: 500px) {
   .post-container {
-    column-count: 1;
-    width: 90%;
+    column-count: 2;
+    width: 100%;
+   margin: 0px;
+    
+  }
+  .post-frame {
+    margin-bottom: 12px;
   }
 }

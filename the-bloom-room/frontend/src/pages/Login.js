@@ -5,6 +5,12 @@ import axios from "axios";
 import { BASE_URL } from "../Config"; // ✅ import BASE_URL
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext"; // ✅ import context
+import flower1 from "../assets/images/flower-red.png"; 
+import flower2 from "../assets/images/flower-blue.png"; 
+import flower3 from "../assets/images/flower-green.png"; 
+import flower4 from "../assets/images/flower-pink.png"; 
+
+
 
 function Login() {
 
@@ -55,6 +61,14 @@ const handleSubmit = async (e) => {
     
       <NavBar />
       <div className="login-container">
+          {/* Flower Decorations */}
+         <img src={flower1} alt="Flower 1" className="flower flower1" />
+         <img src={flower2} alt="Flower 2" className="flower flower2" />
+         <img src={flower3} alt="Flower 3" className="flower flower3" />
+         <img src={flower4} alt="Flower 4" className="flower flower4" />
+         
+
+
         <h2 className="login-title">Login</h2>
 
         {/* Role selection */}

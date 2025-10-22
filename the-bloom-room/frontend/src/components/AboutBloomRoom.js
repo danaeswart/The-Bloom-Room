@@ -38,28 +38,54 @@ const AboutBloomRoom = () => {
         </div>
       </section>
 {/* Posting Types Section */}
+{/* How It Works Section */}
 <section
   className="posting-types"
   ref={(el) => (sectionRefs.current[1] = el)}
 >
   <h2>How It Works</h2>
   <div className="posting-cards">
+    {/* Bulb 1 */}
     <div className="posting-card">
+      {/* <img src={postArtImg} alt="Artist Account Icon" className="posting-icon" /> */}
       <h3>Create an Artist Account</h3>
       <p>
-        Share your artwork and inspirations with the community. Upload images
-        and showcase your creativity to inspire others.
+        Set up your artist profile and post anything that inspires you — artwork, ideas, or creative projects. 
+        You can also choose to put your work up for sale to connect with buyers.
       </p>
+      <Link to="/signup">
+        <button className="cta-button">Create Artist Account</button>
+      </Link>
     </div>
+
+    {/* Bulb 2 */}
     <div className="posting-card">
+      {/* <img src={buyerImg} alt="Buyer Account Icon" className="posting-icon" /> */}
       <h3>Create a Buyer Account</h3>
       <p>
-        Browse artworks, make requests, or purchase pieces you love directly
-        from creators. Connect with artists and support their work.
+        Browse artworks, make requests, and purchase pieces you love directly from artists. 
+        Buyers can engage with creators and support their work.
       </p>
+      <Link to="/signup">
+        <button className="cta-button">Create Buyer Account</button>
+      </Link>
+    </div>
+
+    {/* Bulb 3 */}
+    <div className="posting-card">
+      {/* <img src={inspoImg} alt="Sharing Icon" className="posting-icon" /> */}
+      <h3>Share & Get Verified</h3>
+      <p>
+        You can share your creativity by posting 5 artworks or ideas to become a verified member 
+        in the Bloom Room community.
+      </p>
+      <Link to="/signup">
+        <button className="cta-button">Start Sharing</button>
+      </Link>
     </div>
   </div>
 </section>
+
 
       {/* Buyer Accounts Section */}
       <section className="buyer-section" ref={(el) => (sectionRefs.current[2] = el)}>

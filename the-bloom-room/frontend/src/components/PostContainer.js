@@ -49,7 +49,7 @@ function PostContainer() {
                 alt={artwork.Artwork_Name || "Artwork"}
                 className="post-image"
               />
-              <p className="artwork-name">{artwork.Artwork_Name || "Untitled"}</p>
+              {/* <p className="artwork-name">{artwork.Artwork_Name || "Untitled"}</p> */}
             </div>
           );
         })
