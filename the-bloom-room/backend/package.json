@@ -7,9 +7,9 @@
     "start": "node server/server.js",
     "build": "echo 'No build step needed'"
   },
-  
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cloudinary": "^1.41.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",

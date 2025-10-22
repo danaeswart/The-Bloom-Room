@@ -180,7 +180,7 @@ app.use(cors({
 // Middleware
 // =========================
 app.use(express.json());
-app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // static images
+// app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // static images
 
 // =========================
 // Routes
