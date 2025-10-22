@@ -45,7 +45,7 @@ function PostContainer() {
               onClick={() => handleArtworkClick(artwork.Artwork_ID)}
             >
               <img
-                src={`${artwork.Image_URL}`}
+                src={artwork.Image_URL}
                 alt={artwork.Artwork_Name || "Artwork"}
                 className="post-image"
               />

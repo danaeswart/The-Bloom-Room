@@ -65,7 +65,7 @@ function ProfilePostContainer({ artistId = null }) {
               onClick={() => handleArtworkClick(artwork.Artwork_ID)}
             >
               <img
-                src={`${BASE_URL}${artwork.Image_URL}`}
+                src={`${artwork.Image_URL}`}
                 alt={artwork.Artwork_Name}
                 className="post-image"
               />

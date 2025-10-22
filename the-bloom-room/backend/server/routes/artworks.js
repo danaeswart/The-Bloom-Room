@@ -93,19 +93,17 @@ router.get("/user/:artistId", (req, res) => {
   console.log("➡️ Received artistId:", artistId);
 
   const sql = `
-    SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
-           ai.Image_URL
-    FROM artwork a
-    LEFT JOIN (
-    SELECT Artwork_ID, Image_URL
-    FROM artworkimages
-    WHERE Image_ID IN (
+   SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
+       ai.Image_URL
+FROM artwork a
+LEFT JOIN artworkimages ai
+  ON ai.Image_ID = (
       SELECT MIN(Image_ID)
       FROM artworkimages
-      GROUP BY Artwork_ID
-    )
-  ) AS ai ON a.Artwork_ID = ai.Artwork_ID
-  WHERE a.Artist_ID = ?
+      WHERE Artwork_ID = a.Artwork_ID
+  )
+WHERE a.Artist_ID = ?
+
 `;
   console.log("🧠 Running SQL query to fetch artworks for Artist_ID:", artistId);
 

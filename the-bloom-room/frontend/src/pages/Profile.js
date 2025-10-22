@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import NavbarLog from "../components/NavbarLog";
-import PostContainer from "../components/PostContainer";
+
 import "./css/Profile.css";
 import flowerIcon from "../assets/images/profile-flower.png";
 import React, { useEffect, useState, useContext } from "react";
