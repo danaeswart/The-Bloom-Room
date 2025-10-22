@@ -210,19 +210,25 @@ router.get("/:userID", (req, res) => {
 //--------------og post with local
 
 router.post("/", upload.array("images", 10), (req, res) => {
-  const { Artwork_Name, description, medium, price, artistID } = req.body;
+  const { Artwork_Name, description, medium, price, artistID, status } = req.body; // <-- Added `status` here
 
   if (!artistID || !Artwork_Name || !description) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
+  // ==========================
+  // Determine artwork status
+  // ==========================
+  // Default to 'available' if not specified
+  const artworkStatus = status === "not_available" ? "not_available" : "available"; // <-- Added this
+
   // Step 1: Insert artwork
   const sql = `
     INSERT INTO artwork (Artwork_Name, Artist_ID, Description, Price, Status, Medium, Created_at)
-    VALUES (?, ?, ?, ?, 'available', ?, NOW())
+    VALUES (?, ?, ?, ?, ?, ?, NOW())  -- <-- added artworkStatus here
   `;
 
-  db.query(sql, [Artwork_Name, artistID, description, price || 0, medium || ""], (err, result) => {
+  db.query(sql, [Artwork_Name, artistID, description, price || 0, artworkStatus, medium || ""], (err, result) => {
     if (err) {
       console.error("❌ Artwork insert error:", err);
       return res.status(500).json({ error: "Database error while inserting artwork" });
@@ -264,8 +270,9 @@ router.post("/", upload.array("images", 10), (req, res) => {
         }
       }).end(file.buffer); // important: send file buffer to Cloudinary
     });
-      });
-        });
+  });
+});
+
 
 
 // GET single artwork by Artwork_ID
@@ -508,8 +515,11 @@ router.post("/bulk", (req, res) => {
 // artist.js
 
 router.post("/upload-profile/:artistId", profileUpload.single("file"), async (req, res) => {
+   console.log("🚀 /upload-profile route hit");  // add this
   try {
     const { artistId } = req.params;
+     console.log("Received artistId:", artistId);  // log
+    console.log("Received file:", req.file);      // log
     if (!req.file) return res.status(400).json({ error: "No file uploaded" });
 
     const profileUrl = req.file.path; // already Cloudinary URL

@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import "./css/Order.css";
+import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../Config";
+
+
 const Order = () => {
   const { artworkId } = useParams();
   const [artwork, setArtwork] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [message, setMessage] = useState("");
+    const navigate = useNavigate(); // <-- initialize navigate
+
 
   useEffect(() => {
     const fetchArtwork = async () => {
@@ -42,6 +47,7 @@ const Order = () => {
 
     if (!user) {
       alert("You must be logged in to request artwork.");
+      navigate("/login");
       return;
     }
     console.log("Submitting order for artworkId:", artworkId, "with message:", message);
@@ -54,7 +60,9 @@ const Order = () => {
     });
 
     alert("Request sent successfully!");
+    
     setMessage("");
+   navigate("/homelog");
   } catch (err) {
     console.error(err);
     alert("Error sending request.");
@@ -78,7 +86,7 @@ const Order = () => {
               </button>
               <img
               // maybe issue herer
-                src={`${BASE_URL}${artwork.Images[currentIndex].Image_URL}`}
+                src={artwork.Images[currentIndex].Image_URL}
                 alt={`Artwork ${currentIndex + 1}`}
               />
               <button className="arrow right" onClick={nextImage}>

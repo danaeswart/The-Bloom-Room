@@ -185,3 +185,27 @@ form textarea { min-height: 100px; }
   .upload-btn, .post-btn { padding: 20px 0; font-size: 1.5rem; border-radius: 60px; }
   .form-bloom-post{width: 95%;}
 }
+.status-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.status-buttons button {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.status-buttons button.selected {
+  background-color: #4caf50; /* green highlight */
+  color: white;
+  border-color: #4caf50;
+}
+
+.status-buttons button:hover {
+  background-color: #e0e0e0;
+}

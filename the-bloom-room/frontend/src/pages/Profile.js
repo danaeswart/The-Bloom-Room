@@ -133,20 +133,20 @@ setAttributes(attrs);
     let uploadedProfileUrl = profileUrl;
     console.log("Profile file to upload:----------", profileFile);
     console.log("baseurl", BASE_URL);
-    if (profileFile && artistID) {
-  const formData = new FormData();
-  formData.append("file", profileFile);
-  console.log("Uploading profile image for artistID:", artistID);
+//     if (profileFile && artistID) {
+//   const formData = new FormData();
+//   formData.append("file", profileFile);
+//   console.log("Uploading profile image for artistID:", artistID);
 
-  const res = await axios.post(
-    `${BASE_URL}/artist/upload-profile/${artistID}`,
-    formData,
-    { headers: { "Content-Type": "multipart/form-data" } }
-  );
+//   const res = await axios.post(
+//     `${BASE_URL}/artist/upload-profile/${artistID}`,
+//     formData,
+//     { headers: { "Content-Type": "multipart/form-data" } }
+//   );
 
-  console.log("Uploaded profile URL:", res.data.profileUrl);
-  setProfileUrl(res.data.profileUrl);
-}
+//   console.log("Uploaded profile URL:", res.data.profileUrl);
+//   setProfileUrl(res.data.profileUrl);
+// }
 
     // 3. Update artist info
     const artistFormData = new FormData();

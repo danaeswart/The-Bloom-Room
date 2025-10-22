@@ -29,8 +29,9 @@ const AboutBloomRoom = () => {
       {/* Hero Section */}
       <section className="hero-section" ref={(el) => (sectionRefs.current[0] = el)}>
         <div className="hero-text">
-          <h1>Welcome to Bloom Room </h1>
-          <p>Bloom Room is a space for everyone to share art, inspiration, and ideas. Connect with a creative community, discover what sparks creativity, and celebrate the things that inspire you.</p>
+          <h1>Welcome to Bloom Room</h1>
+<p>Bloom Room is a space where you can share anything! Art, ideas, inspiration, or anything that matters to you. Connect with a creative community and celebrate the things that spark your creativity.</p>
+
         </div>
         <div className="hero-image">
           <img src={heroImg} alt="Creative Art" />

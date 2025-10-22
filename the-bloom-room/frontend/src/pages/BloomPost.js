@@ -23,8 +23,9 @@ function BloomPost() {
   const [medium, setMedium] = useState("");
   const [price, setPrice] = useState("");
   const [artistID, setArtistID] = useState(null);
+const fileInputRef = useRef();
 
-  const fileInputRef = useRef();
+const [artworkStatus, setArtworkStatus] = useState("available"); // default
 
   useEffect(() => {
     
@@ -72,6 +73,10 @@ function BloomPost() {
       alert("Please fill in all required fields.");
       return;
     }
+     if (!artworkStatus) {
+    alert("Please choose whether this is for sale or just a post.");
+    return;
+  }
 
     const formData = new FormData();
     formData.append("Artwork_Name", artworkName);
@@ -79,6 +84,7 @@ function BloomPost() {
     formData.append("medium", medium);
     formData.append("price", price);
     formData.append("artistID", artistID.toString());
+    formData.append("status", artworkStatus); // <-- send current selection
 
     images.forEach((file) => {
       formData.append("images", file);
@@ -97,6 +103,7 @@ function BloomPost() {
         setDescription("");
         setMedium("");
         setPrice("");
+        
         if (fileInputRef.current) fileInputRef.current.value = "";
         navigate("/homelog");
       } else {
@@ -149,6 +156,26 @@ function BloomPost() {
         <div className="right-panel">
           <h2>Create Bloom Post</h2>
           <form onSubmit={handlePost} className="form-bloom-post">
+
+           <div className="status-buttons">
+  <button
+    type="button"
+    className={artworkStatus === "available" ? "selected" : ""}
+    onClick={() => setArtworkStatus("available")}
+  >
+    Upload for Sale
+  </button>
+
+  <button
+    type="button"
+    className={artworkStatus === "not_available" ? "selected" : ""}
+    onClick={() => setArtworkStatus("not_available")}
+  >
+    Just Post
+  </button>
+</div>
+
+
             <label>
               Artwork Name:
               <input

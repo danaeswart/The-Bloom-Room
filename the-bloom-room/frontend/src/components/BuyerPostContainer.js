@@ -33,7 +33,7 @@ function BuyerPostContainer({ buyerId }) {
 
       const merged = artworks.map((art) => {
         const order = orders.find((o) => o.Artwork_ID === art.Artwork_ID);
-        return { ...art, orderStatus: order.Status, requestedAt: order.RequestedAt, orderMessage: order.Message };
+        return { ...art, orderStatus: order.Status, requestedAt: order.RequestedAt, orderMessage: order.Message,  Buyer_ID: order.Buyer_ID };
       });
 
       setRequestedArtworks(merged);
@@ -60,8 +60,16 @@ function BuyerPostContainer({ buyerId }) {
   }
 
   return (
-    <div className="post-container">
-      {requestedArtworks.map((art) => (
+  <div className="post-container">
+    {requestedArtworks.map((art) => {
+      // Determine status message
+      let statusMessage = art.orderStatus;
+
+      if (art.orderStatus.toLowerCase() === "sold" && art.Buyer_ID === buyerId) {
+        statusMessage = "Sold to you!";
+      }
+
+      return (
         <div key={art.Artwork_ID} className="post-wrapper">
           <div
             className="post-frame"
@@ -74,12 +82,19 @@ function BuyerPostContainer({ buyerId }) {
             />
             <p className="artwork-name">{art.Artwork_Name}</p>
             <p className="artist-name">@{art.Artist_Username}</p>
-            <p className="order-status">Status: {art.orderStatus}</p>
+            <p className="order-status">{statusMessage}</p>
+
+            {/* Optional: Show buyer-specific message */}
+            {art.orderStatus.toLowerCase() === "sold" && art.Buyer_ID === buyerId && (
+              <p className="buyer-message">{art.orderMessage || "Congratulations! This artwork is yours."}</p>
+            )}
           </div>
         </div>
-      ))}
-    </div>
-  );
+      );
+    })}
+  </div>
+);
+
 }
 
 export default BuyerPostContainer;

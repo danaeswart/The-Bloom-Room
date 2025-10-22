@@ -110,14 +110,31 @@ const ArtworkPage = () => {
 
   <h4>Price:</h4>
   <p className="medium">R{artwork.Price}</p>
-
 {/* --- Button Logic --- */}
 {(() => {
   const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
 
   if (!user) {
-    // Not logged in → hide button
-    return null;
+    // Not logged in → show button that prompts login
+   return (
+  <Link to="/login">
+    <button className="request-btn">
+      Login to Request Artwork
+    </button>
+  </Link>
+);
+  } else if (user.Role === "artist") {
+    // Artist viewing the artwork → prompt to create buyer account
+    return (
+      <Link to="/signup">
+      <button
+        className="request-btn"
+        
+      >
+        Create Buyer Account to Request
+      </button>
+      </Link>
+    );
   } else if (user.User_ID === artwork.Artist_User_ID) {
     // Artist viewing their own artwork → hide button
     return null;
@@ -143,6 +160,7 @@ const ArtworkPage = () => {
     );
   }
 })()}
+
 
 </div>
 
