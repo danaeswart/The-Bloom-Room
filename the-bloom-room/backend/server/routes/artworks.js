@@ -74,8 +74,9 @@ WHERE a.Artist_ID = ?
   });
 });
 
+//-------- changed route
 // === GET specific artwork by ID (with artist and images) === //
-router.get("/:id", (req, res) => {
+router.get("/artwork/:id", (req, res) => {
   const { id } = req.params;
 
   const sql = `
@@ -515,24 +516,24 @@ router.post("/bulk", (req, res) => {
 
 // artist.js
 
-router.post("/upload-profile/:artistId", profileUpload.single("file"), async (req, res) => {
-   console.log("🚀 /upload-profile route hit");  // add this
-  try {
-    const { artistId } = req.params;
-     console.log("Received artistId:", artistId);  // log
-    console.log("Received file:", req.file);      // log
-    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+// router.post("/upload-profile/:artistId", profileUpload.single("file"), async (req, res) => {
+//    console.log("🚀 /upload-profile route hit");  // add this
+//   try {
+//     const { artistId } = req.params;
+//      console.log("Received artistId:", artistId);  // log
+//     console.log("Received file:", req.file);      // log
+//     if (!req.file) return res.status(400).json({ error: "No file uploaded" });
 
-    const profileUrl = req.file.path; // already Cloudinary URL
+//     const profileUrl = req.file.path; // already Cloudinary URL
 
-    await db.query("UPDATE artist SET Profile_url = ? WHERE Artist_ID = ?", [profileUrl, artistId]);
+//     await db.query("UPDATE artist SET Profile_url = ? WHERE Artist_ID = ?", [profileUrl, artistId]);
 
-    res.json({ profileUrl });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to upload profile image" });
-  }
-});
+//     res.json({ profileUrl });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Failed to upload profile image" });
+//   }
+// });
 
 
 // export router for ES modules

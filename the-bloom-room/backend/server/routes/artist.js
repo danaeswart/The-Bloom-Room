@@ -185,7 +185,7 @@ router.get("/user/:userId", (req, res) => {
 // Get artworks by Artist_ID
 router.get("/user/:artistId", (req, res) => {
   const artistId = req.params.artistId;
-  const sql = "SELECT * FROM artworks WHERE Artist_ID = ?";
+  const sql = "SELECT * FROM artwork WHERE Artist_ID = ?";
 
   db.query(sql, [artistId], (err, result) => {
     if (err) {
