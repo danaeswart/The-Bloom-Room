@@ -7,6 +7,31 @@ const router = express.Router();
 
 console.log("🚀 Buyer route file loaded with routes: /test and /:userID");
 
+
+router.get("/orders/:buyerID", async (req, res) => {
+  const { buyerID } = req.params;
+
+  try {
+    const [orders] = await db.query("SELECT * FROM orders WHERE Buyer_ID = ?", [buyerID]);
+    res.json(orders);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch buyer orders" });
+  }
+});
+
+router.delete("/:orderID", async (req, res) => {
+  const { orderID } = req.params;
+  try {
+    await db.query("DELETE FROM orders WHERE Order_ID = ?", [orderID]);
+    res.json({ message: "Order deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to delete order" });
+  }
+});
+
+
 // === GET buyer by User_ID ===
 router.get("/:userID", (req, res) => {
   console.log("it gets here ");
@@ -29,17 +54,6 @@ router.get("/:userID", (req, res) => {
   });
 });
 
-router.get("/orders/:buyerID", async (req, res) => {
-  const { buyerID } = req.params;
-
-  try {
-    const [orders] = await db.query("SELECT * FROM orders WHERE Buyer_ID = ?", [buyerID]);
-    res.json(orders);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to fetch buyer orders" });
-  }
-});
 
 // === UPDATE buyer bio only === //
 router.put("/:userID", (req, res) => {
@@ -69,16 +83,6 @@ router.put("/:userID", (req, res) => {
 
 
 
-router.delete("/:orderID", async (req, res) => {
-  const { orderID } = req.params;
-  try {
-    await db.query("DELETE FROM orders WHERE Order_ID = ?", [orderID]);
-    res.json({ message: "Order deleted successfully" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to delete order" });
-  }
-});
 
 
 
