@@ -5,6 +5,7 @@ import path from "path";
 
 const router = express.Router();
 
+console.log("🚀 Users route file loaded");
 // GET /users/:id
 router.get("/:id", (req, res) => {
   const userId = req.params.id;

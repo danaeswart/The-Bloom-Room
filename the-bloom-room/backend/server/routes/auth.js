@@ -7,6 +7,8 @@ import bcrypt from "bcrypt";
 
 const router = express.Router();
 
+console.log("🚀 Auth route file loaded");
+
 // SIGNUP route
 router.post("/signup", async (req, res) => {
   try {

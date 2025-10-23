@@ -125,6 +125,8 @@ import path from "path";
 
 const router = express.Router();
 
+console.log("🚀 Artist route file loaded");
+
 // Setup multer for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

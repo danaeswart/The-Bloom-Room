@@ -200,12 +200,24 @@ app.options("*", (req, res) => {
 // =========================
 // Routes
 // =========================
+console.log("🚀 Mounting auth routes at /auth");
 app.use("/auth", authRoutes);
-app.use("/artwork", artworksRoutes); // main artworks route
+
+console.log("🚀 Mounting artwork routes at /artwork");
+app.use("/artwork", artworksRoutes);
+
+console.log("🚀 Mounting artist routes at /artist");
 app.use("/artist", artistRoutes);
+
+console.log("🚀 Mounting users routes at /users");
 app.use("/users", usersRoutes);
+
+console.log("🚀 Mounting buyer routes at /buyer");
 app.use("/buyer", buyerRoutes);
+
+console.log("🚀 Mounting orders routes at /orders");
 app.use("/orders", ordersRoutes);
+
 
 // Root test route
 app.get("/", (req, res) => {
@@ -235,6 +247,26 @@ app.listen(PORT, () => {
 // =========================
 // Debugging: list routes
 // =========================
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+
+  if (app._router && Array.isArray(app._router.stack)) {
+    console.log("📌 Registered routes:");
+    app._router.stack.forEach((middleware) => {
+      if (middleware.route) {
+        console.log(middleware.route.path);
+      } else if (middleware.name === "router" && middleware.handle.stack) {
+        middleware.handle.stack.forEach((handler) => {
+          if (handler.route) console.log(handler.route.path);
+        });
+      }
+    });
+  }
+});
+
+
+
+
 // if (app._router && app._router.stack) {
 //   console.log("📌 Registered routes:");
 //   app._router.stack.forEach((middleware) => {

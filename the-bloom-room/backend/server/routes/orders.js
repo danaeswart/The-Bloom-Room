@@ -5,6 +5,7 @@ import path from "path";
 
 const router = express.Router();
 
+console.log("🚀 Orders route file loaded");
 // === Create new order (default status = Pending) ===
 router.post("/", (req, res) => {
   console.log("🚀 Received new order request:", req.body);

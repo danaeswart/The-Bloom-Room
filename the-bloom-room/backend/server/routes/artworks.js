@@ -7,6 +7,7 @@ import upload from "../upload.js"; // multer-cloudinary middleware
 import cloudinary from "../cloudinary.js";
 import { fileURLToPath } from "url";
 
+console.log("🚀 Artworks route file loaded first");
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,6 +20,8 @@ const profileStorage = new CloudinaryStorage({
 
 const profileUpload = multer({ storage: profileStorage });
 const router = express.Router();
+
+console.log("🚀 Artworks route file loaded after multer ");
 // === Multer Setup for Uploads === //
 // const storage = multer.diskStorage({
 //   destination: (req, file, cb) => {
