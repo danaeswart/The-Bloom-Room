@@ -138,7 +138,7 @@ router.get("/artwork/:id", (req, res) => {
 
 //get artist by userID
 
-router.get("/:userID", (req, res) => {
+router.get("user/:userID", (req, res) => {
   const { userID } = req.params;
 
   const sql = `
@@ -278,7 +278,7 @@ router.post("/", upload.array("images", 10), (req, res) => {
 
 
 // GET single artwork by Artwork_ID
-router.get("/:artworkId", (req, res) => {
+router.get("/single/:artworkId", (req, res) => {
   console.log("🚀 [GET /:artworkId] Route hit!");
   const { artworkId } = req.params;
   const sql = `
