@@ -2,23 +2,25 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./css/PostContainer.css";
-import { BASE_URL } from "../Config";
+// import { BASE_URL } from "../Config";
+// import { BASE_URL } from "../Config";
 
 function PostContainer() {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
+ const BASE_URL= "https://the-bloom-room-5.onrender.com";
   useEffect(() => {
     const fetchArtworks = async () => {
       try {
         console.log("Fetching artworks from backend...");
         const endpoint = `${BASE_URL}/artwork`;
-
+        console.log("Using endpoint:", endpoint);
         const res = await axios.get(endpoint);
         console.log("Response data from backend:", res.data);
 
         setPosts(res.data);
-        console.log("Posts state after setPosts:", res.data);
+        // console.log("Posts state after setPosts:", res.data);
       } catch (err) {
         console.error("Error fetching artworks:", err);
       }
@@ -36,7 +38,7 @@ function PostContainer() {
     <div className="post-container">
       {posts.length > 0 ? (
         posts.map((artwork, index) => {
-          console.log(`Rendering artwork #${index}:`, artwork);
+          // console.log(`Rendering artwork #${index}:`, artwork);
           console.log("Image URL for this artwork:", artwork.Image_URL);
           return (
             <div

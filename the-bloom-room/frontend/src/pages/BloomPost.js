@@ -5,7 +5,9 @@ import NavbarLog from "../components/NavbarLog";
 import { UserContext } from "../context/UserContext";
 import Navbar from "../components/Navbar";
 import axios from "axios";
-import { BASE_URL } from "../Config";
+// import { BASE_URL } from "../Config";
+
+const BASE_URL= "https://the-bloom-room-5.onrender.com";
 
 function BloomPost() {
 

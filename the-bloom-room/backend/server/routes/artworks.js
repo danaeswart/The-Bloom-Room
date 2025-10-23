@@ -6,8 +6,14 @@ import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import upload from "../upload.js"; // multer-cloudinary middleware
 import cloudinary from "../cloudinary.js";
 import { fileURLToPath } from "url";
+import { pathToRegexp } from "path-to-regexp"; // <--- MUST import
+
+
+
+const router = express.Router();
 
 console.log("🚀 Artworks route file loaded first");
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,9 +25,10 @@ const profileStorage = new CloudinaryStorage({
 });
 
 const profileUpload = multer({ storage: profileStorage });
-const router = express.Router();
 
-console.log("🚀 Artworks route file loaded after multer ");
+
+
+
 // === Multer Setup for Uploads === //
 // const storage = multer.diskStorage({
 //   destination: (req, file, cb) => {
@@ -79,7 +86,7 @@ WHERE a.Artist_ID = ?
 
 //-------- changed route
 // === GET specific artwork by ID (with artist and images) === //
-router.get("/artwork/:id", (req, res) => {
+router.get("/:id", (req, res) => {
   const { id } = req.params;
 
   const sql = `
@@ -141,7 +148,7 @@ router.get("/artwork/:id", (req, res) => {
 
 //get artist by userID
 
-router.get("user/:userID", (req, res) => {
+router.get("/user/:userID", (req, res) => {
   const { userID } = req.params;
 
   const sql = `
@@ -167,7 +174,8 @@ router.get("user/:userID", (req, res) => {
 
 
 
-// === POST new artwork === //
+// === POST new artwork === --- old post //
+
 // router.post("/", upload.array("images", 10), (req, res) => {
 //   console.log("=== POST /artworks called ===");
 //   console.log("req.body:", req.body);
@@ -213,9 +221,89 @@ router.get("user/:userID", (req, res) => {
 
 //--------------og post with local
 
+
+router.post("/", upload.array("images", 10), async (req, res) => {
+  console.log("=== POST /artwork called ===");
+  const { Artwork_Name, description, medium, price, artistID, status } = req.body;
+
+  if (!artistID || !Artwork_Name || !description) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const artworkStatus = status === "not_available" ? "not_available" : "available";
+
+  try {
+    // =====================
+    // Step 1: Upload all images to Cloudinary first
+    // =====================
+    const uploadedImages = [];
+
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+  console.log("Uploading file:", file.originalname);
+  const result = await new Promise((resolve, reject) => {
+    cloudinary.uploader.upload_stream({ resource_type: "image" }, (err, result) => {
+      if (err) {
+        console.error("Cloudinary upload failed for file:", file.originalname, err);
+        reject(err);
+      } else {
+        console.log("Cloudinary upload success:", result.secure_url);
+        resolve(result);
+      }
+    }).end(file.buffer);
+  });
+  uploadedImages.push(result.secure_url);
+}
+    }
+
+    // =====================
+    // Step 2: Insert artwork
+    // =====================
+    const artworkSql = `
+      INSERT INTO artwork (Artwork_Name, Artist_ID, Description, Price, Status, Medium, Created_at)
+      VALUES (?, ?, ?, ?, ?, ?, NOW())
+    `;
+
+    const [artworkResult] = await new Promise((resolve, reject) => {
+      db.query(
+        artworkSql,
+        [Artwork_Name, artistID, description, price || 0, artworkStatus, medium || ""],
+        (err, result) => {
+          if (err) reject(err);
+          else resolve([result]);
+        }
+      );
+    });
+
+    const artworkID = artworkResult.insertId;
+
+    // =====================
+    // Step 3: Insert uploaded images into artworkimages
+    // =====================
+    if (uploadedImages.length > 0) {
+      const imageSql = "INSERT INTO artworkimages (Artwork_ID, Image_URL) VALUES ?";
+      const values = uploadedImages.map(url => [artworkID, url]);
+
+      await new Promise((resolve, reject) => {
+        db.query(imageSql, [values], (err) => {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
+    }
+
+    res.json({ message: "Artwork and images uploaded successfully!", artworkID });
+
+  } catch (err) {
+    console.error("❌ Error uploading artwork/images:", err);
+    res.status(500).json({ error: "Artwork upload failed", details: err.message });
+  }
+});
+
 router.post("/", upload.array("images", 10), (req, res) => {
   console.log("=== POST /artworks called ===");
   const { Artwork_Name, description, medium, price, artistID, status } = req.body; // <-- Added `status` here
+  console.log("ArtworkID:", artworkID, "Images uploaded:", uploadedImages);
 
   if (!artistID || !Artwork_Name || !description) {
     return res.status(400).json({ error: "Missing required fields" });
@@ -230,10 +318,11 @@ router.post("/", upload.array("images", 10), (req, res) => {
   // Step 1: Insert artwork
   const sql = `
     INSERT INTO artwork (Artwork_Name, Artist_ID, Description, Price, Status, Medium, Created_at)
-    VALUES (?, ?, ?, ?, ?, ?, NOW())  -- <-- added artworkStatus here
+    VALUES (?, ?, ?, ?, ?, ?, NOW())  
   `;
 
   db.query(sql, [Artwork_Name, artistID, description, price || 0, artworkStatus, medium || ""], (err, result) => {
+    
     if (err) {
       console.error("❌ Artwork insert error:", err);
       return res.status(500).json({ error: "Database error while inserting artwork" });
@@ -251,6 +340,9 @@ router.post("/", upload.array("images", 10), (req, res) => {
 
     req.files.forEach(file => {
       cloudinary.uploader.upload_stream({ resource_type: "image" }, (err, result) => {
+         uploadedImages.push(result.secure_url);
+    uploadedCount++;
+    
         if (err) {
           console.error("❌ Cloudinary upload error:", err);
           return res.status(500).json({ error: "Cloudinary upload failed" });
@@ -281,7 +373,7 @@ router.post("/", upload.array("images", 10), (req, res) => {
 
 
 // GET single artwork by Artwork_ID
-router.get("/single/:artworkId", (req, res) => {
+router.get("/:artworkId", (req, res) => {
   console.log("🚀 [GET /:artworkId] Route hit!");
   const { artworkId } = req.params;
   const sql = `
@@ -328,25 +420,27 @@ router.get("/single/:artworkId", (req, res) => {
 
 // === GET all artworks (with one image each) === //
 router.get("/", (req, res) => {
+  console.log("🚀 [GET /] Route hit to fetch all artworks");
   const sql = `
-    SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
-           ai.Image_URL
-    FROM artwork a
-    LEFT JOIN artworkimages ai ON a.Artwork_ID = ai.Artwork_ID
-   WHERE ai.Image_ID = (
-    SELECT MIN(Image_ID) 
-    FROM artworkimages 
-    WHERE Artwork_ID = a.Artwork_ID
+   SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
+       ai.Image_URL
+FROM artwork a
+LEFT JOIN (
+    SELECT Artwork_ID, MIN(Image_URL) AS Image_URL
+    FROM artworkimages
+    GROUP BY Artwork_ID
+) ai ON a.Artwork_ID = ai.Artwork_ID;
 )
   `;
 
   db.query(sql, (err, results) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({ message: "Error fetching artworks" });
-    }
-    res.json(results);
-  });
+  if (err) {
+    console.error("SQL ERROR:", err.sqlMessage, err); // more info
+    return res.status(500).json({ message: "Error fetching artworks", error: err.sqlMessage });
+  }
+  console.log("Fetched artworks:", results.length);
+  res.json(results);
+});
 });
 
 

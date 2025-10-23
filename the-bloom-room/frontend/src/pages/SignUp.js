@@ -2,14 +2,14 @@ import React, { useState, useContext } from "react";
 import "./css/SignUp.css";
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "../components/Navbar";
-import { BASE_URL } from "../Config"; // ✅ import BASE_URL
+// import { BASE_URL } from "../Config"; // ✅ import BASE_URL
 import axios from "axios";
 import { UserContext } from "../context/UserContext"; // ✅ Import context
 import flower1 from "../assets/images/flower-red.png"; 
 import flower2 from "../assets/images/flower-blue.png"; 
 import flower3 from "../assets/images/flower-green.png"; 
 import flower4 from "../assets/images/flower-pink.png"; 
-
+const BASE_URL= "https://the-bloom-room-5.onrender.com";  
 
 function SignUp() {
   const [email, setEmail] = useState("");

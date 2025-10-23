@@ -315,27 +315,27 @@ router.get("/buyer/:buyerId", (req, res) => {
 });
 
 // GET all orders for a buyer
-router.get("/buyer/:buyerId", async (req, res) => {
-  const { buyerId } = req.params;
+// router.get("/buyer/:buyerId", async (req, res) => {
+//   const { buyerId } = req.params;
 
-  try {
-    const [orders] = await db.query(
-      `SELECT o.Order_ID, o.Artwork_ID, o.Status, a.Artwork_Name, a.Medium, a.Price, 
-              ar.Artist_ID, u.Username AS Artist_Username
-       FROM orders o
-       JOIN artwork a ON o.Artwork_ID = a.Artwork_ID
-       JOIN artist ar ON a.Artist_ID = ar.Artist_ID
-       JOIN users u ON ar.User_ID = u.User_ID
-       WHERE o.Buyer_ID = ?`,
-      [buyerId]
-    );
+//   try {
+//     const [orders] = await db.query(
+//       `SELECT o.Order_ID, o.Artwork_ID, o.Status, a.Artwork_Name, a.Medium, a.Price, 
+//               ar.Artist_ID, u.Username AS Artist_Username
+//        FROM orders o
+//        JOIN artwork a ON o.Artwork_ID = a.Artwork_ID
+//        JOIN artist ar ON a.Artist_ID = ar.Artist_ID
+//        JOIN users u ON ar.User_ID = u.User_ID
+//        WHERE o.Buyer_ID = ?`,
+//       [buyerId]
+//     );
 
-    res.json(orders);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to fetch buyer orders" });
-  }
-});
+//     res.json(orders);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Failed to fetch buyer orders" });
+//   }
+// });
 // === DELETE an order by ID ===
 router.delete("/:orderId", (req, res) => {
   console.log("🚀 Attempting to delete order:", req.params.orderId);

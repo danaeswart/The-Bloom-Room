@@ -4,8 +4,8 @@ import Navbar from "../components/Navbar";
 import axios from "axios";
 import "./css/Order.css";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../Config";
-
+// import { BASE_URL } from "../Config";
+const BASE_URL= "https://the-bloom-room-5.onrender.com";
 
 const Order = () => {
   const { artworkId } = useParams();

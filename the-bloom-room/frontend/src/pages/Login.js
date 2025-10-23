@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import "./css/Login.css";
 import NavBar from "../components/Navbar";
 import axios from "axios";
-import { BASE_URL } from "../Config"; // ✅ import BASE_URL
+// import { BASE_URL } from "../Config"; // ✅ import BASE_URL
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext"; // ✅ import context
 import flower1 from "../assets/images/flower-red.png"; 
@@ -11,6 +11,7 @@ import flower3 from "../assets/images/flower-green.png";
 import flower4 from "../assets/images/flower-pink.png"; 
 
 
+const BASE_URL= "https://the-bloom-room-5.onrender.com";
 
 function Login() {
 

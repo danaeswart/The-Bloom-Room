@@ -6,9 +6,9 @@ import NavbarLog from "../components/NavbarLog";
 import "./css/Profile.css"; // reuse same profile CSS
 import flowerIcon from "../assets/images/profile-flower.png";
 import Navbar from "../components/Navbar";
-import { BASE_URL } from "../Config";
+// import { BASE_URL } from "../Config";
 import ProfilePostContainer from "../components/ProfilePostContainer";
-
+const BASE_URL= "https://the-bloom-room-5.onrender.com";
 const ProfilePage = () => {
   const { artistId } = useParams(); // gets :artistId from URL
   const [artist, setArtist] = useState(null);

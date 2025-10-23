@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./css/ProfilePostContainer.css";
-import { BASE_URL } from "../Config";
+// import { BASE_URL } from "../Config";
+
+const BASE_URL= "https://the-bloom-room-5.onrender.com";
 function BuyerPostContainer({ buyerId }) {
    
   const [requestedArtworks, setRequestedArtworks] = useState([]);

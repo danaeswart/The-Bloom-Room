@@ -5,7 +5,9 @@ import Navbar from "../components/Navbar";
 import axios from "axios";
 import "./css/ArtworkPage.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { BASE_URL } from "../Config";
+// import { BASE_URL } from "../Config";
+
+const BASE_URL= "https://the-bloom-room-5.onrender.com";
 
 const ArtistArtwork = () => {
   const { artworkId } = useParams();

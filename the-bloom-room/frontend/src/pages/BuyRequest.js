@@ -3,7 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "./css/ArtworkPage.css";
 import axios from "axios";
-import { BASE_URL } from "../Config";
+// import { BASE_URL } from "../Config";
+
+const BASE_URL= "https://the-bloom-room-5.onrender.com";
+
 const BuyRequests = () => {
   const { artworkId } = useParams();
   const [artwork, setArtwork] = useState(null);
@@ -94,7 +97,7 @@ const BuyRequests = () => {
               <div className={`image-container ${direction}`}>
                 <img
                   key={currentIndex}
-                  src={`${BASE_URL}${artwork.Images[currentIndex].Image_URL}`}
+                  src={artwork.Images[currentIndex].Image_URL}
                   alt={`Artwork ${currentIndex + 1}`}
                 />
               </div>

@@ -9,7 +9,10 @@ import { UserContext } from "../context/UserContext"; // Adjust path if needed
 import { Link } from "react-router-dom";
 import ProfilePostContainer from "../components/ProfilePostContainer";
 import Navbar from "../components/Navbar";
-import { BASE_URL } from "../Config";
+// import { BASE_URL } from "../Config";
+
+
+const BASE_URL= "https://the-bloom-room-5.onrender.com";
 
 const Profile = () => {
   const [artistData, setArtistData] = useState(null);

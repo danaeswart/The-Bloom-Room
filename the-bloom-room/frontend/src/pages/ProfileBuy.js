@@ -7,8 +7,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import BuyerPostContainer from "../components/BuyerPostContainer";
 import Navbar from "../components/Navbar";
-import { BASE_URL } from "../Config";
+// import { BASE_URL } from "../Config";
 
+const BASE_URL= "https://the-bloom-room-5.onrender.com";
 const ProfileBuy = () => {
   const [buyerData, setBuyerData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -78,51 +79,24 @@ useEffect(() => {
   };
 
   const handleSave = async () => {
-  console.log("=== Saving buyer profile changes ===");
-
   try {
-    // 1️⃣ Update base user info
-    const userData = { name, surname, email };
-    console.log("Updating user data to:", userData);
-    await axios.put(`${BASE_URL}/users/${userID}`, userData);
+    // Update base info
+    await axios.put(`${BASE_URL}/users/${userID}`, { name, surname, email });
 
-    // 2️⃣ Update buyer bio
-    console.log("Updating buyer bio to:", bio);
+    // Update buyer bio as JSON
     await axios.put(`${BASE_URL}/buyer/${userID}`, { bio });
 
-    // 3️⃣ Update profile picture if it's a new file
-    // if (profileUrl instanceof File) {
-    //   const formData = new FormData();
-    //   formData.append("profile_url", profileUrl);
-    //   await axios.put(`http://localhost:5000/users/profile/${userID}`, formData, {
-    //     headers: { "Content-Type": "multipart/form-data" },
-    //   });
-    // }
-
-    // 4️⃣ Re-fetch user and buyer data
-    const [userRes, buyerRes] = await Promise.all([
-      axios.get(`${BASE_URL}/users/${userID}`),
-      axios.get(`${BASE_URL}/${userID}`)
-    ]);
-
-    const updatedUser = userRes.data.user;
-    const updatedBuyer = buyerRes.data; // no .buyer, based on your GET /buyer/:userID route
-
-    // 5️⃣ Update React state
-    setUser(updatedUser);
-    setBuyerData(updatedBuyer);
-    setBio(updatedBuyer.Bio || "");
-    setProfileUrl(updatedBuyer.Profile_url || "");
-
-    // Exit editing mode
+    // Refresh buyer data
+    const buyerRes = await axios.get(`${BASE_URL}/buyer/${userID}`);
+    setBuyerData(buyerRes.data);
+    setBio(buyerRes.data.Bio || "");
     setIsEditing(false);
-
-    console.log("✅ Buyer profile updated successfully!");
   } catch (error) {
     console.error("❌ Error updating buyer profile:", error);
     alert("Something went wrong while saving your changes.");
   }
 };
+
 
 
   const handleLogout = () => {

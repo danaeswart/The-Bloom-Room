@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./css/ProfilePostContainer.css";
-import { BASE_URL } from "../Config";
+// import { BASE_URL } from "../Config";
+
+const BASE_URL= "https://the-bloom-room-5.onrender.com";
 
 function ProfilePostContainer({ artistId = null }) {
   console.log("ProfilePostContainer artistId:", artistId);
@@ -30,6 +32,7 @@ function ProfilePostContainer({ artistId = null }) {
 
         setPosts(artworks);
         setOrderCounts(countsMap);
+        
       } catch (err) {
         console.error("Error fetching artworks or order counts:", err);
       }
@@ -54,6 +57,8 @@ function ProfilePostContainer({ artistId = null }) {
     <div className="post-container">
       {posts.map((artwork) => {
         const requestCount = orderCounts[artwork.Artwork_ID] || 0;
+           // Log the image URL for debugging
+      console.log(`Artwork ID: ${artwork.Artwork_ID}, Image URL:`, artwork.Image_URL);
 
         return (
           <div key={artwork.Artwork_ID} className="post-wrapper">
@@ -66,7 +71,8 @@ function ProfilePostContainer({ artistId = null }) {
               onClick={() => handleArtworkClick(artwork.Artwork_ID)}
             >
               <img
-                src={`${artwork.Image_URL}`}
+                src={artwork.Image_URL}
+              
                 alt={artwork.Artwork_Name}
                 className="post-image"
               />

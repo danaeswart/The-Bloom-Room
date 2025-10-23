@@ -155,6 +155,8 @@ app.use(express.urlencoded({ extended: true }));
 // CORS
 // =========================
 // Enable CORS and handle preflight
+
+
 const allowedOrigins = [
   "https://the-bloom-room-frontend.onrender.com",
   "https://the-bloom-room-5.onrender.com",
@@ -177,14 +179,58 @@ app.use(cors({
 }));
 
 
-// ✅ Handle preflight
-app.options("*", (req, res) => {
-  res.header("Access-Control-Allow-Origin", req.headers.origin);
-  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.sendStatus(200);
-});
+// const allowedOrigins = [
+//   "https://the-bloom-room-frontend.onrender.com",
+//   "https://the-bloom-room-5.onrender.com",
+//   "http://localhost:3000",
+//   "http://localhost:5000"
+// ];
+
+// app.use(cors({
+//   origin: function(origin, callback){
+//     // allow requests with no origin like Postman or same-origin requests
+//     if(!origin) return callback(null, "*");
+
+//     if(allowedOrigins.includes(origin)) {
+//       // ✅ send the exact origin for credentials
+//       return callback(null, origin);
+//     } else {
+//       return callback(new Error("Not allowed by CORS"), false);
+//     }
+//   },
+//   credentials: true,
+//   methods: ["GET","POST","PUT","DELETE","OPTIONS"],
+//   allowedHeaders: ["Content-Type", "Authorization"]
+// }));
+
+
+// Handle preflight OPTIONS requests
+// app.options('*', cors({
+//   origin: function(origin, callback) {
+//     if (!origin) return callback(null, true);
+//     if (allowedOrigins.includes(origin)) {
+//       return callback(null, origin);
+//     } else {
+//       return callback(new Error("Not allowed by CORS"), false);
+//     }
+//   },
+//   credentials: true
+// }));
+// app.use(cors({
+//   origin: '*', // allow any origin
+//   credentials: true,
+//   methods: ["GET","POST","PUT","DELETE","OPTIONS"],
+//   allowedHeaders: ["Content-Type", "Authorization"]
+// }));
+
+// // ✅ Handle preflight
+// app.options("*", (req, res) => {
+//   res.header("Access-Control-Allow-Origin", req.headers.origin);
+//   res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+//   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   res.header("Access-Control-Allow-Credentials", "true");
+//   res.sendStatus(200);
+// });
 
 // Handle OPTIONS preflight globally
 // app.options("*", cors());
@@ -197,14 +243,27 @@ app.options("*", (req, res) => {
 
 // app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // static images
 
+
+console.log("Starting server...");
+
+app._router?.stack?.forEach(mw => {
+  console.log("Middleware before routes:", mw.name || mw.handle.name);
+});
+
 // =========================
 // Routes
 // =========================
 console.log("🚀 Mounting auth routes at /auth");
 app.use("/auth", authRoutes);
 
-console.log("🚀 Mounting artwork routes at /artwork");
-app.use("/artwork", artworksRoutes);
+
+try {
+  console.log("🚀 Mounting artwork routes at /artwork");
+  app.use("/artwork", artworksRoutes);
+  console.log("/artwork mounted ✅");
+} catch (err) {
+  console.error("💥 Error mounting artwork routes:", err);
+}
 
 console.log("🚀 Mounting artist routes at /artist");
 app.use("/artist", artistRoutes);
