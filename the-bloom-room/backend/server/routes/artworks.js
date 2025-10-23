@@ -210,6 +210,7 @@ router.get("/:userID", (req, res) => {
 //--------------og post with local
 
 router.post("/", upload.array("images", 10), (req, res) => {
+  console.log("=== POST /artworks called ===");
   const { Artwork_Name, description, medium, price, artistID, status } = req.body; // <-- Added `status` here
 
   if (!artistID || !Artwork_Name || !description) {
