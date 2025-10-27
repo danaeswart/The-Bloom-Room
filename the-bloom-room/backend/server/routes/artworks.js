@@ -6,6 +6,7 @@ import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import upload from "../upload.js"; // multer-cloudinary middleware
 import cloudinary from "../cloudinary.js";
 import { fileURLToPath } from "url";
+
 import { pathToRegexp } from "path-to-regexp"; // <--- MUST import
 
 
@@ -422,30 +423,48 @@ router.get("/:artworkId", (req, res) => {
 router.get("/", (req, res) => {
   console.log("🚀 [GET /] Route hit to fetch all artworks");
   const sql = `
-   SELECT a.Artwork_ID, a.Artwork_Name, a.Artist_ID, a.Description, a.Price, a.Status, a.Medium, a.Created_at,
-       ai.Image_URL
-FROM artwork a
-LEFT JOIN (
-    SELECT Artwork_ID, MIN(Image_URL) AS Image_URL
-    FROM artworkimages
-    GROUP BY Artwork_ID
-) ai ON a.Artwork_ID = ai.Artwork_ID;
-)
+    SELECT 
+      a.Artwork_ID, 
+      a.Artwork_Name, 
+      a.Artist_ID, 
+      a.Description, 
+      a.Price, 
+      a.Status, 
+      a.Medium, 
+      a.Created_at,
+      MIN(ai.Image_URL) as Image_URL
+    FROM artwork a
+    LEFT JOIN artworkimages ai ON a.Artwork_ID = ai.Artwork_ID
+    GROUP BY 
+      a.Artwork_ID,
+      a.Artwork_Name,
+      a.Artist_ID,
+      a.Description,
+      a.Price,
+      a.Status,
+      a.Medium,
+      a.Created_at
   `;
 
   db.query(sql, (err, results) => {
-  if (err) {
-    console.error("SQL ERROR:", err.sqlMessage, err); // more info
-    return res.status(500).json({ message: "Error fetching artworks", error: err.sqlMessage });
-  }
-  console.log("Fetched artworks:", results.length);
-  res.json(results);
-});
+    if (err) {
+      console.error("SQL ERROR:", err);
+      console.error("SQL Message:", err.sqlMessage);
+      console.error("SQL State:", err.sqlState);
+      console.error("SQL Code:", err.code);
+      return res.status(500).json({ 
+        message: "Error fetching artworks", 
+        error: err.message,
+        sqlMessage: err.sqlMessage,
+        sqlState: err.sqlState,
+        code: err.code
+      });
+    }
+    console.log("✅ Successfully fetched artworks:", results.length);
+    res.json(results);
+  });
 });
 
-
-// Example using MySQL
-// GET /artwork
 router.get("/artwork", async (req, res) => {
   try {
     const query = `

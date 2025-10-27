@@ -301,14 +301,8 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-});
 
-// =========================
-// Debugging: list routes
-// =========================
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-
+  // Log registered routes
   if (app._router && Array.isArray(app._router.stack)) {
     console.log("📌 Registered routes:");
     app._router.stack.forEach((middleware) => {
