@@ -256,6 +256,12 @@ router.post("/", upload.array("images", 10), async (req, res) => {
   console.log("=== POST /artwork called ===");
   const { Artwork_Name, description, medium, price, artistID, status } = req.body;
 
+  // Quick environment check to fail fast with a clear message if Cloudinary creds are missing
+  if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+    console.error("Missing Cloudinary environment variables. Make sure CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET are set.");
+    return res.status(500).json({ error: "Missing Cloudinary configuration on server. Uploads disabled." });
+  }
+
   if (!artistID || !Artwork_Name || !description) {
     return res.status(400).json({ error: "Missing required fields" });
   }
