@@ -1,8 +1,9 @@
-import React, { useState } from "react"; // <-- added useState for menu toggle
+import React, { useState, useContext } from "react"; // <-- added useState for menu toggle
 import { Link, useNavigate, useLocation  } from "react-router-dom";
 import "./css/Navbar.css";
 import logo from "../assets/images/logo.png";
 import { useEffect } from "react";
+import { UserContext } from "../context/UserContext";
 
 
 function Navbar() {
@@ -13,12 +14,25 @@ console.log("📍 Current path:", currentPath);
 
 
 
-  // Get user from localStorage
-  const storedUser = localStorage.getItem("user");
-  
-  // console.log("🌐 Stored user from localStorage:", storedUser);
-  const user = storedUser ? JSON.parse(storedUser) : null;
-  console.log("user:", user, "currentPath:", currentPath);
+  // Prefer UserContext (keeps in sync while app runs). Fallback to localStorage for refresh.
+  const { user: contextUser, setUser } = useContext(UserContext);
+
+  let parsedLocalUser = null;
+  try {
+    const storedUser = localStorage.getItem("user");
+    parsedLocalUser = storedUser ? JSON.parse(storedUser) : null;
+  } catch (e) {
+    console.warn("Failed to parse localStorage user:", e);
+    parsedLocalUser = null;
+  }
+
+  // Final user: prefer context, fallback to localStorage
+  const user = contextUser || parsedLocalUser || null;
+  // remove noisy console logging in production; keep minimal
+
+  // Normalize role (handle Role vs role casing differences)
+  const rawRole = (user && (user.Role || user.role || user.roleName)) || null;
+  const role = rawRole ? String(rawRole).toLowerCase() : null;
 
   // console.log("🧠 Current user:", user);
 
@@ -57,20 +71,19 @@ console.log("📍 Current path:", currentPath);
 
         
 
-        {/* --- If no user logged in --- */}
-     {/* --- If no user logged in --- */}
-{!user && (
-  <>
-    <Link to="/home" className="nav-link">Home</Link>
-    <Link to="/about" className="nav-link">About</Link>
-    <div className="login-icon">
-      <Link to="/login">Login / Sign Up</Link>
-    </div>
-  </>
-)}
+        {/* --- If no user logged in OR role unknown --- */}
+        {(!user || !role) && (
+          <>
+            <Link to="/home" className="nav-link">Home</Link>
+            <Link to="/about" className="nav-link">About</Link>
+            <div className="login-icon">
+              <Link to="/login">Login / Sign Up</Link>
+            </div>
+          </>
+        )}
 
         {/* --- If logged in as artist --- */}
-        {user && user.Role === "artist" && (
+        {user && role === "artist" && (
           <>
             <Link to="/homelog" state={{ user }} className="nav-link">Home</Link>
             <Link to="/about" className="nav-link">About</Link>
@@ -82,7 +95,7 @@ console.log("📍 Current path:", currentPath);
         )}
 
         {/* --- If logged in as buyer --- */}
-        {user && user.Role === "buyer" && (
+        {user && role === "buyer" && (
           <>
             <Link to="/homebuy" state={{ user }} className="nav-link">Home</Link>
             <Link to="/about" className="nav-link">About</Link>
@@ -90,6 +103,20 @@ console.log("📍 Current path:", currentPath);
               <Link to="/profilebuy" state={{ user }}>Account</Link>
             </div>
           </>
+        )}
+        {/* --- If logged in as admin --- */}
+        {user && role === "admin" && (
+          <>
+            <Link to="/adminapproval" className="nav-link">Admin</Link>
+            <div className="login-icon">
+              <Link to="/profile" state={{ user }}>Account</Link>
+            </div>
+          </>
+        )}
+
+        {/* --- Logout for any logged-in user --- */}
+        {user && (
+          <button className="nav-logout" onClick={() => { setUser(null); localStorage.removeItem('user'); navigate('/login'); }}>Logout</button>
         )}
       </div>
     </nav>

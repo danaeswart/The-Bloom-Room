@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp";
 import Home from "./pages/Home"; // Assuming you have a Home component
 import BloomPost from "./pages/BloomPost";
 import AdminApproval from "./pages/AdminApproval";
+import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 import About from "./pages/About";
 import Profile from "./pages/Profile";
 import ArtworkPage from "./pages/ArtworkPage";
@@ -28,7 +29,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
          <Route path="/bloompost" element={<BloomPost />} />
-         <Route path="/adminapproval" element={<AdminApproval />} />
+  <Route path="/adminapproval" element={<ProtectedAdminRoute><AdminApproval /></ProtectedAdminRoute>} />
         <Route path="/about" element={<About />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/artwork/:artworkId" element={<ArtworkPage />} />
