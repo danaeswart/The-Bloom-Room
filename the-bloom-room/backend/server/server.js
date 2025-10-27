@@ -139,6 +139,7 @@ import artistRoutes from "./routes/artist.js";
 import usersRoutes from "./routes/users.js";
 import buyerRoutes from "./routes/buyer.js";
 import ordersRoutes from "./routes/orders.js";
+import adminRoutes from "./routes/admin.js";
 
 dotenv.config();
 
@@ -276,6 +277,9 @@ app.use("/buyer", buyerRoutes);
 
 console.log("🚀 Mounting orders routes at /orders");
 app.use("/orders", ordersRoutes);
+
+console.log("🚀 Mounting admin routes at /admin");
+app.use("/admin", adminRoutes);
 
 
 // Root test route

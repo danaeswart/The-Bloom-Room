@@ -1,81 +1,93 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./css/AdminApproval.css"; // New CSS file for admin page
 import NavBar from "../components/Navbar";
-
-const dummyArtist = {
-  name: "Jane Doe",
-  location: "New York, USA",
-  bio: "Contemporary artist specializing in mixed media.",
-  artworks: [
-    "https://picsum.photos/id/1011/400/300",
-    "https://picsum.photos/id/1015/400/300",
-    "https://picsum.photos/id/1021/400/300",
-  ],
-  email: "janedoe@example.com",
-  website: "https://janedoeart.com",
-  social: "@janedoeart",
-};
+import { BASE_URL } from "../Config";
 
 function AdminApproval() {
-  const [artist] = useState(dummyArtist);
-  const [approved, setApproved] = useState(null); // null | true | false
+  const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const handleApprove = () => setApproved(true);
-  const handleReject = () => setApproved(false);
+  useEffect(() => {
+    fetchRequests();
+  }, []);
+
+  async function fetchRequests() {
+    setLoading(true);
+    try {
+      const res = await fetch(`${BASE_URL}/admin/verification/requests`);
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.message || "Failed to fetch");
+      setRequests(json.requests || []);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleAction(approvalId, action) {
+    // For now we send a dummy admin_user_id; in a real app you'd use authenticated admin id
+    const adminUserId = 8; // change to a valid admin user id in your DB or pass real auth
+    const endpoint = action === "approve" ? "approve" : "decline";
+    try {
+      const res = await fetch(`${BASE_URL}/admin/verification/${endpoint}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ approval_id: approvalId, admin_user_id: adminUserId }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.message || "Action failed");
+      // refresh list
+      fetchRequests();
+    } catch (err) {
+      alert("Action failed: " + err.message);
+    }
+  }
 
   return (
     <>
       <NavBar />
       <div className="approval-page">
         <div className="left-panel">
-          <h2 className="section-title">Artist Artworks</h2>
+          <h2 className="section-title">Artist Artworks / Requests</h2>
           <div className="images-container">
             <div className="images-scroll">
-              {artist.artworks.map((src, i) => (
-                <img key={i} src={src} alt={`artwork ${i}`} />
+              {loading && <p>Loading...</p>}
+              {error && <p className="error">{error}</p>}
+              {!loading && requests.length === 0 && <p>No pending requests.</p>}
+              {requests.map((req) => (
+                <div key={req.Approval_ID} style={{ marginRight: 16 }}>
+                  <h4>{req.Username}</h4>
+                  {(req.artworks || []).map((a, i) => (
+                    <img
+                      key={i}
+                      src={a.Image_URL || "https://via.placeholder.com/300x200?text=no+image"}
+                      alt={`art-${i}`}
+                      style={{ height: 140, marginBottom: 8, display: "block" }}
+                    />
+                  ))}
+                </div>
               ))}
             </div>
           </div>
         </div>
 
         <div className="right-panel">
-          <h2 className="section-title">Approve Artist Account</h2>
+          <h2 className="section-title">Pending Requests</h2>
+          {loading && <p>Loading...</p>}
+          {!loading && requests.length === 0 && <p>No requests to review</p>}
           <div className="artist-info">
-            <p><strong>Name:</strong> {artist.name}</p>
-            <p><strong>Location:</strong> {artist.location}</p>
-            <p><strong>Bio:</strong> {artist.bio}</p>
-            <p><strong>Email:</strong> {artist.email}</p>
-            <p>
-              <strong>Website:</strong>{" "}
-              <a href={artist.website} target="_blank" rel="noreferrer">
-                {artist.website}
-              </a>
-            </p>
-            <p><strong>Social:</strong> {artist.social}</p>
+            {requests.map((r) => (
+              <div key={r.Approval_ID} style={{ marginBottom: 18 }}>
+                <p><strong>{r.Username}</strong> ({r.Email})</p>
+                <div style={{ display: "flex", gap: 12 }}>
+                  <button className="approve-btn" onClick={() => handleAction(r.Approval_ID, "approve")}>Approve</button>
+                  <button className="reject-btn" onClick={() => handleAction(r.Approval_ID, "decline")}>Reject</button>
+                </div>
+              </div>
+            ))}
           </div>
-
-          <div className="button-group">
-            <button
-              className={`approve-btn ${approved === true ? "active" : ""}`}
-              onClick={handleApprove}
-            >
-              Approve
-            </button>
-            <button
-              className={`reject-btn ${approved === false ? "active" : ""}`}
-              onClick={handleReject}
-            >
-              Reject
-            </button>
-          </div>
-
-          {approved !== null && (
-            <p
-              className={`approval-status ${approved ? "approved" : "rejected"}`}
-            >
-              Artist has been {approved ? "approved ✅" : "rejected ❌"}.
-            </p>
-          )}
         </div>
       </div>
     </>
