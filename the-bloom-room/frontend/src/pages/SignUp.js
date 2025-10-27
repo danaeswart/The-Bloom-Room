@@ -68,12 +68,13 @@ function SignUp() {
       // Redirect depending on role
       if (role === "artist") {
         navigate("/homelog");
-      }
-      else if (role === "buyer") {
+      } else if (role === "buyer") {
         navigate("/homebuy");
-      }
-      else {
-        navigate("/"); // Change to wherever you want other roles to go
+      } else if (role === "admin") {
+        // after admin signup navigate to admin approval dashboard
+        navigate("/adminapproval");
+      } else {
+        navigate("/");
       }
     } catch (err) {
       console.error(err.response?.data || err.message);

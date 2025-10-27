@@ -26,9 +26,14 @@ async function ensureDefaultAdmin(callback) {
     db.query(insertUserSql, [email, hashed, username, name, surname], (err2, result2) => {
       if (err2) return callback(err2);
       const userId = result2.insertId;
-      const insertAdminSql = `INSERT INTO admin (User_ID, Profile_url) VALUES (?, NULL)`;
+      // Some deployments may have removed Profile_url column; insert only User_ID to be safe
+      const insertAdminSql = `INSERT INTO admin (User_ID) VALUES (?)`;
       db.query(insertAdminSql, [userId], (err3, result3) => {
-        if (err3) return callback(err3);
+        if (err3) {
+          console.error("Error inserting admin row in ensureDefaultAdmin:", err3);
+          return callback(err3);
+        }
+        console.log("Created default admin row, Admin_ID=", result3.insertId);
         return callback(null, result3.insertId);
       });
     });
@@ -53,9 +58,14 @@ router.post("/create", async (req, res) => {
       db.query(insertUserSql, [email, hashed, username, name, surname], (err2, r2) => {
         if (err2) return res.status(500).json({ message: "Error creating user", error: err2 });
         const userId = r2.insertId;
-        const insertAdminSql = `INSERT INTO admin (User_ID, Profile_url) VALUES (?, NULL)`;
+        // Insert admin row with only User_ID (Profile_url may have been removed in schema)
+        const insertAdminSql = `INSERT INTO admin (User_ID) VALUES (?)`;
         db.query(insertAdminSql, [userId], (err3, r3) => {
-          if (err3) return res.status(500).json({ message: "Error inserting admin", error: err3 });
+          if (err3) {
+            console.error("Error inserting admin row:", err3);
+            return res.status(500).json({ message: "Error inserting admin", error: err3 });
+          }
+          console.log("Admin row created, Admin_ID=", r3.insertId, "for User_ID=", userId);
           res.status(201).json({ message: "Admin created", adminId: r3.insertId, userId });
         });
       });

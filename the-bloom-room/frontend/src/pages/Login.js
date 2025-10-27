@@ -38,18 +38,22 @@ const handleSubmit = async (e) => {
 
     // alert(`Welcome back, ${user.Username}!`);
     setUser(user);
-    setRole(user.role); // Just to be sure
+    // store user
     localStorage.setItem("user", JSON.stringify(user)); // Save user to localStorage
-    
 
-    if (role === "artist") {
+    // Prefer role from returned user object but fall back to current selected role
+    const returnedRole = user.Role || user.role || role;
+
+    if (returnedRole === "artist") {
       navigate("/homelog");
-    } else if (role === "buyer") {
-      navigate("/homebuy"); // ✅ buyer route
-    } else if (role === "admin") {
-      navigate("/adminhome"); // optional: admin route
+    } else if (returnedRole === "buyer") {
+      navigate("/homebuy");
+    } else if (returnedRole === "admin") {
+      // navigate admin users to the admin approval dashboard
+      navigate("/adminapproval");
     } else {
-      alert("Unknown role");
+      // unknown role: fall back to home
+      navigate("/");
     }
   } catch (err) {
     console.error(err.response?.data || err.message);
