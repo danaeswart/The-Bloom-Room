@@ -119,7 +119,9 @@ router.post("/verification/request", (req, res) => {
 
 // List pending verification requests
 router.get("/verification/requests", (req, res) => {
-  const sql = `SELECT ap.Approval_ID, ap.User_ID, ap.Status, u.Username, u.Email, u.Name, u.Surname, a.Artist_ID
+  const sql = `SELECT ap.Approval_ID, ap.User_ID, ap.Status, 
+                 u.Username, u.Email, u.Name, u.Surname, 
+                 a.Artist_ID, a.Bio
                FROM approval ap
                JOIN users u ON ap.User_ID = u.User_ID
                LEFT JOIN artist a ON a.User_ID = u.User_ID
@@ -147,30 +149,24 @@ router.post("/verification/approve", (req, res) => {
   const { approval_id, admin_user_id } = req.body;
   if (!approval_id || !admin_user_id) return res.status(400).json({ message: "approval_id and admin_user_id required" });
 
-  // ensure admin_user_id is an admin
-  db.query("SELECT User_ID FROM users WHERE User_ID = ? AND Role = 'admin'", [admin_user_id], (err, ures) => {
-    if (err) return res.status(500).json({ message: "DB error", error: err });
-    if (!ures || ures.length === 0) return res.status(403).json({ message: "You are not an admin" });
+  // find approval and its user
+  db.query("SELECT * FROM approval WHERE Approval_ID = ?", [approval_id], (err2, ares) => {
+    if (err2) return res.status(500).json({ message: "DB error", error: err2 });
+    if (!ares || ares.length === 0) return res.status(404).json({ message: "Approval request not found" });
+    const userId = ares[0].User_ID;
 
-    // find approval and its user
-    db.query("SELECT * FROM approval WHERE Approval_ID = ?", [approval_id], (err2, ares) => {
-      if (err2) return res.status(500).json({ message: "DB error", error: err2 });
-      if (!ares || ares.length === 0) return res.status(404).json({ message: "Approval request not found" });
-      const userId = ares[0].User_ID;
+    // find admin record for this admin_user_id (admin table)
+    db.query("SELECT Admin_ID FROM admin WHERE User_ID = ?", [admin_user_id], (err3, admins) => {
+      if (err3) return res.status(500).json({ message: "DB error", error: err3 });
+      const adminId = (admins && admins[0] && admins[0].Admin_ID) || null;
 
-      // find admin record for this admin_user_id (admin table)
-      db.query("SELECT Admin_ID FROM admin WHERE User_ID = ?", [admin_user_id], (err3, admins) => {
-        if (err3) return res.status(500).json({ message: "DB error", error: err3 });
-        const adminId = (admins && admins[0] && admins[0].Admin_ID) || null;
-
-        const updateApproval = `UPDATE approval SET Status='Approved', Admin_ID = ? WHERE Approval_ID = ?`;
-        db.query(updateApproval, [adminId, approval_id], (err4) => {
-          if (err4) return res.status(500).json({ message: "DB error", error: err4 });
-          // mark user as verified
-          db.query("UPDATE users SET Status='verified' WHERE User_ID = ?", [userId], (err5) => {
-            if (err5) return res.status(500).json({ message: "DB error", error: err5 });
-            res.json({ message: "User approved and verified" });
-          });
+      const updateApproval = `UPDATE approval SET Status='Approved', Admin_ID = ? WHERE Approval_ID = ?`;
+      db.query(updateApproval, [adminId, approval_id], (err4) => {
+        if (err4) return res.status(500).json({ message: "DB error", error: err4 });
+        // mark user as verified
+        db.query("UPDATE users SET Status='verified' WHERE User_ID = ?", [userId], (err5) => {
+          if (err5) return res.status(500).json({ message: "DB error", error: err5 });
+          res.json({ message: "User approved and verified" });
         });
       });
     });

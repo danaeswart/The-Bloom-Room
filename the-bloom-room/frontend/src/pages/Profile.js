@@ -23,6 +23,7 @@ const Profile = () => {
   const [surname, setSurname] = useState("");
   const [profileUrl, setProfileUrl] = useState("");
   const [userArtworks, setUserArtworks] = useState([]);
+  const [approvalStatus, setApprovalStatus] = useState(null); // null | 'none' | 'pending' | 'approved'
   const [artistID, setArtistID] = useState(null);
 const [profileFile, setProfileFile] = useState(null); // holds the selected file
 
@@ -77,6 +78,17 @@ setAttributes(attrs);
         const artworksRes = await axios.get(`${BASE_URL}/artwork/user/${artistData.Artist_ID}`);
         console.log("Artworks data received:", artworksRes.data);
         setUserArtworks(artworksRes.data);
+
+        // check for any pending approval for this user
+        try {
+          const pendingRes = await axios.get(`${BASE_URL}/admin/verification/requests`);
+          const pending = (pendingRes.data.requests || []).find(r => r.User_ID === userID);
+          if (pending) setApprovalStatus('pending');
+          else setApprovalStatus(updatedUser.Status === 'verified' ? 'approved' : 'none');
+        } catch (e) {
+          console.warn('Could not fetch pending approvals', e);
+          setApprovalStatus(updatedUser.Status === 'verified' ? 'approved' : 'none');
+        }
       } catch (err) {
         console.error("Error fetching profile data:", err);
       }
@@ -182,6 +194,20 @@ setAttributes(attrs);
     navigate("/home");
   };
 
+  const handleRequestVerification = async () => {
+    if (!userID) return;
+    try {
+      setApprovalStatus('pending');
+      const res = await axios.post(`${BASE_URL}/admin/verification/request`, { user_id: userID });
+      console.log('verification request response', res.data);
+      setApprovalStatus('pending');
+    } catch (err) {
+      console.error('Error requesting verification:', err);
+      alert(err.response?.data?.message || 'Could not request verification');
+      setApprovalStatus('none');
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -191,15 +217,20 @@ setAttributes(attrs);
           <div className="flower-section">
             <img src={flowerIcon} alt="Flower" />
             {profileUrl && (
-              <img
-  src={
-    profileFile
-      ? URL.createObjectURL(profileFile) // show selected file
-      : profileUrl // fallback to current Cloudinary URL
-  }
-  alt="User Profile"
-  className="profile-pic"
-/>
+              <div className="profile-pic-wrapper">
+                <img
+                  src={
+                    profileFile
+                      ? URL.createObjectURL(profileFile) // show selected file
+                      : profileUrl // fallback to current Cloudinary URL
+                  }
+                  alt="User Profile"
+                  className="profile-pic"
+                />
+                {approvalStatus === 'approved' && (
+                  <div className="profile-verified-indicator">✓</div>
+                )}
+              </div>
             )}
           </div>
          {isEditing && (
@@ -229,6 +260,10 @@ setAttributes(attrs);
               ) : (
                 <h2 className="user-name">
                   {name} {surname}
+                  {/* Verified badge */}
+                  {approvalStatus === 'approved' && (
+                    <span className="verified-badge">Verified</span>
+                  )}
                 </h2>
               )}
               <p className="user-username">@{user?.Username}</p>
@@ -292,6 +327,29 @@ setAttributes(attrs);
             <p style={{ fontSize: "12px", color: "gray" }}>
               Debug: Artist ID passed to PostContainer = {artistID}
             </p>
+
+            {/* Verification request area for artists */}
+            {approvalStatus !== 'approved' && (
+              <div style={{ marginTop: 16 }}>
+                {approvalStatus === 'pending' ? (
+                  <div style={{ color: '#28a745', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '20px' }}>⏳</span>
+                    Verification request pending review
+                  </div>
+                ) : (
+                  <div>
+                    {userArtworks && userArtworks.length >= 5 ? (
+                      <div>
+                        <p>You've posted 5+ artworks. You may request verification from an admin.</p>
+                        <button onClick={handleRequestVerification} className="request-verify-btn">Request Verification</button>
+                      </div>
+                    ) : (
+                      <p>Post 5+ artworks to request verification.</p>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
           </>
         ) : (
           <p>Loading artworks...</p>

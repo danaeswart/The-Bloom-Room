@@ -19,6 +19,7 @@ const ProfileBuy = () => {
   const [profileUrl, setProfileUrl] = useState("");
   const [email, setEmail] = useState("");
   const [buyerID, setBuyerID] = useState(null);
+  const [approvalStatus, setApprovalStatus] = useState(null);
 
 
   const location = useLocation();
@@ -60,6 +61,15 @@ useEffect(() => {
       // Save states
       setUser(updatedUser);
       setBuyerData(buyerData);
+      // set approval status based on user status and pending requests
+      try {
+        const pendingRes = await axios.get(`${BASE_URL}/admin/verification/requests`);
+        const pending = (pendingRes.data.requests || []).find(r => r.User_ID === userID);
+        if (pending) setApprovalStatus('pending');
+        else setApprovalStatus(updatedUser.Status === 'verified' ? 'approved' : 'none');
+      } catch (e) {
+        setApprovalStatus(updatedUser.Status === 'verified' ? 'approved' : 'none');
+      }
     } catch (err) {
       console.error("Error fetching buyer profile data:", err);
     }
@@ -115,11 +125,16 @@ useEffect(() => {
           <div className="flower-section">
             <img src={flowerIcon} alt="Flower" />
             {profileUrl && (
-              <img
-                src={typeof profileUrl === "string" ? profileUrl : URL.createObjectURL(profileUrl)}
-                alt="User Profile"
-                className="profile-pic"
-              />
+              <div className="profile-pic-wrapper">
+                <img
+                  src={typeof profileUrl === "string" ? profileUrl : URL.createObjectURL(profileUrl)}
+                  alt="User Profile"
+                  className="profile-pic"
+                />
+                {approvalStatus === 'approved' && (
+                  <div className="profile-verified-indicator">✓</div>
+                )}
+              </div>
             )}
           </div>
           {isEditing && <input type="file" onChange={handleProfileImageChange} />}
@@ -136,6 +151,9 @@ useEffect(() => {
               ) : (
                 <h2 className="user-name">
                   {name} {surname}
+                  {approvalStatus === 'approved' && (
+                    <span className="verified-badge">Verified</span>
+                  )}
                 </h2>
               )}
               <p className="user-username">@{user?.Username}</p>

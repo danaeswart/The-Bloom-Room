@@ -67,11 +67,34 @@
 /* Profile picture */
 .profile-pic {
   position: absolute;
-  width :40%;       /* make smaller than flower */
- height: 40%;
+  width: 40%;       /* make smaller than flower */
+  height: 40%;
   border-radius: 50%;  /* makes it circular */
   object-fit: cover;
   border: 3px solid white; /* optional border for contrast */
+}
+
+/* Profile wrapper to show verified status */
+.profile-pic-wrapper {
+  position: relative;
+}
+
+.profile-verified-indicator {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 24px;
+  height: 24px;
+  background: #28a745;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 /* Simplified flower using a circle + petals (CSS shapes) */
@@ -348,4 +371,40 @@
 /* Hide the real file input */
 .profile-upload-input {
   display: none;
+}
+
+/* Verified badge */
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 12px;
+  padding: 4px 12px;
+  background: #28a745;
+  color: white;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
+}
+
+.verified-badge::before {
+  content: "✓";
+  display: inline-block;
+  margin-right: 4px;
+  font-size: 1rem;
+}
+
+.request-verify-btn {
+  background: #0b67ff;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.request-verify-btn[disabled] {
+  opacity: 0.6;
+  cursor: default;
 }

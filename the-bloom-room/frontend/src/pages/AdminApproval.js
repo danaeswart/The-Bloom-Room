@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import "./css/AdminApproval.css"; // New CSS file for admin page
+import "./css/AdminApproval.css";
 import NavBar from "../components/Navbar";
 import { BASE_URL } from "../Config";
+import { useNavigate } from "react-router-dom";
 
 function AdminApproval() {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchRequests();
@@ -45,49 +47,58 @@ function AdminApproval() {
     }
   }
 
+  const navigateToProfile = (userId) => {
+    navigate(`/profile/${userId}`);
+  };
+
   return (
     <>
       <NavBar />
       <div className="approval-page">
-        <div className="left-panel">
-          <h2 className="section-title">Artist Artworks / Requests</h2>
-          <div className="images-container">
-            <div className="images-scroll">
-              {loading && <p>Loading...</p>}
-              {error && <p className="error">{error}</p>}
-              {!loading && requests.length === 0 && <p>No pending requests.</p>}
-              {requests.map((req) => (
-                <div key={req.Approval_ID} style={{ marginRight: 16 }}>
-                  <h4>{req.Username}</h4>
-                  {(req.artworks || []).map((a, i) => (
+        <h2 className="section-title">Artist Verification Requests</h2>
+        {loading && <p>Loading...</p>}
+        {error && <p className="error">{error}</p>}
+        {!loading && requests.length === 0 && <p>No pending requests.</p>}
+        <div className="requests-container">
+          {requests.map((req) => (
+            <div key={req.Approval_ID} className="request-card">
+              <div className="artist-header">
+                <h3 onClick={() => navigateToProfile(req.User_ID)} className="artist-username">
+                  {req.Username}
+                </h3>
+                <p className="artist-name">{req.Name} {req.Surname}</p>
+                <p className="artist-email">{req.Email}</p>
+              </div>
+              
+              <div className="artist-profile-info">
+                <h4>Profile Information</h4>
+                <p>{req.Bio || "No bio provided"}</p>
+              </div>
+
+              <div className="artist-artworks">
+                <h4>Recent Artworks</h4>
+                <div className="artwork-grid">
+                  {(req.artworks || []).slice(0, 3).map((a, i) => (
                     <img
                       key={i}
                       src={a.Image_URL || "https://via.placeholder.com/300x200?text=no+image"}
                       alt={`art-${i}`}
-                      style={{ height: 140, marginBottom: 8, display: "block" }}
+                      className="artwork-preview"
                     />
                   ))}
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="right-panel">
-          <h2 className="section-title">Pending Requests</h2>
-          {loading && <p>Loading...</p>}
-          {!loading && requests.length === 0 && <p>No requests to review</p>}
-          <div className="artist-info">
-            {requests.map((r) => (
-              <div key={r.Approval_ID} style={{ marginBottom: 18 }}>
-                <p><strong>{r.Username}</strong> ({r.Email})</p>
-                <div style={{ display: "flex", gap: 12 }}>
-                  <button className="approve-btn" onClick={() => handleAction(r.Approval_ID, "approve")}>Approve</button>
-                  <button className="reject-btn" onClick={() => handleAction(r.Approval_ID, "decline")}>Reject</button>
-                </div>
               </div>
-            ))}
-          </div>
+
+              <div className="action-buttons">
+                <button className="approve-btn" onClick={() => handleAction(req.Approval_ID, "approve")}>
+                  Approve
+                </button>
+                <button className="reject-btn" onClick={() => handleAction(req.Approval_ID, "decline")}>
+                  Reject
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </>

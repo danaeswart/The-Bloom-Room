@@ -12,13 +12,28 @@ const BASE_URL= "https://the-bloom-room-5.onrender.com";
 const ProfilePage = () => {
   const { artistId } = useParams(); // gets :artistId from URL
   const [artist, setArtist] = useState(null);
+  const [approvalStatus, setApprovalStatus] = useState(null);
+  const [artistUserId, setArtistUserId] = useState(null);
 
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const artistRes = await axios.get(`${BASE_URL}/artist/${artistId}`);
-        setArtist(artistRes.data);
+        const art = artistRes.data;
+        setArtist(art);
+        // if artist record includes User_ID, fetch user status
+        const userIdForArtist = art.User_ID || art.UserId || art.user_id || null;
+        if (userIdForArtist) {
+          setArtistUserId(userIdForArtist);
+          try {
+            const userRes = await axios.get(`${BASE_URL}/users/${userIdForArtist}`);
+            const userObj = userRes.data.user;
+            setApprovalStatus(userObj.Status === 'verified' ? 'approved' : 'none');
+          } catch (e) {
+            console.warn('Could not fetch artist user status', e);
+          }
+        }
       } catch (err) {
         console.error(err);
       }
@@ -78,11 +93,16 @@ try {
   <div className="flower-section">
     <img src={flowerIcon} alt="Flower" />
     {artist.Profile_url && (
-      <img
-        src={artist.Profile_url}
-        alt="Artist Profile"
-        className="profile-pic"
-      />
+      <div className="profile-pic-wrapper">
+        <img
+          src={artist.Profile_url}
+          alt="Artist Profile"
+          className="profile-pic"
+        />
+        {approvalStatus === 'approved' && (
+          <div className="profile-verified-indicator">✓</div>
+        )}
+      </div>
     )}
   </div>
 </div>
@@ -93,6 +113,9 @@ try {
             <div>
               <h2 className="user-name">
                 {artist.Name} {artist.Surname}
+                {approvalStatus === 'approved' && (
+                  <span className="verified-badge">Verified</span>
+                )}
               </h2>
               <p className="user-username">@{artist.Username}</p>
             </div>
