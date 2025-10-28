@@ -9,6 +9,7 @@ import { UserContext } from "../context/UserContext"; // Adjust path if needed
 import { Link } from "react-router-dom";
 import ProfilePostContainer from "../components/ProfilePostContainer";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 // import { BASE_URL } from "../Config";
 
 
@@ -25,7 +26,6 @@ const Profile = () => {
   const [userArtworks, setUserArtworks] = useState([]);
   const [approvalStatus, setApprovalStatus] = useState(null); // null | 'none' | 'pending' | 'approved'
   const [artistID, setArtistID] = useState(null);
-const [profileFile, setProfileFile] = useState(null); // holds the selected file
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -45,6 +45,7 @@ const [profileFile, setProfileFile] = useState(null); // holds the selected file
         const userRes = await axios.get(`${BASE_URL}/users/${userID}`);
         const updatedUser = userRes.data.user;
         console.log("User data received:", updatedUser);
+        console.log("User Status from DB:", updatedUser.Status);
         console.log("Setting name and surname hoe:", updatedUser.Name, updatedUser.Surname);
         setName(updatedUser.Name );
         setSurname(updatedUser.Surname);
@@ -83,11 +84,30 @@ setAttributes(attrs);
         try {
           const pendingRes = await axios.get(`${BASE_URL}/admin/verification/requests`);
           const pending = (pendingRes.data.requests || []).find(r => r.User_ID === userID);
-          if (pending) setApprovalStatus('pending');
-          else setApprovalStatus(updatedUser.Status === 'verified' ? 'approved' : 'none');
+          
+          console.log("Pending approval found:", pending);
+          console.log("Checking if verified - Status value:", updatedUser.Status);
+          console.log("Status comparison result:", updatedUser.Status === 'verified');
+          
+          if (pending) {
+            setApprovalStatus('pending');
+            console.log("Set approval status to: pending");
+          } else if (updatedUser.Status === 'verified') {
+            setApprovalStatus('approved');
+            console.log("Set approval status to: approved");
+          } else {
+            setApprovalStatus('none');
+            console.log("Set approval status to: none");
+          }
         } catch (e) {
           console.warn('Could not fetch pending approvals', e);
-          setApprovalStatus(updatedUser.Status === 'verified' ? 'approved' : 'none');
+          if (updatedUser.Status === 'verified') {
+            setApprovalStatus('approved');
+            console.log("Set approval status to: approved (fallback)");
+          } else {
+            setApprovalStatus('none');
+            console.log("Set approval status to: none (fallback)");
+          }
         }
       } catch (err) {
         console.error("Error fetching profile data:", err);
@@ -133,10 +153,6 @@ setAttributes(attrs);
     setAttributes(newAttrs);
   };
 
-  const handleProfileImageChange = (e) => {
-    setProfileFile(e.target.files[0]);
-  };
-
   const handleSave = async () => {
   console.log("=== Saving profile changes ===");
 
@@ -144,30 +160,11 @@ setAttributes(attrs);
     // 1. Update basic user info
     await axios.put(`${BASE_URL}/users/${userID}`, { name, surname });
 
-    // 2. Upload profile image if selected
-    let uploadedProfileUrl = profileUrl;
-    console.log("Profile file to upload:----------", profileFile);
-    console.log("baseurl", BASE_URL);
-//     if (profileFile && artistID) {
-//   const formData = new FormData();
-//   formData.append("file", profileFile);
-//   console.log("Uploading profile image for artistID:", artistID);
-
-//   const res = await axios.post(
-//     `${BASE_URL}/artist/upload-profile/${artistID}`,
-//     formData,
-//     { headers: { "Content-Type": "multipart/form-data" } }
-//   );
-
-//   console.log("Uploaded profile URL:", res.data.profileUrl);
-//   setProfileUrl(res.data.profileUrl);
-// }
-
-    // 3. Update artist info
+    // 2. Update artist info
     const artistFormData = new FormData();
     artistFormData.append("bio", bio);
     artistFormData.append("account_attributes", JSON.stringify(attributes));
-    if (uploadedProfileUrl) artistFormData.append("profile_url", uploadedProfileUrl);
+    if (profileUrl) artistFormData.append("profile_url", profileUrl);
 
     await axios.put(`${BASE_URL}/artist/${artistID}`, artistFormData, {
       headers: { "Content-Type": "multipart/form-data" },
@@ -175,7 +172,7 @@ setAttributes(attrs);
 
     console.log("✅ Profile updated successfully");
 
-    // 4. Refresh user
+    // 3. Refresh user
     const userRes = await axios.get(`${BASE_URL}/users/${userID}`);
     setUser(userRes.data.user);
 
@@ -219,11 +216,7 @@ setAttributes(attrs);
             {profileUrl && (
               <div className="profile-pic-wrapper">
                 <img
-                  src={
-                    profileFile
-                      ? URL.createObjectURL(profileFile) // show selected file
-                      : profileUrl // fallback to current Cloudinary URL
-                  }
+                  src={profileUrl}
                   alt="User Profile"
                   className="profile-pic"
                 />
@@ -233,20 +226,6 @@ setAttributes(attrs);
               </div>
             )}
           </div>
-         {isEditing && (
-  <>
-    <input
-      type="file"
-      id="profileUpload"
-      accept="image/*"
-      onChange={(e) => setProfileFile(e.target.files[0])}
-      className="profile-upload-input"
-    />
-    <label htmlFor="profileUpload" className="profile-upload">
-      Upload Profile Image
-    </label>
-  </>
-)}
         </div>
 
         <div className="user-info">
@@ -260,9 +239,9 @@ setAttributes(attrs);
               ) : (
                 <h2 className="user-name">
                   {name} {surname}
-                  {/* Verified badge */}
+                  {/* Verified checkmark icon */}
                   {approvalStatus === 'approved' && (
-                    <span className="verified-badge">Verified</span>
+                    <span className="verified-check-icon">✓</span>
                   )}
                 </h2>
               )}
@@ -320,41 +299,46 @@ setAttributes(attrs);
         </div>
       </div>
 
-      <div className="post-section">
-        {artistID ? (
-          <>
-            <ProfilePostContainer artistId={artistID} />
-            <p style={{ fontSize: "12px", color: "gray" }}>
-              Debug: Artist ID passed to PostContainer = {artistID}
-            </p>
-
-            {/* Verification request area for artists */}
-            {approvalStatus !== 'approved' && (
-              <div style={{ marginTop: 16 }}>
-                {approvalStatus === 'pending' ? (
-                  <div style={{ color: '#28a745', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontSize: '20px' }}>⏳</span>
-                    Verification request pending review
-                  </div>
+      <div className="action-center">
+        {artistID && approvalStatus !== 'approved' && (
+          <div className="verification-section">
+            {approvalStatus === 'pending' ? (
+              <div className="pending-verification">
+                <span></span>
+                Verification request pending review
+              </div>
+            ) : (
+              <div>
+                {userArtworks && userArtworks.length >= 5 ? (
+                  <>
+                    <p className="verification-text">You've posted 5+ artworks. You may request verification from an admin.</p>
+                    <button onClick={handleRequestVerification} className="request-verify-btn">
+                      Request Verification
+                    </button>
+                  </>
                 ) : (
-                  <div>
-                    {userArtworks && userArtworks.length >= 5 ? (
-                      <div>
-                        <p>You've posted 5+ artworks. You may request verification from an admin.</p>
-                        <button onClick={handleRequestVerification} className="request-verify-btn">Request Verification</button>
-                      </div>
-                    ) : (
-                      <p>Post 5+ artworks to request verification.</p>
-                    )}
-                  </div>
+                  <p className="verification-text">Post 5+ artworks to request verification.</p>
                 )}
               </div>
             )}
-          </>
+          </div>
+        )}
+        
+        <Link to="/bloompost">
+          <button className="bloom-post-btn">
+            Create New Bloom Post
+          </button>
+        </Link>
+      </div>
+
+      <div className="post-section">
+        {artistID ? (
+          <ProfilePostContainer artistId={artistID} />
         ) : (
           <p>Loading artworks...</p>
         )}
       </div>
+      <Footer />
     </>
   );
 };

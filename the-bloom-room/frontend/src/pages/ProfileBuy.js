@@ -7,6 +7,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import BuyerPostContainer from "../components/BuyerPostContainer";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 // import { BASE_URL } from "../Config";
 
 const BASE_URL= "https://the-bloom-room-5.onrender.com";
@@ -151,8 +152,9 @@ useEffect(() => {
               ) : (
                 <h2 className="user-name">
                   {name} {surname}
+                  {/* Verified checkmark icon */}
                   {approvalStatus === 'approved' && (
-                    <span className="verified-badge">Verified</span>
+                    <span className="verified-check-icon">✓</span>
                   )}
                 </h2>
               )}
@@ -191,6 +193,7 @@ useEffect(() => {
       
       </div>
        {buyerID && <BuyerPostContainer buyerId={buyerID} />}
+       <Footer />
     </>
   );
 };

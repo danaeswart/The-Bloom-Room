@@ -33,6 +33,50 @@ router.delete("/:orderID", async (req, res) => {
 
 
 // === GET buyer by User_ID ===
+// Get buyer profile with purchase history
+router.get("/profile/:buyerId", async (req, res) => {
+  const { buyerId } = req.params;
+  
+  try {
+    // Get buyer info with user details
+    const buyerQuery = `
+      SELECT b.*, u.Username, u.Name, u.Surname, u.Email, u.Status
+      FROM buyer b
+      JOIN users u ON b.User_ID = u.User_ID
+      WHERE b.Buyer_ID = ?
+    `;
+    
+    // Get purchase history
+    const historyQuery = `
+      SELECT o.*, a.Artwork_Name, a.Price, 
+             ai.Image_URL,
+             art.Name as Artist_Name, art.Surname as Artist_Surname
+      FROM orders o
+      JOIN artwork a ON o.Artwork_ID = a.Artwork_ID
+      LEFT JOIN artworkimages ai ON a.Artwork_ID = ai.Artwork_ID
+      LEFT JOIN artist ar ON a.Artist_ID = ar.Artist_ID
+      LEFT JOIN users art ON ar.User_ID = art.User_ID
+      WHERE o.Buyer_ID = ?
+      ORDER BY o.Order_Date DESC
+    `;
+
+    const [buyerInfo] = await db.query(buyerQuery, [buyerId]);
+    const [purchaseHistory] = await db.query(historyQuery, [buyerId]);
+
+    if (!buyerInfo.length) {
+      return res.status(404).json({ error: "Buyer not found" });
+    }
+
+    res.json({
+      profile: buyerInfo[0],
+      purchases: purchaseHistory
+    });
+  } catch (err) {
+    console.error("Error fetching buyer profile:", err);
+    res.status(500).json({ error: "Server error fetching buyer profile" });
+  }
+});
+
 router.get("/:userID", (req, res) => {
   console.log("it gets here ");
   const { userID } = req.params;

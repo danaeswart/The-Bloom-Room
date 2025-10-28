@@ -8,12 +8,15 @@ import flower1 from "../assets/images/flower-red.png";
 import flower2 from "../assets/images/flower-blue.png"; 
 import flower3 from "../assets/images/flower-green.png"; 
 import flower4 from "../assets/images/flower-pink.png"; 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import About from "./About";
 import AboutBloomRoom from "../components/AboutBloomRoom";
 
+import Footer from "../components/Footer";
+
 
 const Home = () => {
+  const nextSectionRef = useRef(null);
 
   // Clear user from localStorage on render
   useEffect(() => {
@@ -51,9 +54,26 @@ const Home = () => {
       <div className="home-content">
        <h1>Welcome to</h1>
         <img src={logo} alt="Logo" className="home-logo" />
-        <button className="bloom-button">Step into the Bloom Room</button>
+        <button
+          className="bloom-button"
+          type="button"
+          onClick={() => {
+            if (nextSectionRef.current) {
+              const targetImg = nextSectionRef.current.querySelector(
+                ".hero-image img, .buyer-image img, .hero-section img"
+              );
+              if (targetImg) {
+                targetImg.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+              } else {
+                nextSectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+            }
+          }}
+        >
+          Step into the Bloom Room
+        </button>
 
-      <div className="about-bloom">
+      <div className="about-bloom" ref={nextSectionRef}>
            <AboutBloomRoom />
       </div>
      
@@ -62,8 +82,11 @@ const Home = () => {
           <PostContainer />
         </div>
 
+        {/* <About/> */}
+
       </div>
       {/* <About /> */}
+      <Footer />
     </>
   );
 };

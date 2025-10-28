@@ -1,65 +1,237 @@
 .about-container {
   font-family: "Poppins", sans-serif;
   color: #333;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 4rem 3rem;
   margin-top: 40px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  position: relative;
+  z-index: 10;
+}
+
+.about-container.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .about-hero {
-  text-align: center;
-  margin-bottom: 4rem;
-}
+   text-align: center;
+   margin-bottom: 6rem;
+   animation: fadeInUp 1s ease forwards;
+  }
 
 .about-hero h1 {
-  font-size: 3rem;
+  font-size: 2.8rem;
   color: #222;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
 }
 
 .about-hero p {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   color: #666;
+  margin-top: 0;
 }
 
 .about-section {
-  display: flex;
-  align-items: center;
-  margin-bottom: 4rem;
-  gap: 2rem;
-}
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   margin-bottom: 6rem;
+   gap: 4rem;
+   opacity: 0;
+   transform: translateY(20px);
+   animation: fadeInUp 1s ease forwards;
+   animation-delay: 0.2s;
+  }
 
 .about-section.reverse {
-  flex-direction: row-reverse;
-}
+   flex-direction: row-reverse;
+  }
 
 .about-text {
-  flex: 1;
-}
+   flex: 1;
+  }
 
 .about-text h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: #222;
-}
+   font-size: 2.3rem;
+   margin-bottom: 1rem;
+   margin-top: 0;
+   color: #222;
+  }
 
 .about-text p {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: #555;
+   font-size: 1.2rem;
+   line-height: 2;
+   color: #555;
+   margin-bottom: 0;
+  }
+
+.about-image.main-img {
+   flex: 1;
+   width: 100%;
+   max-width: 520px;
+   height: auto;
+   border-radius: 12px;
+   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+   transition: transform 0.3s ease, opacity 0.6s ease;
+  }
+
+.about-image.main-img:hover {
+  transform: scale(1.04);
 }
 
-.about-image {
-  flex: 1;
-  max-width: 100%;
+.about-flower {
+  position: fixed;
+  width: clamp(260px, 22vw, 380px);
   height: auto;
-  border-radius: 12px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  opacity: 0.6;
+  pointer-events: none;
+  animation: flowerFloat 5s ease-in-out infinite alternate;
+  z-index: -1;
 }
 
-.about-image:hover {
-  transform: scale(1.02);
+.flower-blue {
+  top: 8%;
+  right: 3%;
+  animation-delay: 0s;
+}
+.flower-pink {
+  top: 20%;
+  left: 3%;
+  animation-delay: 0.7s;
+}
+.flower-green {
+  top: 50%;
+  right: 6%;
+  animation-delay: 1.2s;
+}
+.flower-lightgreen {
+  bottom: 10%;
+  left: 5%;
+  animation-delay: 1.8s;
+}
+.flower-red {
+  top: 70%;
+  right: 2%;
+  animation-delay: 2.3s;
+}
+
+/* Responsive sizing to avoid overwhelming small screens */
+@media (max-width: 768px) {
+  .about-flower {
+    width: clamp(160px, 40vw, 220px);
+  }
+}
+
+@keyframes flowerFloat {
+  0% {
+    transform: translateY(0) scale(1) rotate(-5deg);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateY(-15px) scale(1.1) rotate(7deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(-5deg);
+    opacity: 0.85;
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== MOBILE RESPONSIVENESS ===== */
+@media (max-width: 768px) {
+  .about-container {
+    padding: 2rem 1.5rem;
+    margin-top: 20px;
+  }
+
+  .about-hero h1 {
+    font-size: 2rem;
+  }
+
+  .about-hero p {
+    font-size: 1rem;
+  }
+
+  .about-section {
+    flex-direction: column !important;
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .about-section.reverse {
+    flex-direction: column !important;
+  }
+
+  .about-text h2 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  .about-text p {
+    font-size: 1rem;
+    line-height: 1.7;
+    text-align: center;
+  }
+
+  .about-image.main-img {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .about-flower {
+    width: clamp(120px, 30vw, 180px);
+  }
+}
+
+@media (max-width: 480px) {
+  .about-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .about-hero {
+    margin-bottom: 3rem;
+  }
+
+  .about-hero h1 {
+    font-size: 1.6rem;
+  }
+
+  .about-hero p {
+    font-size: 0.9rem;
+  }
+
+  .about-section {
+    margin-bottom: 3rem;
+    gap: 1.5rem;
+  }
+
+  .about-text h2 {
+    font-size: 1.5rem;
+  }
+
+  .about-text p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .about-flower {
+    width: clamp(80px, 25vw, 140px);
+    opacity: 0.4;
+  }
 }

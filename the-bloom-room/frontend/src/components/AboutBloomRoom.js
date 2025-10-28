@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from "react";
 import "./css/AboutBloomRoom.css";
 import heroImg from "../assets/images/Tomato.jpeg"; // placeholder hero image
 import postArtImg from "../assets/images/Tomato.jpeg"; // placeholder
-import inspoImg from "../assets/images/Tomato.jpeg"; // placeholder
-import buyerImg from "../assets/images/Tomato.jpeg"; // placeholder
+import inspoImg from "../assets/images/artwork2.jpeg"; // placeholder
+import buyerImg from "../assets/images/Tomato.jpeg"; // reverted to original Tomato image
 import { Link } from "react-router-dom";
 const AboutBloomRoom = () => {
   const sectionRefs = useRef([]);
@@ -34,7 +34,7 @@ const AboutBloomRoom = () => {
 
         </div>
         <div className="hero-image">
-          <img src={heroImg} alt="Creative Art" />
+          <img src={inspoImg} alt="Creative Art" />
         </div>
       </section>
 {/* Posting Types Section */}

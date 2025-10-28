@@ -10,7 +10,7 @@ console.log("🚀 Users route file loaded");
 router.get("/:id", (req, res) => {
   const userId = req.params.id;
 
-  const query = "SELECT User_ID, Username, Email, Name, Surname, Role FROM users WHERE User_ID = ?";
+  const query = "SELECT User_ID, Username, Email, Name, Surname, Role, Status FROM users WHERE User_ID = ?";
   db.query(query, [userId], (err, results) => {
     if (err) {
       console.error("DB error:", err);

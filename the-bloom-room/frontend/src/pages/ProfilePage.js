@@ -6,6 +6,7 @@ import NavbarLog from "../components/NavbarLog";
 import "./css/Profile.css"; // reuse same profile CSS
 import flowerIcon from "../assets/images/profile-flower.png";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 // import { BASE_URL } from "../Config";
 import ProfilePostContainer from "../components/ProfilePostContainer";
 const BASE_URL= "https://the-bloom-room-5.onrender.com";
@@ -113,8 +114,9 @@ try {
             <div>
               <h2 className="user-name">
                 {artist.Name} {artist.Surname}
+                {/* Verified checkmark icon */}
                 {approvalStatus === 'approved' && (
-                  <span className="verified-badge">Verified</span>
+                  <span className="verified-check-icon">✓</span>
                 )}
               </h2>
               <p className="user-username">@{artist.Username}</p>
@@ -144,6 +146,7 @@ try {
         {/* Reuse PostContainer like Profile.js */}
         <ProfilePostContainer artistId={artist.Artist_ID} />
       </div>
+      <Footer />
     </>
   );
 };

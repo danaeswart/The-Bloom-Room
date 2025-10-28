@@ -243,6 +243,7 @@ router.get("/artwork/:artworkId", (req, res) => {
   u.Username AS Buyer_Username,
   u.Name AS Buyer_Name,
   u.Surname AS Buyer_Surname,
+  u.Email AS Buyer_Email,
   a.Artist_ID AS ArtistRequester_ID,
   au.Username AS Artist_Username
 FROM orders o

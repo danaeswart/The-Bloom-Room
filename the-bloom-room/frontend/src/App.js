@@ -17,6 +17,7 @@ import HomeBuy from "./pages/HomeBuy";
 import ArtistArtwork from "./pages/ArtistArtworks";
 import BuyRequests from "./pages/BuyRequest";
 import Feed from "./pages/Feed";
+import AdminProfile from "./pages/AdminProfile";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path="/artistartworks/:artworkId" element={<ArtistArtwork />} />
         <Route path="/buyrequests/:artworkId" element={<BuyRequests />} />
         <Route path="/feed" element={<Feed />} />
+        <Route path="/admin-profile" element={<ProtectedAdminRoute><AdminProfile /></ProtectedAdminRoute>} />
       </Routes>
     </Router>
     </UserProvider>

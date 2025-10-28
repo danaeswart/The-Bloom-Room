@@ -190,4 +190,85 @@ router.post("/verification/decline", (req, res) => {
   });
 });
 
+// Get approved artists
+router.get("/approved-artists", async (req, res) => {
+  try {
+    // First query to check if there are any artists
+    const checkQuery = `
+      SELECT COUNT(*) as count
+      FROM users u
+      WHERE u.Status = 'verified'
+      AND u.Role = 'artist'
+    `;
+
+    const [checkResult] = await db.query(checkQuery);
+    console.log("Check result:", checkResult);
+
+    if (checkResult[0].count === 0) {
+      return res.json({ artists: [] });
+    }
+
+    // Main query with LEFT JOINs to be more forgiving
+    const query = `
+      SELECT DISTINCT 
+        u.User_ID, u.Username, u.Name, u.Surname, u.Email, u.Status,
+        a.Artist_ID, a.Bio
+      FROM users u
+      LEFT JOIN artist a ON u.User_ID = a.User_ID
+      WHERE u.Status = 'verified'
+      AND u.Role = 'artist'
+    `;
+
+    console.log("Executing query:", query);
+    const [artists] = await db.query(query);
+    console.log("Found artists:", artists);
+
+    res.json({ artists: artists || [] });
+  } catch (err) {
+    console.error("Error details:", err.message);
+    console.error("Full error:", err);
+    console.error("SQL State:", err.sqlState);
+    console.error("SQL Message:", err.sqlMessage);
+    res.status(500).json({ 
+      error: "Failed to fetch approved artists",
+      details: err.message,
+      sqlMessage: err.sqlMessage 
+    });
+  }
+});
+
+// Unapprove artist
+router.post("/unapprove-artist", async (req, res) => {
+  const { user_id, admin_user_id } = req.body;
+  
+  try {
+    // Verify admin
+    const [admin] = await db.query(
+      "SELECT * FROM users WHERE User_ID = ? AND Role = 'admin'",
+      [admin_user_id]
+    );
+
+    if (!admin.length) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    // Update user status
+    await db.query(
+      "UPDATE users SET Status = 'unverified' WHERE User_ID = ?",
+      [user_id]
+    );
+
+    // Update approval status
+    await db.query(
+      "UPDATE approval SET Status = 'Revoked' WHERE User_ID = ? AND Status = 'Approved'",
+      [user_id]
+    );
+
+    res.json({ message: "Artist verification revoked successfully" });
+  } catch (err) {
+    console.error("Error unapproving artist:", err);
+    res.status(500).json({ error: "Failed to unapprove artist" });
+  }
+});
+
 export default router;

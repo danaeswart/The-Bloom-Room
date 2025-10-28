@@ -160,7 +160,7 @@ html, body {
 
 /* Mobile */
 @media (max-width: 768px) {
-  .login-container { width: 95%; padding: 10px; min-height: auto; }
+  .login-container { width: 95%; padding: 10px; min-height: auto; position: relative; z-index: 1; }
 
   .role-selection { width: 90%; height: 60px; }
   .role-button { font-size: 14px; height: 80%; width: 90%; }
@@ -169,16 +169,37 @@ html, body {
   .login-input { padding: 10px 15px; font-size: 14px; }
   .login-button { width: 70%; padding: 14px 20px; font-size: 14px; }
 
-  /* Flowers hidden for mobile */
-  .flower { display: none; }
+  /* Keep flowers visible but smaller and behind content */
+  .flower { 
+    display: block;
+    z-index: -1;
+    opacity: 0.5;
+  }
+  .flower1 { top: 5%; left: 2%; width: 50px; }
+  .flower2 { top: 10%; right: 2%; width: 60px; }
+  .flower3 { bottom: 8%; left: 2%; width: 50px; }
+  .flower4 { bottom: 5%; right: 2%; width: 45px; }
 }
 
 /* Extra small phones */
 @media (max-width: 480px) {
   .login-container{
     margin-top: 30%;
+    position: relative;
+    z-index: 1;
   }
   .input-value-container { width: 100%; }
   .login-input { font-size: 13px; padding: 10px 12px; }
   .login-button { width: 100%; font-size: 18px; padding: 12px 16px; }
+
+  /* Smaller flowers for tiny screens */
+  .flower { 
+    display: block;
+    z-index: -1;
+    opacity: 0.4;
+  }
+  .flower1 { top: 5%; left: 1%; width: 40px; }
+  .flower2 { top: 8%; right: 1%; width: 45px; }
+  .flower3 { bottom: 10%; left: 1%; width: 40px; }
+  .flower4 { bottom: 8%; right: 1%; width: 35px; }
 }

@@ -220,6 +220,11 @@ html, body {
 }
 
 @media (max-width: 768px) {
+  .flower { 
+    display: block !important;
+    z-index: -1;
+    opacity: 0.5;
+  }
   .flower1 { top: 2%; left: 2%; width: 50px; }
   .flower2 { top: 10%; right: 3%; width: 60px; }
   .flower3 { bottom: 8%; left: 3%; width: 50px; }
@@ -227,9 +232,15 @@ html, body {
 }
 
 @media (max-width: 480px) {
-  .flower1, .flower2, .flower3, .flower4 {
-    display: none; /* hide flowers on very small screens */
+  .flower { 
+    display: block !important;
+    z-index: -1;
+    opacity: 0.4;
   }
+  .flower1 { top: 2%; left: 1%; width: 40px; }
+  .flower2 { top: 8%; right: 1%; width: 45px; }
+  .flower3 { bottom: 10%; left: 1%; width: 40px; }
+  .flower4 { bottom: 8%; right: 1%; width: 35px; }
 }
 
 /* -------------------------
@@ -242,12 +253,16 @@ html, body {
     padding: 10px;
     height: auto;
     align-items: center;
+    position: relative;
+    z-index: 1;
   }
 
   /* Role selection */
   .role-selection {
     width: 90%;
     height: 60px;
+    position: relative;
+    z-index: 10;
   }
 
   .role-button {
@@ -261,6 +276,8 @@ html, body {
     flex-direction: column;
     gap: 15px;
     width: 100%;
+    position: relative;
+    z-index: 10;
   }
 
   .form-column {
@@ -285,12 +302,11 @@ html, body {
     font-size: 14px;
   }
 
-  /* Flowers - smaller */
-  .flower1, .flower2, .flower3, .flower4 {
-    display: none;
-  }
-  .flower{
-    display: none;
+  /* Keep flowers visible but behind content */
+  .flower {
+    display: block !important;
+    z-index: -1 !important;
+    opacity: 0.5;
   }
 }
 
@@ -298,12 +314,18 @@ html, body {
 @media (max-width: 480px) {
   .login-container{
     margin-top: 1%;
+    position: relative;
+    z-index: 1;
   }
   .role-selection {
     height: 50px;
+    position: relative;
+    z-index: 10;
   }
   .form-columns-container , .form-column {
     gap: 10px;
+    position: relative;
+    z-index: 10;
   }
   .login-label{
     font-size: 16px;
@@ -315,6 +337,8 @@ html, body {
   }
   .form-submit-section{
     margin-top: 5%;
+    position: relative;
+    z-index: 10;
   }
   .imput-holder{
     width: 100%;
@@ -331,16 +355,10 @@ html, body {
     font-size: 12px;
   }
 
-  /* Hide flowers on very small screens */
-  .flower1, .flower2, .flower3, .flower4 {
-    display: none;
+  /* Keep flowers visible but behind all content */
+  .flower {
+    display: block !important;
+    z-index: -1 !important;
+    opacity: 0.4;
   }
-  .login-container img{
-    display: none;
-  }
-
-  .flower{
-    display: none;
-  }
-
 }

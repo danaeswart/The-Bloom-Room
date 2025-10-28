@@ -1,190 +1,337 @@
+.buyrequest-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+}
+.flower {
+  position: absolute;
+  opacity: 0.9;
+  transition: transform 0.25s ease-out;
+  pointer-events: none;
+  transform: translateY(0);
+  display: block;
+  max-height: 100vh;
+  height: auto;
+}
+.flower1 {
+  top: -10%;
+  left: 8%;
+  width: 900px;
+}
+.flower2 {
+  bottom: 6%;
+  right: -5%;
+  width: 200px;
+  max-width: 900px;
+}
+.flower3 {
+  bottom: 5%;
+  left: -10%;
+  width: 20vw;
+  max-width: 900px;
+}
+.flower4 {
+  top: 4%;
+  right: 15%;
+  width: 18vw;
+  max-width: 500px;
+}
+@media (max-width: 500px) {
+  .flower1 { top: 10%; left: -10%; width: 50vw; max-width: 300px; }
+  .flower2 { top: 5%; right: -30%; width: 70vw; max-width: 300px; }
+  .flower3 { bottom: 5%; left: -15%; width: 50vw; max-width: 300px; }
+  .flower4 { top: 75%; right: -5%; width: 40vw; max-width: 300px; }
+}
+.buyrequest-white-bg {
+  background: #fff !important;
+  position: relative;
+  z-index: 2;
+}
 /* -------------------------
   Base Artwork Page Styles
 ------------------------- */
 .artwork-page {
   display: flex;
-  gap: 2rem;
-  padding: 20px;
-  max-width: 1200px;
-  margin: 3rem auto;
-  flex-wrap: wrap; /* allows wrapping on smaller screens */
+  flex-direction: row; /* image on the right */
   justify-content: center;
   align-items: flex-start;
+  gap: 3rem;
+  padding: 40px;
+  max-width: 1200px;
+  margin: 3rem auto;
+  flex-wrap: wrap;
 }
 
 /* ----- Carousel ----- */
 .carousel {
   flex: 1;
-  min-width: 300px;
+  min-width: 350px;
   max-width: 600px;
-  height: 400px;
+  height: 420px;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
   position: relative;
 }
 
-.image-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-}
-
-.image-container img {
+.carousel img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
 }
 
-/* Slide direction animations */
-.image-container.right img {
-  animation: slideInFromRight 0.5s ease;
-}
-.image-container.left img {
-  animation: slideInFromLeft 0.5s ease;
-}
-
-@keyframes slideInFromRight {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
-}
-@keyframes slideInFromLeft {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
-}
-
-/* Arrows */
-.arrow {
+/* Carousel Arrow Buttons */
+.carousel .arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 2rem;
-  background: rgba(0, 0, 0, 0.553);
-  color: white;
+  background-color: rgba(255, 255, 255, 0.9);
   border: none;
-  cursor: pointer;
-  padding: 4px 18px;
   border-radius: 50%;
-  z-index: 2;
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  color: #2C4C34;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
 }
-.arrow.left { left: 10px; }
-.arrow.right { right: 10px; }
-.arrow:hover { background: rgba(19, 13, 132, 0.6); }
+
+.carousel .arrow:hover {
+  background-color: #2C4C34;
+  color: white;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel .arrow.left {
+  left: 15px;
+}
+
+.carousel .arrow.right {
+  right: 15px;
+}
 
 /* ----- Artwork Info ----- */
 .artwork-info {
   flex: 1;
-  min-width: 300px;
+  min-width: 320px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 15px;
+  color: #2C4C34;
+}
+
+.communication-note {
+  color: #2C4C34;
+  font-style: italic;
+  margin-top: 10px;
+  padding: 12px 16px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  font-size: 0.9em;
+  border-left: 4px solid #2C4C34;
 }
 
 .art-title {
   font-size: 2.5rem;
   color: #2C4C34;
-  margin-bottom: 10px;
-}
-
-.artist-name {
-  font-size: 1.5rem;
-  color: #6777BE;
-  margin-bottom: 20px;
-  margin-top: -10px;
+  margin-bottom: 8px;
+  font-weight: bold;
 }
 
 .description-box {
   background: #f5f5f5;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 1.2rem;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 1.1rem;
   color: #444;
+  line-height: 1.4;
 }
 
 .medium {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #2C4C34;
 }
-
-.request-btn, .back-button {
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.back-button-container {
-  width: 100%;
-  text-align: left;
-  margin: 20px 0;
-}
-
-/* ----- Status Styling ----- */
-.art-title-status {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.art-status {
-  font-size: 1.5rem;
-  padding: 3px 8px;
-  border-radius: 5px;
-  text-transform: capitalize;
-  font-weight: bold;
-}
-
-.art-status.available { background-color: #d4edda; color: #155724; }
-.art-status.unavailable { background-color: #f8d7da; color: #721c24; }
-.art-status.sold { background-color: #ffeeba; color: #856404; }
 
 /* -------------------------
   Buttons
 ------------------------- */
-.request-btn {
-  background-color: #1f5112;
-  color: #fff;
-  border: none;
-  padding: 15px 20px;
-  border-radius: 15px;
-  font-size: 1rem;
-  margin-right: 10px;
-  max-width: 250px;
-}
-
-.request-btn:hover { background-color: #2C4C34; }
-
-.delete-btn {
-  background-color: #e84e1f;
-  color: #fff;
-  border: none;
-  padding: 15px 20px;
-  border-radius: 15px;
-  font-weight: bold;
+.request-btn,
+.delete-btn,
+.modal-confirm,
+.modal-cancel,
+.approve-btn,
+.decline-btn,
+.unapprove-btn {
   cursor: pointer;
-  max-width: 250px;
-  font-size: 1rem;
-  transition: background 0.2s ease;
-}
-
-.delete-btn:hover { background-color: #2C4C34; }
-
-.back-button {
-  background-color: #FF6D41;
-  color: #fff;
   border: none;
-  padding: 8px 20px;
+  border-radius: 12px;
+  padding: 12px 24px;
   font-size: 1rem;
-  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.25s ease;
 }
-.back-button:hover { background-color: #2C4C34; }
+
+/* Shared button colors */
+.request-btn,
+.modal-confirm,
+.approve-btn,
+.unapprove-btn {
+  background-color: #1f5112;
+  color: white;
+}
+
+.request-btn:hover,
+.modal-confirm:hover,
+.approve-btn:hover,
+.unapprove-btn:hover {
+  background-color: #2C4C34;
+}
+
+.delete-btn,
+.decline-btn {
+  background-color: #e84e1f;
+  color: white;
+}
+
+.delete-btn:hover,
+.decline-btn:hover {
+  background-color: #b73b15;
+}
+
+.modal-cancel {
+  background-color: #eee;
+  color: #333;
+}
+
+.modal-cancel:hover {
+  background-color: #ddd;
+}
+
+/* Button layout */
+.artwork-info .request-btn,
+.artwork-info .delete-btn {
+  max-width: 220px;
+}
 
 /* -------------------------
-  Responsive Styles
+  Delete Confirmation Modal
 ------------------------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(3px);
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 18px;
+  padding: 2rem 2.5rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: popupFadeIn 0.3s ease;
+}
+
+.modal-content h3 {
+  margin-bottom: 1rem;
+  color: #2C4C34;
+  font-size: 1.6rem;
+}
+
+.modal-content p {
+  font-size: 1.1rem;
+  color: #444;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 1.8rem;
+}
+
+/* Prevent user from clicking background */
+.restrict-bg {
+  pointer-events: all;
+}
+
+@keyframes popupFadeIn {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* -------------------------
+  Requests Section
+------------------------- */
+.requests-section {
+  max-width: 1100px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: #fafafa;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.requests-section h3 {
+  color: #2C4C34;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.request-card {
+  background: #fff;
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.request-info p {
+  font-size: 1rem;
+  color: #444;
+}
+
+.request-info strong {
+  color: #2C4C34;
+}
+
+.request-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+
+
+
+/* -------------------------
+  Responsive
+------------------------- */
+/* Responsive design */
 @media (max-width: 1024px) {
   .artwork-page {
-    gap: 1.5rem;
-    padding: 15px;
+    gap: 2rem;
+    padding: 25px;
   }
 
   .carousel {
@@ -193,45 +340,122 @@
   }
 
   .art-title { font-size: 2rem; }
-  .artist-name { font-size: 1.3rem; }
-  .description-box, .medium { font-size: 1rem; }
-  .request-btn { padding: 12px 18px; font-size: 0.95rem; }
 }
 
 @media (max-width: 768px) {
   .artwork-page {
     flex-direction: column;
     align-items: center;
-    padding: 10px;
+    padding: 20px;
   }
 
   .carousel {
     width: 100%;
-    max-width: 100%;
-    height: 300px;
+    height: 320px;
+  }
+
+  .carousel .arrow {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+  }
+
+  .carousel .arrow.left {
+    left: 10px;
+  }
+
+  .carousel .arrow.right {
+    right: 10px;
   }
 
   .artwork-info {
     width: 100%;
-    max-width: 100%;
+    text-align: left;
   }
 
-  .art-title { font-size: 1.8rem; text-align: center; }
-  .artist-name { font-size: 1.1rem; text-align: center; }
-  .description-box, .medium { font-size: 0.95rem; }
-  .request-btn { width: 100%; padding: 12px; font-size: 1rem; }
-  .back-button { width: 100%; padding: 10px; font-size: 1rem; }
+  .art-title {
+    text-align: left;
+  }
+
+  .description-box,
+  .medium {
+    text-align: left;
+  }
+
+  .request-btn,
+  .delete-btn {
+    width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
-  .artwork-page { margin: 0.1rem 20px; margin-bottom: 5%;}
-  .carousel { height: 220px; }
-  .art-status { font-size: 1.1rem; padding: 2px 6px; }
-  .art-title { font-size: 1.8rem; }
-  .artist-name { font-size: 1.5rem; display: flex; justify-content: flex-start;}
-  .artwork-info { gap: 4px; }
-  .description-box, .medium { font-size: 0.9rem; }
-  .request-btn-contianer{display: flex;justify-content: center; }
-  .request-btn, .back-button { font-size: 0.95rem; padding: 20px; width: 100%;display: flex;justify-content: center; }
-  .arrow { font-size: 1.5rem; padding: 2px 12px; }
+  .artwork-page {
+    margin: 1rem 10px;
+  }
+
+  .carousel {
+    height: 220px;
+  }
+
+  .carousel .arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .carousel .arrow.left {
+    left: 8px;
+  }
+
+  .carousel .arrow.right {
+    right: 8px;
+  }
+
+  .requests-section {
+    padding: 1.2rem;
+  }
+
+  .request-card {
+    padding: 1rem;
+  }
+
+  .modal-content {
+    padding: 1.5rem;
+  }
+}
+
+/* Toast Popup */
+.toast-popup {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  background: #7b803e;
+  color: white;
+  padding: 14px 26px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0;
+  animation: fadeInOut 2.2s ease forwards;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Fade In + Out Animation */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
 }

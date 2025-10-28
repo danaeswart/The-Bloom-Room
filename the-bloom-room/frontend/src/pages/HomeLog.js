@@ -2,13 +2,14 @@ import React, { useContext, useEffect } from "react";
 import PostContainer from "../components/PostContainer"; 
 import "./css/HomeLog.css";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { UserContext } from "../context/UserContext";
 import flower1 from "../assets/images/flower-red.png";
 import flower2 from "../assets/images/flower-blue.png";
 import flower3 from "../assets/images/flower-green.png";
 import flower4 from "../assets/images/flower-pink.png";
 import { Link } from "react-router-dom";
-
+import AboutBloomRoom from "../components/AboutBloomRoom";
 const HomeLog = () => {
   const { user } = useContext(UserContext);
 
@@ -55,6 +56,10 @@ const HomeLog = () => {
         <img src={flower3} alt="flower" className="flower flower3" />
         <img src= {flower4}alt="flower" className="flower flower4" />
       </div>
+
+      <AboutBloomRoom />
+
+      <Footer />
     </>
   );
 };

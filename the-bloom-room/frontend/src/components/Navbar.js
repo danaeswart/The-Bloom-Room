@@ -109,15 +109,12 @@ console.log("📍 Current path:", currentPath);
           <>
             <Link to="/adminapproval" className="nav-link">Admin</Link>
             <div className="login-icon">
-              <Link to="/profile" state={{ user }}>Account</Link>
+              <Link to="/admin-profile" state={{ user }}>Account</Link>
             </div>
           </>
         )}
 
-        {/* --- Logout for any logged-in user --- */}
-        {user && (
-          <button className="nav-logout" onClick={() => { setUser(null); localStorage.removeItem('user'); navigate('/login'); }}>Logout</button>
-        )}
+        {/* --- Logout button removed --- */}
       </div>
     </nav>
   );

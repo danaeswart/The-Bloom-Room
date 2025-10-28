@@ -67,12 +67,11 @@ const ArtworkPage = () => {
     <>
       <Navbar />
       <div className="artwork-page">
-
-      <div className="back-button-container">
-  <button className="back-button" onClick={() => navigate(-1)}>
-    ← Back
-  </button>
-</div>
+        <div className="back-button-container">
+          <button className="back-button" onClick={() => navigate(-1)}>
+            ← Back
+          </button>
+        </div>
 
         {/* Left - Carousel */}
         <div className="carousel">
@@ -110,6 +109,16 @@ const ArtworkPage = () => {
   <p className="artist-name">
     by <Link to={`/profile/${artwork.Artist_ID}`}>{artwork.Artist_Username}</Link>
   </p>
+  {artwork.Status.toLowerCase() === 'sold' && artwork.Buyer_Username && (
+    <div>
+      <p className="buyer-name">
+        Sold to {artwork.Buyer_Username}
+      </p>
+      <p className="communication-note">
+        Artist contact information has been sent to the buyer. Further communication will be directly between the artist and buyer.
+      </p>
+    </div>
+  )}
 
   <h4>Description:</h4>
   <div className="description-box">{artwork.Description}</div>

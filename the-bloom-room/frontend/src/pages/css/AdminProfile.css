@@ -1,0 +1,111 @@
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 12px;
+  padding: 4px 12px;
+  background: #1f5112;
+  color: white;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 2px 4px rgba(31, 81, 18, 0.2);
+}
+
+.approved-artists-section {
+  width: 70%;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.approved-artists-section h2 {
+  color: #2C4C34;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.artists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.artist-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.artist-card:hover {
+  transform: translateY(-2px);
+}
+
+.artist-info h3 {
+  color: #2C4C34;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+}
+
+.artist-info p {
+  color: #666;
+  margin: 0.3rem 0;
+}
+
+.artist-username {
+  display: block;
+  color: #5068D5;
+  text-decoration: none;
+  margin: 0.3rem 0;
+  transition: color 0.2s ease;
+}
+
+.artist-username:hover {
+  color: #2C4C34;
+  text-decoration: underline;
+}
+
+.verification-date {
+  font-size: 0.9rem;
+  margin-top: 0.8rem !important;
+}
+
+.verified-status {
+  color: #1f5112;
+  font-weight: 600;
+}
+
+.unapprove-btn {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.8rem;
+  background: #e84e1f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.unapprove-btn:hover {
+  background: #b73b15;
+}
+/* ===== MOBILE RESPONSIVENESS ===== */
+@media (max-width: 768px) {
+  .approved-artists-section { width: 90%; padding: 1.5rem; }
+  .approved-artists-section h2 { font-size: 1.5rem; }
+  .artists-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .artist-card { padding: 1.2rem; }
+  .artist-info h3 { font-size: 1.1rem; }
+}
+@media (max-width: 480px) {
+  .approved-artists-section { width: 95%; padding: 1rem; }
+  .approved-artists-section h2 { font-size: 1.3rem; }
+  .artist-card { padding: 1rem; }
+  .artist-info h3 { font-size: 1rem; }
+  .artist-info p, .artist-username { font-size: 0.9rem; }
+  .unapprove-btn { padding: 0.7rem; font-size: 0.9rem; }
+  .admin-badge { padding: 3px 10px; font-size: 0.8rem; }
+}

@@ -4,7 +4,9 @@ import "./css/BloomPost.css";
 import NavbarLog from "../components/NavbarLog";
 import { UserContext } from "../context/UserContext";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import axios from "axios";
+import flowerSpinner from "../assets/images/flower-pink.png";
 // import { BASE_URL } from "../Config";
 
 const BASE_URL= "https://the-bloom-room-5.onrender.com";
@@ -28,6 +30,7 @@ function BloomPost() {
 const fileInputRef = useRef();
 
 const [artworkStatus, setArtworkStatus] = useState("available"); // default
+  const [isUploading, setIsUploading] = useState(false); // loading state
 
   useEffect(() => {
     
@@ -80,13 +83,29 @@ const [artworkStatus, setArtworkStatus] = useState("available"); // default
     return;
   }
 
+    // If posting for sale, ensure a valid price is provided
+    if (artworkStatus === "available") {
+      const p = parseFloat(price);
+      if (isNaN(p) || p < 0) {
+        alert("Please enter a valid non-negative price for items marked for sale.");
+        return;
+      }
+    }
+
+    // Show loading overlay
+    setIsUploading(true);
+
     const formData = new FormData();
     formData.append("Artwork_Name", artworkName);
     formData.append("description", description);
     formData.append("medium", medium);
-    formData.append("price", price);
     formData.append("artistID", artistID.toString());
     formData.append("status", artworkStatus); // <-- send current selection
+
+    // Only include price when item is for sale
+    if (artworkStatus === "available") {
+      formData.append("price", price);
+    }
 
     images.forEach((file) => {
       formData.append("images", file);
@@ -109,10 +128,12 @@ const [artworkStatus, setArtworkStatus] = useState("available"); // default
         if (fileInputRef.current) fileInputRef.current.value = "";
         navigate("/homelog");
       } else {
+        setIsUploading(false); // Hide loading on error
         alert(data?.error || "Unknown server error");
       }
     } catch (err) {
       console.error(err);
+      setIsUploading(false); // Hide loading on error
       alert("Failed to upload artwork");
     }
   };
@@ -120,6 +141,17 @@ const [artworkStatus, setArtworkStatus] = useState("available"); // default
   return (
     <>
       <Navbar />
+      
+      {/* Loading Overlay */}
+      {isUploading && (
+        <div className="upload-overlay">
+          <div className="upload-spinner">
+            <img src={flowerSpinner} alt="Loading" className="flower-spinner" />
+            <p>Uploading Post...</p>
+          </div>
+        </div>
+      )}
+
       <div className="upload-artwork-page">
         {/* Left - Carousel */}
         <div className="left-panel">
@@ -209,17 +241,20 @@ const [artworkStatus, setArtworkStatus] = useState("available"); // default
               />
             </label>
 
-            <label>
-              Price:
-              <input
-                type="number"
-                min="0"
-                step="0.01"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                placeholder="Price in USD"
-              />
-            </label>
+            {artworkStatus === "available" && (
+              <label>
+                Price:
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  placeholder="Price in USD"
+                  required={artworkStatus === "available"}
+                />
+              </label>
+            )}
 
             <button type="submit" className="post-btn">
               Post
@@ -237,6 +272,7 @@ const [artworkStatus, setArtworkStatus] = useState("available"); // default
           />
         </div>
       </div>
+      <Footer />
     </>
   );
 }

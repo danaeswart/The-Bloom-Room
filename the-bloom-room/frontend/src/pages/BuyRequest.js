@@ -1,9 +1,13 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "./css/ArtworkPage.css";
 import axios from "axios";
-// import { BASE_URL } from "../Config";
+import flower1 from "../assets/images/flower-red.png";
+import flower2 from "../assets/images/flower-blue.png";
+import flower3 from "../assets/images/flower-green.png";
+import flower4 from "../assets/images/flower-pink.png";
 
 const BASE_URL= "https://the-bloom-room-5.onrender.com";
 
@@ -31,7 +35,6 @@ const BuyRequests = () => {
   useEffect(() => {
     const fetchArtworkAndOrder = async () => {
       if (!buyerId || !artworkId) return;
-
       try {
         const artworkRes = await axios.get(`${BASE_URL}/artwork/${artworkId}`);
         const fetchedArtwork = artworkRes.data;
@@ -51,7 +54,6 @@ const BuyRequests = () => {
         console.error("Error fetching artwork or order:", err);
       }
     };
-
     fetchArtworkAndOrder();
   }, [buyerId, artworkId]);
 
@@ -81,12 +83,32 @@ const BuyRequests = () => {
     }
   };
 
+
+  useEffect(() => {
+    const flowers = document.querySelectorAll(".flower");
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      flowers.forEach((flower, index) => {
+        const speed = 0.5 + index * 0.4;
+        flower.style.transform = `translateY(${-scrollTop * speed}px)`;
+      });
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   if (!artwork) return <p style={{ marginTop: "5rem" }}>Loading artwork...</p>;
 
   return (
     <>
       <Navbar />
-      <div className="artwork-page" style={{ marginTop: "5rem" }}>
+      <div className="buyrequest-background">
+        <img src={flower1} alt="flower" className="flower flower1" />
+        <img src={flower2} alt="flower" className="flower flower2" />
+        <img src={flower3} alt="flower" className="flower flower3" />
+        <img src={flower4} alt="flower" className="flower flower4" />
+      </div>
+      <div className="artwork-page buyrequest-white-bg" style={{ marginTop: "5rem" }}>
         {/* Carousel */}
         <div className="carousel">
           {artwork.Images?.length > 0 && (
