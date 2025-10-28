@@ -26,6 +26,28 @@
 
 }
 
+.back-button {
+  position: absolute;
+  top: -50px;
+  left: 0;
+  background: #2C4C34;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.back-button:hover {
+  background: #1f3d28;
+  transform: translateX(-5px);
+}
+
 /* Pencil edit button in the top left */
 .edit-btn {
   position: absolute;
@@ -673,6 +695,12 @@
     width: 90%;
     margin-top: 2rem;
     padding: 15px;
+  }
+
+  .back-button {
+    top: -40px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
   }
 
   .left-section {

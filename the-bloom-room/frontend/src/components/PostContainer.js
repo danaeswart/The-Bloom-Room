@@ -13,11 +13,8 @@ function PostContainer() {
   useEffect(() => {
     const fetchArtworks = async () => {
       try {
-        console.log("Fetching artworks from backend...");
         const endpoint = `${BASE_URL}/artwork`;
-        console.log("Using endpoint:", endpoint);
         const res = await axios.get(endpoint);
-        console.log("Response data from backend:", res.data);
 
         setPosts(res.data);
         // console.log("Posts state after setPosts:", res.data);
@@ -30,7 +27,6 @@ function PostContainer() {
   }, []); // runs once on mount
 
   const handleArtworkClick = (artworkId) => {
-    console.log("Artwork clicked with ID:", artworkId);
     navigate(`/artwork/${artworkId}`);
   };
 
@@ -39,7 +35,6 @@ function PostContainer() {
       {posts.length > 0 ? (
         posts.map((artwork, index) => {
           // console.log(`Rendering artwork #${index}:`, artwork);
-          console.log("Image URL for this artwork:", artwork.Image_URL);
           return (
             <div
               key={artwork.Artwork_ID}

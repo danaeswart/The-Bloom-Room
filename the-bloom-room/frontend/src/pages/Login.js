@@ -26,7 +26,6 @@ const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
-    console.log("🌐 Logging in with:", `${BASE_URL}/auth/login`);
     const res = await axios.post(`${BASE_URL}/auth/login`, {
       email,
       password,
@@ -34,7 +33,6 @@ const handleSubmit = async (e) => {
     }, { withCredentials: true });
 
     const user = res.data.user;
-    console.log("Logged in user:", user);
 
     // alert(`Welcome back, ${user.Username}!`);
     setUser(user);

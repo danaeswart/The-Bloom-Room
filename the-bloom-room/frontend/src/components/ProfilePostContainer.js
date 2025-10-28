@@ -7,7 +7,6 @@ import "./css/ProfilePostContainer.css";
 const BASE_URL= "https://the-bloom-room-5.onrender.com";
 
 function ProfilePostContainer({ artistId = null }) {
-  console.log("ProfilePostContainer artistId:", artistId);
   const [posts, setPosts] = useState([]);
   const [orderCounts, setOrderCounts] = useState({});
   const navigate = useNavigate();
@@ -19,11 +18,9 @@ function ProfilePostContainer({ artistId = null }) {
       try {
         const artworksRes = await axios.get(`${BASE_URL}/artwork/user/${artistId}`);
         const artworks = artworksRes.data;
-        console.log("Fetched artworks for artist:", artworks);
 
         const countsRes = await axios.get(`${BASE_URL}/orders/artist/${artistId}/counts`);
         const countsData = countsRes.data;
-        console.log("Fetched order counts for artist:", countsData);
 
         const countsMap = {};
         countsData.forEach((item) => {
@@ -58,7 +55,6 @@ function ProfilePostContainer({ artistId = null }) {
       {posts.map((artwork) => {
         const requestCount = orderCounts[artwork.Artwork_ID] || 0;
            // Log the image URL for debugging
-      console.log(`Artwork ID: ${artwork.Artwork_ID}, Image URL:`, artwork.Image_URL);
 
         return (
           <div key={artwork.Artwork_ID} className="post-wrapper">

@@ -48,7 +48,6 @@ function SignUp() {
   { email, password, username, name, surname, role }
 , { withCredentials: true });
 
-      console.log("Signup success:", res.data);
       alert("Account created successfully!");
 
       // ✅ Store user globally instead of passing state

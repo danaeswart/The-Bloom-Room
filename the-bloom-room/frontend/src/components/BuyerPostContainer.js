@@ -16,10 +16,8 @@ function BuyerPostContainer({ buyerId }) {
     if (!buyerId) return;
 
     try {
-      console.log("Fetching orders for buyerId:", buyerId);
       const ordersRes = await axios.get(`${BASE_URL}/orders/buyer/${buyerId}`);
       const orders = ordersRes.data;
-      console.log("Buyer orders:", orders);
 
       // Save buyerId in local storage for BuyRequests page
       localStorage.setItem("buyerId", buyerId);
@@ -49,7 +47,6 @@ function BuyerPostContainer({ buyerId }) {
 
 
   const handleArtworkClick = (artworkId) => {
-    console.log("clicked with artwork id", artworkId);
     navigate(`/buyrequests/${artworkId}`); // Navigate to buy request details page
   };
 

@@ -32,26 +32,20 @@ useEffect(() => {
     if (!userID) return;
 
     try {
-      console.log("user id we got bitch", userID);
-
       // Fetch base user info
       const userRes = await axios.get(`${BASE_URL}/users/${userID}`);
       
       const updatedUser = userRes.data.user;
-        console.log("Updated user:", updatedUser);
 
          // Update state with fetched data
       setName(updatedUser.Name);
       setSurname(updatedUser.Surname);
       setEmail(updatedUser.Email);
-      console.log("Setting name and surname:", updatedUser.Name, updatedUser.Surname);
 
       // ✅ Fetch buyer-specific info
       const buyerRes = await axios.get(`${BASE_URL}/buyer/${userID}`);
       
       const buyerData = buyerRes.data; // no .buyer here
-
-      console.log("Buyer data received:", buyerData);
 
      
       setBuyerID(buyerData.Buyer_ID);
@@ -111,10 +105,9 @@ useEffect(() => {
 
 
   const handleLogout = () => {
-    console.log("Logging out...");
     setUser(null);
     localStorage.removeItem("user");
-    navigate("/");
+    navigate("/home");
   };
 
   return (

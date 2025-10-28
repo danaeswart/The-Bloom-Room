@@ -35,7 +35,6 @@ const Profile = () => {
   // FETCH ARTIST DATA
   useEffect(() => {
     const fetchProfileData = async () => {
-      console.log("who we have", userID);
       if (!userID) return;
 
       try {
@@ -44,9 +43,6 @@ const Profile = () => {
         // 2. Fetch user data
         const userRes = await axios.get(`${BASE_URL}/users/${userID}`);
         const updatedUser = userRes.data.user;
-        console.log("User data received:", updatedUser);
-        console.log("User Status from DB:", updatedUser.Status);
-        console.log("Setting name and surname hoe:", updatedUser.Name, updatedUser.Surname);
         setName(updatedUser.Name );
         setSurname(updatedUser.Surname);
         setUser(updatedUser);
@@ -55,7 +51,6 @@ const Profile = () => {
         // 1. Fetch artist data
         const artistRes = await axios.get(`${BASE_URL}/artist/user/${userID}`);
         const artistData = artistRes.data;
-         console.log("Artist data received hoe:", artistData);
 
         let attrs = [];
 if (artistData.Account_Attributes) {
@@ -72,12 +67,8 @@ setAttributes(attrs);
         setProfileUrl(artistData.Profile_url || "");
         setArtistID(artistData.Artist_ID);
 
-        // console.log("Artist ID set:", artistData.Artist_ID);
-
         // 3. Fetch artworks for this artist
-        console.log("Fetching artworks for artistID:", artistData.Artist_ID);
         const artworksRes = await axios.get(`${BASE_URL}/artwork/user/${artistData.Artist_ID}`);
-        console.log("Artworks data received:", artworksRes.data);
         setUserArtworks(artworksRes.data);
 
         // check for any pending approval for this user
@@ -85,13 +76,8 @@ setAttributes(attrs);
           const pendingRes = await axios.get(`${BASE_URL}/admin/verification/requests`);
           const pending = (pendingRes.data.requests || []).find(r => r.User_ID === userID);
           
-          console.log("Pending approval found:", pending);
-          console.log("Checking if verified - Status value:", updatedUser.Status);
-          console.log("Status comparison result:", updatedUser.Status === 'verified');
-          
           if (pending) {
             setApprovalStatus('pending');
-            console.log("Set approval status to: pending");
           } else if (updatedUser.Status === 'verified') {
             setApprovalStatus('approved');
             console.log("Set approval status to: approved");
@@ -103,10 +89,8 @@ setAttributes(attrs);
           console.warn('Could not fetch pending approvals', e);
           if (updatedUser.Status === 'verified') {
             setApprovalStatus('approved');
-            console.log("Set approval status to: approved (fallback)");
           } else {
             setApprovalStatus('none');
-            console.log("Set approval status to: none (fallback)");
           }
         }
       } catch (err) {
@@ -154,8 +138,6 @@ setAttributes(attrs);
   };
 
   const handleSave = async () => {
-  console.log("=== Saving profile changes ===");
-
   try {
     // 1. Update basic user info
     await axios.put(`${BASE_URL}/users/${userID}`, { name, surname });
@@ -170,8 +152,6 @@ setAttributes(attrs);
       headers: { "Content-Type": "multipart/form-data" },
     });
 
-    console.log("✅ Profile updated successfully");
-
     // 3. Refresh user
     const userRes = await axios.get(`${BASE_URL}/users/${userID}`);
     setUser(userRes.data.user);
@@ -185,7 +165,6 @@ setAttributes(attrs);
 
 
   const handleLogout = () => {
-    console.log("Logging out...");
     setUser(null);
     localStorage.removeItem("user");
     navigate("/home");
@@ -196,7 +175,6 @@ setAttributes(attrs);
     try {
       setApprovalStatus('pending');
       const res = await axios.post(`${BASE_URL}/admin/verification/request`, { user_id: userID });
-      console.log('verification request response', res.data);
       setApprovalStatus('pending');
     } catch (err) {
       console.error('Error requesting verification:', err);
@@ -210,6 +188,11 @@ setAttributes(attrs);
       <Navbar />
 
       <div className="profile-card">
+        {/* Back Button */}
+        <button className="back-button" onClick={() => navigate(-1)}>
+          ← Back
+        </button>
+
         <div className="left-section">
           <div className="flower-section">
             <img src={flowerIcon} alt="Flower" />

@@ -51,27 +51,22 @@ let attributes = [];
 
 try {
   if (artist && artist.Account_Attributes) {
-    console.log("Raw artist attributes:", artist.Account_Attributes);
-
     let parsed = artist.Account_Attributes;
 
     // Parse once if it's a string
     if (typeof parsed === "string") {
       parsed = JSON.parse(parsed);
-      console.log("First parse result:", parsed);
     }
 
     // If still a string (double-encoded), parse again
     if (typeof parsed === "string") {
       parsed = JSON.parse(parsed);
-      console.log("Second parse result:", parsed);
     }
 
     // Finally, check if it's an array
     if (Array.isArray(parsed)) {
       attributes = parsed;
     } else {
-      console.warn("Artist attributes parsed but not array, resetting to []");
       attributes = [];
     }
   }

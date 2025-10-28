@@ -35,13 +35,10 @@ const [artworkStatus, setArtworkStatus] = useState("available"); // default
   useEffect(() => {
     
     if (user && user.Role === "artist") {
-      console.log("Fetching artist ID for user:", user.User_ID);
-      
       fetch(`${BASE_URL}/artist/user/${user.User_ID}`)
         .then((res) => res.json())
         .then((data) => {
           setArtistID(data.Artist_ID);
-          console.log("Artist ID set to;:", data.Artist_ID);
         });
         
     }

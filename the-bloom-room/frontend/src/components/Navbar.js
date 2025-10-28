@@ -10,7 +10,6 @@ function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 const currentPath = location.pathname;
-console.log("📍 Current path:", currentPath);
 
 
 

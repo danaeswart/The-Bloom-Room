@@ -14,7 +14,6 @@ import flower4 from "../assets/images/flower-pink.png";
 
 const HomeBuy = () => {
   const { user } = useContext(UserContext); // ✅ pull from global context
-  console.log("HomeBuy user from context:", user);
 
   useEffect(() => {
     const flowers = document.querySelectorAll(".flower");

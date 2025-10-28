@@ -39,10 +39,8 @@ const [toastMessage, setToastMessage] = useState("");
 
   const fetchRequests = async () => {
     try {
-        console.log("Fetching requests for artworkId:", artworkId);
       const res = await axios.get(`${BASE_URL}/orders/artwork/${artworkId}`);
       setRequests(res.data);
-      console.log("Fetched requests:", res.data);
     } catch (err) {
       console.error("Error fetching requests:", err);
     }
@@ -91,13 +89,11 @@ const handleDelete = async () => {
   };
 
 const updateStatus = async (orderId, status) => {
-  console.log("💡 Updating order", orderId, "to status", status); // DEBUG
   try {
     const res = await axios.put(
       `${BASE_URL}/orders/${orderId}/status`,
       { status }
     );
-    console.log("✅ Status updated:", res.data);
 
     // REFRESH requests from the backend
     fetchRequests();
