@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import "./css/About.css";
 import teamImg from "../assets/images/artwork1.jpeg";
 import missionImg from "../assets/images/artwork2.jpeg";
@@ -20,45 +21,56 @@ const About = () => {
   }, []);
 
   return (
-    <>
-      <Navbar />
-
-      <div className={`about-container ${fadeIn ? "visible" : ""}`}>
-        <section className="about-hero">
-          <h1>About ArtConnect</h1>
-          <p>Connecting artists and art lovers in one inspiring space.</p>
-        </section>
-
-        <section className="about-section">
-          <img src={teamImg} alt="Our Team" className="about-image main-img" />
-          <div className="about-text">
-            <h2>Who We Are</h2>
-            <p>
-              ArtConnect is a platform built by artists, for artists. Our mission
-              is to create a space where creativity thrives, collaboration is
-              easy, and art is celebrated. We empower both emerging and
-              established artists to showcase their work, connect with potential
-              clients, and grow their careers.
-            </p>
-          </div>
-        </section>
-
-        <section className="about-section reverse">
-          <img src={missionImg} alt="Mission" className="about-image main-img" />
-          <div className="about-text">
-            <h2>Our Mission</h2>
-            <p>
-              We exist to break down barriers in the art world. ArtConnect makes
-              it simple to display artwork, get commissioned, and build lasting
-              relationships between artists and clients in a professional, secure,
-              and user-friendly way.
-            </p>
-          </div>
-        </section>
-
-        <section className="about-section">
-          <img src={visionImg} alt="Vision" className="about-image main-img" />
-          <div className="about-text">
+      <>
+        <Helmet>
+          <title>About | The Bloom Room</title>
+          <meta name="description" content="Learn about The Bloom Room, our team, mission, and vision. Connecting artists and art lovers in one inspiring space." />
+          <meta name="keywords" content="about, team, mission, vision, art, artists, gallery, creative, The Bloom Room" />
+          <meta name="author" content="The Bloom Room Team" />
+          <meta property="og:title" content="About | The Bloom Room" />
+          <meta property="og:description" content="Learn about The Bloom Room, our team, mission, and vision. Connecting artists and art lovers in one inspiring space." />
+          <meta property="og:type" content="website" />
+          <meta property="og:image" content="/bloomroom-og-image.jpg" />
+          <meta property="og:url" content="https://thebloomroom.com/about" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="About | The Bloom Room" />
+          <meta name="twitter:description" content="Learn about The Bloom Room, our team, mission, and vision. Connecting artists and art lovers in one inspiring space." />
+          <meta name="twitter:image" content="/bloomroom-og-image.jpg" />
+        </Helmet>
+        <Navbar />
+        <div className={`about-container ${fadeIn ? "visible" : ""}`}>
+          <section className="about-hero">
+            <h1>About ArtConnect</h1>
+            <p>Connecting artists and art lovers in one inspiring space.</p>
+          </section>
+          <section className="about-section">
+            <img src={teamImg} alt="Our Team" className="about-image main-img" />
+            <div className="about-text">
+              <h2>Who We Are</h2>
+              <p>
+                ArtConnect is a platform built by artists, for artists. Our mission
+                is to create a space where creativity thrives, collaboration is
+                easy, and art is celebrated. We empower both emerging and
+                established artists to showcase their work, connect with potential
+                clients, and grow their careers.
+              </p>
+            </div>
+          </section>
+          <section className="about-section reverse">
+            <img src={missionImg} alt="Mission" className="about-image main-img" />
+            <div className="about-text">
+              <h2>Our Mission</h2>
+              <p>
+                We exist to break down barriers in the art world. ArtConnect makes
+                it simple to display artwork, get commissioned, and build lasting
+                relationships between artists and clients in a professional, secure,
+                and user-friendly way.
+              </p>
+            </div>
+          </section>
+          <section className="about-section">
+            <img src={visionImg} alt="Vision" className="about-image main-img" />
+            <div className="about-text">
             <h2>Our Vision</h2>
             <p>
               Our vision is to become the leading global hub for creative

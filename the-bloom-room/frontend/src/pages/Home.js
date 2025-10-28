@@ -1,6 +1,7 @@
 // import React, { useEffect } from "react";
 
 import Navbar from "../components/Navbar";
+import { Helmet } from "react-helmet";
 import PostContainer from "../components/PostContainer"; 
 import logo from "../assets/images/logo.png";
 import "./css/Home.css";
@@ -42,17 +43,33 @@ const Home = () => {
 
   return (
     <>
+      <Helmet>
+        <title>The Bloom Room | Art Marketplace</title>
+        <meta name="description" content="Discover, showcase, and purchase unique artworks inspired by nature and creativity at The Bloom Room." />
+        <meta name="keywords" content="art, marketplace, buy art, sell art, artists, nature, flowers, creative, gallery, online art, artwork, paintings, sculpture" />
+        <meta name="author" content="The Bloom Room Team" />
+        {/* Open Graph / Facebook */}
+        <meta property="og:title" content="The Bloom Room | Art Marketplace" />
+        <meta property="og:description" content="Discover and purchase unique artworks from talented artists at The Bloom Room." />
+        <meta property="og:image" content="/bloomroom-og-image.jpg" />
+        <meta property="og:url" content="https://thebloomroom.com" />
+        <meta property="og:type" content="website" />
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="The Bloom Room | Art Marketplace" />
+        <meta name="twitter:description" content="Discover and purchase unique artworks from talented artists at The Bloom Room." />
+        <meta name="twitter:image" content="/bloomroom-og-image.jpg" />
+        <meta name="twitter:site" content="@thebloomroom" />
+      </Helmet>
       <Navbar />
       <div className="home-background">
         <img src={flower1} alt="Flower 1" className="flower flower1" />
         <img src={flower2} alt="Flower 2" className="flower flower2" />
         <img src={flower3} alt="Flower 3" className="flower flower3" />
         <img src={flower4} alt="Flower 4" className="flower flower4" />
-          
       </div>
-
       <div className="home-content">
-       <h1>Welcome to</h1>
+        <h1>Welcome to</h1>
         <img src={logo} alt="Logo" className="home-logo" />
         <button
           className="bloom-button"

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import "./css/AdminApproval.css";
 import NavBar from "../components/Navbar";
 import { BASE_URL } from "../Config";
@@ -52,13 +53,28 @@ function AdminApproval() {
   };
 
   return (
-    <>
-      <NavBar />
-      <div className="approval-page">
-        <h2 className="section-title">Artist Verification Requests</h2>
-        {loading && <p>Loading...</p>}
-        {error && <p className="error">{error}</p>}
-        {!loading && requests.length === 0 && <p>No pending requests.</p>}
+      <>
+        <Helmet>
+          <title>Admin Approval | The Bloom Room</title>
+          <meta name="description" content="Review and manage artist verification requests on The Bloom Room." />
+          <meta name="keywords" content="admin, approval, artist verification, requests, The Bloom Room" />
+          <meta name="author" content="The Bloom Room Team" />
+          <meta property="og:title" content="Admin Approval | The Bloom Room" />
+          <meta property="og:description" content="Review and manage artist verification requests on The Bloom Room." />
+          <meta property="og:type" content="website" />
+          <meta property="og:image" content="/bloomroom-og-image.jpg" />
+          <meta property="og:url" content="https://thebloomroom.com/admin-approval" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Admin Approval | The Bloom Room" />
+          <meta name="twitter:description" content="Review and manage artist verification requests on The Bloom Room." />
+          <meta name="twitter:image" content="/bloomroom-og-image.jpg" />
+        </Helmet>
+        <NavBar />
+        <div className="approval-page">
+          <h2 className="section-title">Artist Verification Requests</h2>
+          {loading && <p>Loading...</p>}
+          {error && <p className="error">{error}</p>}
+          {!loading && requests.length === 0 && <p>No pending requests.</p>}
         <div className="requests-container">
           {requests.map((req) => (
             <div key={req.Approval_ID} className="request-card">

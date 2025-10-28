@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import "./css/ArtworkPage.css";
 import Navbar from "../components/Navbar";
+import { Helmet } from "react-helmet";
 import axios from "axios";
 // import { BASE_URL } from "../Config";
 
@@ -63,8 +64,23 @@ const ArtworkPage = () => {
   if (!artwork) return <p>Loading artwork...</p>;
 
   return (
-    <>
-      <Navbar />
+      <>
+        <Helmet>
+          <title>Artwork Details | The Bloom Room</title>
+          <meta name="description" content="Explore artwork details, images, and request options on The Bloom Room." />
+          <meta name="keywords" content="artwork, details, images, request, The Bloom Room, gallery" />
+          <meta name="author" content="The Bloom Room Team" />
+          <meta property="og:title" content="Artwork Details | The Bloom Room" />
+          <meta property="og:description" content="Explore artwork details, images, and request options on The Bloom Room." />
+          <meta property="og:type" content="website" />
+          <meta property="og:image" content="/bloomroom-og-image.jpg" />
+          <meta property="og:url" content="https://thebloomroom.com/artwork" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Artwork Details | The Bloom Room" />
+          <meta name="twitter:description" content="Explore artwork details, images, and request options on The Bloom Room." />
+          <meta name="twitter:image" content="/bloomroom-og-image.jpg" />
+        </Helmet>
+        <Navbar />
       <div className="artwork-page">
         <div className="back-button-container">
           <button className="back-button" onClick={() => navigate(-1)}>

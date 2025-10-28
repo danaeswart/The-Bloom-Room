@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Sitemap for The Bloom Room (React SPA)
+  IMPORTANT: Replace https://RENDER_FRONTEND_URL with your live frontend URL on Render (e.g., https://the-bloom-room.onrender.com)
+  After deployment, re-submit this sitemap URL in Google Search Console.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Core pages -->
+  <url>
+    <loc>https://the-bloom-room-frontend.onrender.com</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://the-bloom-room-frontend.onrender.com</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://the-bloom-room-frontend.onrender.com/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://the-bloom-room-frontend.onrender.com/feed</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://the-bloom-room-frontend.onrender.com/login</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://the-bloom-room-frontend.onrender.com/signup</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://the-bloom-room-frontend.onrender.comL/homebuy</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://the-bloom-room-frontend.onrender.com/homelog</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://the-bloom-room-frontend.onrender.com/profile</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://the-bloom-room-frontend.onrender.com/profilebuy</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://the-bloom-room-frontend.onrender.com/admin-approval</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://the-bloom-room-frontend.onrender.com/admin-profile</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://the-bloom-room-frontend.onrender.com/artist-artworks</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://the-bloom-room-frontend.onrender.com/order</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://the-bloom-room-frontend.onrender.com/bloom-post</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Dynamic routes guidance -->
+  <!--
+    If you have dynamic routes like /artwork/:artworkId or /profile/:userId,
+    generate a full sitemap at build time by fetching IDs and listing each URL.
+    Alternatively, maintain a separate sitemap for dynamic content.
+  -->
+</urlset>

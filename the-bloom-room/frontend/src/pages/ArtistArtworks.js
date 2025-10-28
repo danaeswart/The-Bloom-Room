@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 
 import Navbar from "../components/Navbar";
+import { Helmet } from "react-helmet";
 import axios from "axios";
 import "./css/ArtworkPage.css";
 import { useNavigate, useParams } from "react-router-dom";
@@ -108,8 +109,23 @@ const updateStatus = async (orderId, status) => {
   if (!artwork) return <p>Loading artwork...</p>;
 
   return (
-    <>
-      <Navbar />
+      <>
+        <Helmet>
+          <title>Artist Artworks | The Bloom Room</title>
+          <meta name="description" content="View and manage your artworks as an artist on The Bloom Room." />
+          <meta name="keywords" content="artist, artworks, manage, edit, The Bloom Room, gallery" />
+          <meta name="author" content="The Bloom Room Team" />
+          <meta property="og:title" content="Artist Artworks | The Bloom Room" />
+          <meta property="og:description" content="View and manage your artworks as an artist on The Bloom Room." />
+          <meta property="og:type" content="website" />
+          <meta property="og:image" content="/bloomroom-og-image.jpg" />
+          <meta property="og:url" content="https://thebloomroom.com/artist-artworks" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Artist Artworks | The Bloom Room" />
+          <meta name="twitter:description" content="View and manage your artworks as an artist on The Bloom Room." />
+          <meta name="twitter:image" content="/bloomroom-og-image.jpg" />
+        </Helmet>
+        <Navbar />
       <div className="back-button-container">
         <button onClick={() => navigate(-1)} className="back-button">
           ← Back
