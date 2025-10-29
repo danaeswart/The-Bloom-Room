@@ -7,6 +7,58 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Global responsive container for all pages */
+#root {
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Global responsive text sizing */
+html {
+  font-size: 16px;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1.2;
+  margin: 0.5em 0;
+}
+
+h2 {
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  line-height: 1.3;
+  margin: 0.5em 0;
+}
+
+h3 {
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  line-height: 1.4;
+  margin: 0.5em 0;
+}
+
+p, span, div {
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  line-height: 1.5;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 768px) {
+  #root {
+    padding: 0 15px;
+  }
+  
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  #root {
+    padding: 0 10px;
+  }
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

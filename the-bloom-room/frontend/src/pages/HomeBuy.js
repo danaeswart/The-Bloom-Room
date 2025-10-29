@@ -42,7 +42,7 @@ const HomeBuy = () => {
       </div>
 
       <div className="home-content">
-        <h1>Welcome Home Buy, {user?.Name || "Guest"}</h1>
+        <h1>Welcome Home, {user?.Name || "Guest"}</h1>
         <h2>Here's some art that's worth the watch:</h2>
 
         <div className="post-section">

@@ -188,11 +188,6 @@ setAttributes(attrs);
       <Navbar />
 
       <div className="profile-card">
-        {/* Back Button */}
-        <button className="back-button" onClick={() => navigate(-1)}>
-          ← Back
-        </button>
-
         <div className="left-section">
           <div className="flower-section">
             <img src={flowerIcon} alt="Flower" />

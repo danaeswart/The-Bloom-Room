@@ -29,13 +29,25 @@ h1 {
   background-color: #FF6D41;
   color: #fff;
   border: none;
- width: 500px;
-    
+  width: clamp(280px, 70vw, 500px);
+  max-width: 90vw;
   border-radius: 200px;
-  padding: 15px 35px;
-  font-size: 30px;
+  padding: clamp(12px, 3vw, 15px) clamp(25px, 6vw, 35px);
+  font-size: clamp(1.2rem, 4vw, 1.8rem);
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(255, 109, 65, 0.3);
+}
+
+.bloom-but:hover {
+  background-color: #2C4C34;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(44, 76, 52, 0.4);
+}
+
+.bloom-but:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(255, 109, 65, 0.3);
 }
 
 .bloom-button:hover {
