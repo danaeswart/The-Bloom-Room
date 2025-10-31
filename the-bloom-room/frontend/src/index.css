@@ -1,5 +1,11 @@
-body {
+html, body {
   margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -9,6 +15,12 @@ body {
 
 /* Global responsive container for all pages */
 #root {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Content wrapper to account for fixed navbar */
+.page-content {
   padding: 80px 20px 0 20px;
   max-width: 100%;
   box-sizing: border-box;
@@ -44,8 +56,8 @@ p, span, div {
 
 /* Mobile-specific adjustments */
 @media (max-width: 768px) {
-  #root {
-    padding: 0 15px;
+  .page-content {
+    padding: 70px 15px 0 15px;
   }
   
   body {
@@ -54,8 +66,8 @@ p, span, div {
 }
 
 @media (max-width: 480px) {
-  #root {
-    padding: 0 10px;
+  .page-content {
+    padding: 65px 10px 0 10px;
   }
 }
 

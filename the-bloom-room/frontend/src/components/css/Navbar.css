@@ -9,7 +9,9 @@
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
   width: 100vw;
+  margin: 0;
   box-sizing: border-box;
   z-index: 100 !important;
 }
