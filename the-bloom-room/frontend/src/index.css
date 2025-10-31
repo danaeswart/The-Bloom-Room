@@ -21,7 +21,7 @@ body {
 
 /* Content wrapper to account for fixed navbar */
 .page-content {
-  padding: 80px 20px 0 20px;
+  padding: 100px 20px 0 20px;
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -57,7 +57,7 @@ p, span, div {
 /* Mobile-specific adjustments */
 @media (max-width: 768px) {
   .page-content {
-    padding: 70px 15px 0 15px;
+    padding: 90px 15px 0 15px;
   }
   
   body {
@@ -67,7 +67,7 @@ p, span, div {
 
 @media (max-width: 480px) {
   .page-content {
-    padding: 65px 10px 0 10px;
+    padding: 85px 10px 0 10px;
   }
 }
 
