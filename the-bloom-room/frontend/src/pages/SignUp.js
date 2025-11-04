@@ -50,7 +50,7 @@ function SignUp() {
 
       alert("Account created successfully!");
 
-      // ✅ Store user globally instead of passing state
+      //  Store user globally instead of passing state
       const newUser = {
         User_ID: res.data.user.id,
         Email: email,
