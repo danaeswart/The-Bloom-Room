@@ -1,8 +1,7 @@
 # robots.txt for The Bloom Room
-# IMPORTANT: Replace https://RENDER_FRONTEND_URL with your live frontend URL on Render once deployed
 
 User-agent: *
 Allow: /
 
 # Point search engines to your sitemap
-Sitemap: https://RENDER_FRONTEND_URL/sitemap.xml
+Sitemap: https://the-bloom-room-frontend/sitemap.xml
