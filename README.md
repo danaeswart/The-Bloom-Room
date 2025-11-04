@@ -69,7 +69,7 @@ To create a thriving digital ecosystem where art transcends boundaries, connecti
 
 ## Live Demo
 
- **[View Live Application](https://your-bloom-room-app.onrender.com)**
+ **[View Live Application](https://the-bloom-room-frontend.onrender.com)**
 
 
 
