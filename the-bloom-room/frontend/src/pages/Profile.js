@@ -198,9 +198,6 @@ setAttributes(attrs);
                   alt="User Profile"
                   className="profile-pic"
                 />
-                {approvalStatus === 'approved' && (
-                  <div className="profile-verified-indicator">✓</div>
-                )}
               </div>
             )}
           </div>
