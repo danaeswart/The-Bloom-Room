@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import { UserContext } from "../context/UserContext";
 import "./css/Profile.css";
 import "./css/AdminProfile.css";
-import flowerIcon from "../assets/images/profile-flower.png";
+import flowerIcon from "../assets/images/newprofile.png";
 
 const AdminProfile = () => {
   const { user, setUser } = useContext(UserContext);
@@ -48,16 +48,7 @@ const AdminProfile = () => {
         <div className="profile-card admin-profile">
           <div className="left-section">
             <div className="flower-section">
-              <img src={flowerIcon} alt="Flower" />
-              {profileUrl && (
-                <div className="profile-pic-wrapper">
-                  <img
-                    src={profileFile ? URL.createObjectURL(profileFile) : profileUrl}
-                    alt="Admin Profile"
-                    className="profile-pic"
-                  />
-                </div>
-              )}
+              <img src={flowerIcon} alt="Profile" className="profile-flower-small" />
             </div>
           </div>
           <div className="user-info">

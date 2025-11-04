@@ -4,7 +4,7 @@ import axios from "axios";
 import NavbarLog from "../components/NavbarLog";
 
 import "./css/Profile.css"; // reuse same profile CSS
-import flowerIcon from "../assets/images/profile-flower.png";
+import flowerIcon from "../assets/images/newprofile.png";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 // import { BASE_URL } from "../Config";
@@ -92,19 +92,7 @@ try {
         
        <div className="left-section">
   <div className="flower-section">
-    <img src={flowerIcon} alt="Flower" />
-    {artist.Profile_url && (
-      <div className="profile-pic-wrapper">
-        <img
-          src={artist.Profile_url}
-          alt="Artist Profile"
-          className="profile-pic"
-        />
-        {approvalStatus === 'approved' && (
-          <div className="profile-verified-indicator">✓</div>
-        )}
-      </div>
-    )}
+    <img src={flowerIcon} alt="Profile" className="profile-flower-small" />
   </div>
 </div>
 

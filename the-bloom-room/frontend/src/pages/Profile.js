@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import NavbarLog from "../components/NavbarLog";
 
 import "./css/Profile.css";
-import flowerIcon from "../assets/images/profile-flower.png";
+import flowerIcon from "../assets/images/newprofile.png";
 import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../context/UserContext"; // Adjust path if needed
 import { Link } from "react-router-dom";
@@ -190,16 +190,7 @@ setAttributes(attrs);
       <div className="profile-card">
         <div className="left-section">
           <div className="flower-section">
-            <img src={flowerIcon} alt="Flower" />
-            {profileUrl && (
-              <div className="profile-pic-wrapper">
-                <img
-                  src={profileUrl}
-                  alt="User Profile"
-                  className="profile-pic"
-                />
-              </div>
-            )}
+            <img src={flowerIcon} alt="Profile" className="profile-flower-small" />
           </div>
         </div>
 

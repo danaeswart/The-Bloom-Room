@@ -1,4 +1,4 @@
-# 🌸 The Bloom Room
+![intro](images/intro.png)
 
 **A vibrant online art marketplace connecting artists and buyers in one inspiring creative space.**
 
@@ -6,7 +6,7 @@ The Bloom Room is a digital community platform where artists can showcase their 
 
 ---
 
-## 📋 Table of Contents
+##  Table of Contents
 
 - [About the Project](#about-the-project)
 - [Live Demo](#live-demo)
@@ -42,22 +42,23 @@ The Bloom Room is a digital community platform where artists can showcase their 
 
 ---
 
-## 🎨 About the Project
+##  About the Project
+
+![about](images/about.png)
 
 The Bloom Room is more than just an art marketplace—it's a creative ecosystem where:
 
 - **Artists** can upload, manage, and sell their artwork with detailed profiles and verification systems
 - **Buyers** can discover, request, and purchase unique pieces directly from artists  
-- **Everyone** can share inspirational content and connect with the creative community
 - **Admins** can manage artist verification and platform oversight
 
 The platform features a flower-themed design with responsive layouts, smooth animations, and an intuitive user experience across all devices.
 
-### 🎯 **Project Vision**
+###  **Project Vision**
 To create a thriving digital ecosystem where art transcends boundaries, connecting creative minds worldwide while fostering artistic growth, community engagement, and meaningful collaborations.
 
-### 📊 **Project Stats**
-- **Development Time**: 6+ months
+###  **Project Stats**
+- **Development Time**: 3+ months
 - **Lines of Code**: 15,000+
 - **Components**: 25+ React components
 - **API Endpoints**: 30+ RESTful endpoints
@@ -67,76 +68,73 @@ To create a thriving digital ecosystem where art transcends boundaries, connecti
 
 ---
 
-## 🌐 Live Demo
+## Live Demo
 
-🚀 **[View Live Application](https://your-bloom-room-app.onrender.com)**
+ **[View Live Application](https://your-bloom-room-app.onrender.com)**
 
-**Test Accounts:**
-- **Artist Demo**: `artist@demo.com` / `demo123`
-- **Buyer Demo**: `buyer@demo.com` / `demo123`
-- **Admin Demo**: `admin@demo.com` / `admin123`
+
 
 ---
 
-## 📸 Screenshots
+##  Screenshots
 
-### 🏠 **Home Page**
-![Home Page](./images/home-screenshot.png)
+###  **Home Page**
+![Home Page](images/home.png)
 *Beautiful landing page with parallax flower animations and clear call-to-action*
 
-### 🎨 **Artist Profile**
-![Artist Profile](./images/artist-profile-screenshot.png)
+###  **Artist Profile**
+![Artist Profile](images/artistpro.png)
 *Comprehensive artist profiles with portfolio management and verification badges*
 
-### 🛍️ **Marketplace Feed**
-![Marketplace](./images/marketplace-screenshot.png)
+###  **Marketplace Feed**
+![Marketplace](images/marketplace.png)
 *Responsive artwork feed with advanced filtering and search capabilities*
 
-### 📱 **Mobile Experience**
-![Mobile View](./images/mobile-screenshot.png)
+### **Mobile Experience**
+![Mobile View](images/mobile.png)
 *Fully responsive design optimized for all device types*
+
+### **Mockup**
+![mocup](images/mock.png)
 
 ---
 
-## ✨ Features
+##  Features
 
-### 🖼️ **Artwork Management**
+###  **Artwork Management**
 - Upload and display artwork with multiple images
 - Edit artwork details, pricing, and availability
 - Manage artwork status (available, sold, unavailable)
 - Image carousel with smooth transitions
 
-### 👥 **User Profiles**
+###  **User Profiles**
 - Personalized artist and buyer profiles
-- Profile picture uploads via Cloudinary
 - Bio and attribute customization
 - Artist verification system with admin approval
 
-### 🛍️ **Marketplace Features**
+###  **Marketplace Features**
 - Browse artwork feed with responsive post containers
 - Request artwork purchases directly from artists
 - Order management system
 - Price validation and availability checks
 
-### 💬 **Social Features**
+###  **Social Features**
 - Create "Bloom Posts" for inspiration and artwork
 - Interactive feed with community content
-- Follow and discover other artists
-- Responsive commenting system
 
-### 🔐 **Authentication & Security**
+###  **Authentication & Security**
 - User registration and login system
 - Role-based access (Artist, Buyer, Admin)
 - Protected routes and admin panels
 - Secure file uploads
 
-### 📱 **Responsive Design**
+###  **Responsive Design**
 - Mobile-first responsive design
 - Smooth parallax flower animations
 - Loading overlays with custom flower spinners
 - Optimized for all screen sizes
 
-### 🔍 **SEO & Analytics**
+###  **SEO & Analytics**
 - Google Analytics integration
 - Comprehensive meta tags with React Helmet
 - XML sitemap for search engines
@@ -144,7 +142,7 @@ To create a thriving digital ecosystem where art transcends boundaries, connecti
 
 ---
 
-## 🛠️ Built With
+##  Built With
 
 ### **Frontend**
 - ![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB) **React 18** - UI Framework
@@ -169,7 +167,7 @@ To create a thriving digital ecosystem where art transcends boundaries, connecti
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -235,7 +233,7 @@ Before running The Bloom Room locally, ensure you have:
 
 ---
 
-## 💡 Usage
+##  Usage
 
 ### **Getting Started as a User**
 
@@ -267,7 +265,10 @@ Before running The Bloom Room locally, ensure you have:
 
 ---
 
-## 🏗️ Architecture & System Design
+##  Architecture & System Design
+
+
+
 
 ### **Frontend Architecture**
 ```
@@ -307,92 +308,24 @@ backend/
 └── uploads/             # Local file storage (backup)
 ```
 
----
+### **Database Schema**
 
-## 🗄️ Database Design
 
-### **Entity Relationship Diagram**
-```
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│    Users    │────│   Artists   │────│  Artworks   │
-│             │    │             │    │             │
-│ • user_id   │    │ • artist_id │    │ • artwork_id│
-│ • username  │    │ • user_id   │    │ • artist_id │
-│ • email     │    │ • bio       │    │ • title     │
-│ • password  │    │ • verified  │    │ • price     │
-│ • role      │    │ • profile   │    │ • status    │
-└─────────────┘    └─────────────┘    └─────────────┘
-       │                   │                   │
-       │            ┌─────────────┐           │
-       └────────────│   Orders    │───────────┘
-                    │             │
-                    │ • order_id  │
-                    │ • buyer_id  │
-                    │ • artwork_id│
-                    │ • status    │
-                    │ • created   │
-                    └─────────────┘
-```
 
-### **Database Schema Details**
+**Key Tables:**
+- `Users` - User authentication and basic info
+- `Artists` - Artist-specific profiles and verification status
+- `Buyers` - Buyer profiles and preferences  
+- `Artworks` - Artwork details, pricing, and status
+- `Orders` - Purchase requests and transactions
+- `Admin_Approval` - Artist verification workflow
 
-#### **Users Table**
-```sql
-CREATE TABLE Users (
-  user_id INT PRIMARY KEY AUTO_INCREMENT,
-  username VARCHAR(50) UNIQUE NOT NULL,
-  email VARCHAR(100) UNIQUE NOT NULL,
-  password_hash VARCHAR(255) NOT NULL,
-  role ENUM('artist', 'buyer', 'admin') NOT NULL,
-  profile_image VARCHAR(255),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-```
-
-#### **Artists Table**
-```sql
-CREATE TABLE Artists (
-  artist_id INT PRIMARY KEY AUTO_INCREMENT,
-  user_id INT UNIQUE,
-  bio TEXT,
-  website VARCHAR(255),
-  social_media JSON,
-  verification_status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
-  verification_date TIMESTAMP NULL,
-  attributes JSON,
-  FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
-);
-```
-
-#### **Artworks Table**  
-```sql
-CREATE TABLE Artworks (
-  artwork_id INT PRIMARY KEY AUTO_INCREMENT,
-  artist_id INT NOT NULL,
-  title VARCHAR(200) NOT NULL,
-  description TEXT,
-  price DECIMAL(10,2),
-  images JSON NOT NULL,
-  status ENUM('available', 'sold', 'unavailable') DEFAULT 'available',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (artist_id) REFERENCES Artists(artist_id) ON DELETE CASCADE,
-  INDEX idx_artist_status (artist_id, status),
-  INDEX idx_created_at (created_at)
-);
-```
-
-### **Database Optimizations**
-- **Indexing Strategy**: Composite indexes on frequently queried columns
-- **JSON Fields**: Flexible storage for dynamic attributes and social media links
-- **Cascade Deletes**: Automatic cleanup of related records
-- **Timestamp Tracking**: Automatic created/updated timestamps
-- **Data Validation**: Enum constraints for status fields
+### **ER diagram**
+![er](images/er.png)
 
 ---
 
-## 📡 API Reference
+##  API Reference
 
 ### **Authentication Endpoints**
 - `POST /auth/login` - User login
@@ -456,7 +389,7 @@ All API responses follow a consistent structure:
 
 ---
 
-## 🔒 Security
+##  Security
 
 ### **Authentication & Authorization**
 - **JWT Tokens**: Secure session management with refresh tokens
@@ -479,7 +412,7 @@ All API responses follow a consistent structure:
 
 ---
 
-## ⚡ Performance
+##  Performance
 
 ### **Frontend Optimizations**
 - **Code Splitting**: Lazy loading with React.lazy() and Suspense
@@ -504,7 +437,7 @@ All API responses follow a consistent structure:
 
 ---
 
-## 🔍 SEO & Analytics
+##  SEO & Analytics
 
 ### **Search Engine Optimization**
 - **Dynamic Meta Tags**: Each page has unique titles, descriptions, and keywords using React Helmet
@@ -526,7 +459,7 @@ All API responses follow a consistent structure:
 
 ---
 
-## 🚀 Deployment
+##  Deployment
 
 ### **Frontend Deployment (Render)**
 1. Connect your GitHub repository to Render
@@ -602,7 +535,7 @@ REACT_APP_ENABLE_ERROR_REPORTING=true
 
 ---
 
-## 🧪 Testing
+##  Testing
 
 ### **Manual Testing Checklist**
 - [ ] User registration and login flow
@@ -644,7 +577,7 @@ npm run test:performance
 
 ---
 
-## 🔧 Code Quality
+##  Code Quality
 
 ### **Development Standards**
 - **ESLint Configuration**: Airbnb style guide with custom rules
@@ -668,7 +601,7 @@ npm run test:performance
 
 ---
 
-## 🌐 Browser Support
+##  Browser Support
 
 ### **Supported Browsers**
 | Browser | Version | Status |
@@ -688,10 +621,9 @@ npm run test:performance
 
 ---
 
-## ♿ Accessibility
+##  Accessibility
 
-### **WCAG 2.1 Compliance**
-- **Level AA**: Full compliance with WCAG 2.1 AA standards
+
 - **Keyboard Navigation**: Full keyboard accessibility
 - **Screen Reader Support**: Semantic HTML and ARIA labels
 - **Color Contrast**: 4.5:1 minimum contrast ratio
@@ -712,7 +644,7 @@ npm run test:performance
 
 ---
 
-## 🛠️ Troubleshooting
+##  Troubleshooting
 
 ### **Common Issues**
 
@@ -776,7 +708,7 @@ npm start -- --verbose
 
 ---
 
-## ❓ FAQ
+##  FAQ
 
 ### **General Questions**
 
@@ -813,7 +745,7 @@ A: Yes, the platform is open source and can be self-hosted with proper configura
 
 ---
 
-## 📝 Changelog
+##  Changelog
 
 ### **Version 2.1.0** (2025-11-04)
 #### Added
@@ -855,7 +787,7 @@ A: Yes, the platform is open source and can be self-hosted with proper configura
 
 ---
 
-## 🗺️ Roadmap
+##  Roadmap
 
 ### **Phase 1: Core Improvements**
 - [ ] Automated testing suite implementation
@@ -866,7 +798,6 @@ A: Yes, the platform is open source and can be self-hosted with proper configura
 ### **Phase 2: Community Features**
 - [ ] Artist portfolio galleries
 - [ ] Community challenges and contests
-- [ ] Social following and recommendations
 - [ ] Advanced artwork categorization
 
 ### **Phase 3: Platform Expansion**
@@ -883,7 +814,7 @@ A: Yes, the platform is open source and can be self-hosted with proper configura
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions to The Bloom Room! Here's how you can help:
 
@@ -954,7 +885,7 @@ docs(readme): update installation instructions
 
 ---
 
-## 📋 Code of Conduct
+##  Code of Conduct
 
 ### **Our Pledge**
 We pledge to make participation in The Bloom Room community a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.
@@ -968,7 +899,7 @@ We pledge to make participation in The Bloom Room community a harassment-free ex
 - Showing empathy towards other community members
 
 **Unacceptable behaviors include:**
-- The use of sexualized language or imagery
+
 - Trolling, insulting/derogatory comments, and personal attacks
 - Public or private harassment
 - Publishing others' private information without permission
@@ -977,25 +908,23 @@ We pledge to make participation in The Bloom Room community a harassment-free ex
 ### **Enforcement**
 Project maintainers are responsible for clarifying standards and will take appropriate and fair corrective action in response to any instances of unacceptable behavior.
 
-**Contact**: Report issues to [conduct@thebloomroom.com](mailto:conduct@thebloomroom.com)
-
 ---
 
-## 👨‍💻 Authors
+##  Authors
 
 **Danae Swart** - *Full Stack Developer & Project Creator*
 - GitHub: [@danaeswart](https://github.com/danaeswart)
-- LinkedIn: [Danae Swart](https://linkedin.com/in/danaeswart)
+
 
 ---
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ---
 
-## 🙏 Acknowledgements
+##  Acknowledgements
 
 ### **Technology Stack**
 - **[React](https://reactjs.org/)** - The foundation of our frontend architecture
@@ -1005,29 +934,20 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 - **[Cloudinary](https://cloudinary.com/)** - Image hosting and optimization
 - **[Render](https://render.com/)** - Cloud deployment and hosting
 
-### **Design & Inspiration**
-- **Flower Photography Community** - Inspiration for our visual design
-- **Dribbble & Behance** - UI/UX design references
-- **Google Material Design** - Design system principles
-- **Adobe Color** - Color palette generation
 
 ### **Development Tools**
 - **[Visual Studio Code](https://code.visualstudio.com/)** - Primary development environment
-- **[Postman](https://postman.com/)** - API testing and documentation
 - **[GitHub](https://github.com/)** - Version control and collaboration
 - **[Figma](https://figma.com/)** - Design and prototyping
 
 ### **Community & Support**
 - **Stack Overflow** - Technical problem solving
-- **React Community Discord** - Development support and discussions
 - **MDN Web Docs** - Comprehensive web development reference
 - **CSS-Tricks** - Frontend development techniques and tips
 
 ### **Special Thanks**
-- **Beta Testers** - Early adopters who provided valuable feedback
-- **Artist Contributors** - Community members who shared their artwork
-- **Code Reviewers** - Developers who helped improve code quality
-- **Accessibility Consultants** - Experts who guided our accessibility improvements
+- **Open Window Institution & Lectures (Tungai)** 
+
 
 ### **Open Source Libraries**
 ```json
@@ -1050,31 +970,12 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ---
 
-## 📞 Contact
 
 ### **Project Links**
-- 🌐 **Live Application**: [https://your-bloom-room-app.onrender.com](https://your-bloom-room-app.onrender.com)
-- 💻 **GitHub Repository**: [https://github.com/danaeswart/The-Bloom-Room](https://github.com/danaeswart/The-Bloom-Room)
-- 📚 **Documentation**: [https://docs.thebloomroom.com](https://docs.thebloomroom.com)
-- 📊 **API Reference**: [https://api.thebloomroom.com/docs](https://api.thebloomroom.com/docs)
-
-### **Get in Touch**
-- 📧 **General Inquiries**: [hello@thebloomroom.com](mailto:hello@thebloomroom.com)
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/danaeswart/The-Bloom-Room/issues)
-- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/danaeswart/The-Bloom-Room/discussions)
-- 🔒 **Security Issues**: [security@thebloomroom.com](mailto:security@thebloomroom.com)
-
-### **Community**
-- 💬 **Discord Server**: [Join our community](https://discord.gg/thebloomroom)
-- 🐦 **Twitter**: [@TheBloomRoom](https://twitter.com/thebloomroom)
-- 📸 **Instagram**: [@thebloomroom_official](https://instagram.com/thebloomroom_official)
-- 💼 **LinkedIn**: [The Bloom Room](https://linkedin.com/company/thebloomroom)
-
-### **Support**
-- 📖 **User Guide**: [help.thebloomroom.com](https://help.thebloomroom.com)
-- ❓ **FAQ**: [faq.thebloomroom.com](https://faq.thebloomroom.com)
-- 🎥 **Video Tutorials**: [YouTube Channel](https://youtube.com/thebloomroom)
-- 📞 **Live Chat**: Available 9 AM - 5 PM EST (Mon-Fri)
+-  **Live Application**: [https://your-bloom-room-app.onrender.com](https://your-bloom-room-app.onrender.com)
+-  **GitHub Repository**: [https://github.com/danaeswart/The-Bloom-Room](https://github.com/danaeswart/The-Bloom-Room)
+-  **Documentation**: [https://docs.thebloomroom.com](https://docs.thebloomroom.com)
+-  **API Reference**: [https://api.thebloomroom.com/docs](https://api.thebloomroom.com/docs)
 
 ---
 
@@ -1083,18 +984,18 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 Thank you for your interest in The Bloom Room! We believe in the power of creativity to connect people and inspire positive change. Whether you're an artist looking to share your work, a buyer seeking unique pieces, or a developer interested in contributing, we're excited to have you as part of our growing community.
 
 ### **Join Our Mission**
-- 🎨 **Artists**: Showcase your creativity and reach new audiences
-- 🛍️ **Buyers**: Discover unique artwork and support independent artists  
-- 👩‍💻 **Developers**: Contribute to open source and improve the platform
-- 🌱 **Community**: Help us grow and nurture creative connections worldwide
+-  **Artists**: Showcase your creativity and reach new audiences
+-  **Buyers**: Discover unique artwork and support independent artists  
+-  **Developers**: Contribute to open source and improve the platform
+-  **Community**: Help us grow and nurture creative connections worldwide
 
 ### **Stay Updated**
-- ⭐ **Star** this repository to show your support
-- 👀 **Watch** for updates and new releases
-- 🍴 **Fork** to create your own version
-- 📢 **Share** with fellow artists and developers
+-  **Star** this repository to show your support
+-  **Watch** for updates and new releases
+-  **Fork** to create your own version
+-  **Share** with fellow artists and developers
 
-**Happy Creating! 🎨**
+**Happy Creating! **
 
 ---
 
@@ -1110,7 +1011,7 @@ Thank you for your interest in The Bloom Room! We believe in the power of creati
 
 *"Where creativity blooms and connections flourish"*
 
-![The Bloom Room Logo](./images/logo-footer.png)
+![The Bloom Room Logo](./images/mock.png)
 
 **© 2025 The Bloom Room. All rights reserved.**
 

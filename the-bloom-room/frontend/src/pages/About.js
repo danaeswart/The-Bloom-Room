@@ -40,7 +40,7 @@ const About = () => {
         <Navbar />
         <div className={`about-container ${fadeIn ? "visible" : ""}`}>
           <section className="about-hero">
-            <h1>About ArtConnect</h1>
+            <h1>About Bloom Room</h1>
             <p>Connecting artists and art lovers in one inspiring space.</p>
           </section>
           <section className="about-section">
@@ -48,7 +48,7 @@ const About = () => {
             <div className="about-text">
               <h2>Who We Are</h2>
               <p>
-                ArtConnect is a platform built by artists, for artists. Our mission
+                Bloom Room is a platform built by artists, for artists. Our mission
                 is to create a space where creativity thrives, collaboration is
                 easy, and art is celebrated. We empower both emerging and
                 established artists to showcase their work, connect with potential
@@ -61,7 +61,7 @@ const About = () => {
             <div className="about-text">
               <h2>Our Mission</h2>
               <p>
-                We exist to break down barriers in the art world. ArtConnect makes
+                We exist to break down barriers in the art world. Bloom Room makes
                 it simple to display artwork, get commissioned, and build lasting
                 relationships between artists and clients in a professional, secure,
                 and user-friendly way.
@@ -85,7 +85,7 @@ const About = () => {
           <div className="about-text">
             <h2>Why This Solution Was Built</h2>
             <p>
-              ArtConnect was built to give artists a dedicated space where their
+              Bloom Room was built to give artists a dedicated space where their
               work is seen, valued, and connected with the right audience. It was
               created by a university student at Open Window to address the gap
               between talent and opportunity in the modern art world. Every

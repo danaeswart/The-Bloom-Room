@@ -127,7 +127,7 @@ const router = express.Router();
 
 console.log("🚀 Artist route file loaded");
 
-// Setup multer for file uploads
+// Setup multer for file uploads (local uploads folder)
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/");
@@ -248,13 +248,13 @@ router.put("/:userId", upload.single("profile_url"), (req, res) => {
   let profile_url = null;
 
   if (req.file) {
-    profile_url = `/uploads/${req.file.filename}`;
+    profile_url = `/uploads/${req.file.filename}`; // multer saves file path
   } else if (req.body.profile_url) {
-    profile_url = req.body.profile_url;
+    profile_url = req.body.profile_url; // allow existing URL
   }
 
   const query = `
-    UPDATE artist
+    UPDATE Artist
     SET Bio = ?, Profile_url = ?, Account_Attributes = ?
     WHERE User_ID = ?
   `;
@@ -267,6 +267,43 @@ router.put("/:userId", upload.single("profile_url"), (req, res) => {
     console.log("Artist profile updated:", result);
     return res.json({ message: "Artist profile updated successfully" });
   });
+});
+
+// === UPLOAD profile image specifically ===
+router.post("/upload-profile/:artistId", upload.single("profile_image"), async (req, res) => {
+  console.log("🚀 /upload-profile route hit for artistId:", req.params.artistId);
+  
+  try {
+    const { artistId } = req.params;
+    
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
+    const profileUrl = req.file.path; // Cloudinary URL
+    console.log("✅ Profile image uploaded to Cloudinary:", profileUrl);
+
+    // Update the artist's profile URL in database
+    const updateQuery = "UPDATE artist SET Profile_url = ? WHERE Artist_ID = ?";
+    
+    db.query(updateQuery, [profileUrl, artistId], (err, result) => {
+      if (err) {
+        console.error("❌ Error updating profile URL in database:", err);
+        return res.status(500).json({ error: "Failed to update profile in database" });
+      }
+
+      console.log("✅ Profile URL updated in database");
+      res.json({ 
+        success: true,
+        profileUrl: profileUrl,
+        message: "Profile image uploaded successfully"
+      });
+    });
+
+  } catch (err) {
+    console.error("❌ Error uploading profile image:", err);
+    res.status(500).json({ error: "Failed to upload profile image", details: err.message });
+  }
 });
 
 

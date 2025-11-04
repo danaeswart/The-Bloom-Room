@@ -2,7 +2,7 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import NavbarBuy from "../components/NavbarBuy";
 import "./css/ProfileBuy.css";
-import flowerIcon from "../assets/images/profile-flower.png";
+import flowerIcon from "../assets/images/newprofile.png";
 import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import BuyerPostContainer from "../components/BuyerPostContainer";
@@ -117,21 +117,8 @@ useEffect(() => {
       <div className="profile-card" style={{ marginTop: "5rem" }}>
         <div className="left-section">
           <div className="flower-section">
-            <img src={flowerIcon} alt="Flower" />
-            {profileUrl && (
-              <div className="profile-pic-wrapper">
-                <img
-                  src={typeof profileUrl === "string" ? profileUrl : URL.createObjectURL(profileUrl)}
-                  alt="User Profile"
-                  className="profile-pic"
-                />
-                {approvalStatus === 'approved' && (
-                  <div className="profile-verified-indicator">✓</div>
-                )}
-              </div>
-            )}
+            <img src={flowerIcon} alt="Profile" className="profile-flower-small" />
           </div>
-          {isEditing && <input type="file" onChange={handleProfileImageChange} />}
         </div>
 
         <div className="user-info">
