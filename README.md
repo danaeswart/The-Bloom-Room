@@ -31,7 +31,6 @@ The Bloom Room is a digital community platform where artists can showcase their 
 - [Accessibility](#accessibility)
 - [Troubleshooting](#troubleshooting)
 - [FAQ](#faq)
-- [Changelog](#changelog)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [Code of Conduct](#code-of-conduct)
@@ -745,75 +744,6 @@ A: Yes, the platform is open source and can be self-hosted with proper configura
 
 ---
 
-##  Changelog
-
-### **Version 2.1.0** (2025-11-04)
-#### Added
-- Enhanced SEO optimization with dynamic meta tags
-- Full-width navbar implementation
-- Comprehensive README documentation
-- Performance optimization improvements
-
-#### Changed
-- Updated navbar styling for better mobile experience
-- Improved responsive design across all components
-- Enhanced image loading with lazy loading
-
-#### Fixed
-- Navbar width constraints on various screen sizes
-- Mobile navigation hamburger menu functionality
-- Page content spacing with fixed navbar
-
-### **Version 2.0.0** (2025-10-15)
-#### Added
-- Artist verification system
-- Admin approval workflow
-- Enhanced user profiles with bio and attributes
-- Order management system
-- Google Analytics integration
-
-#### Changed
-- Redesigned user interface with flower theme
-- Improved database schema with better relationships
-- Enhanced security with JWT authentication
-
-### **Version 1.0.0** (2025-08-01)
-#### Added
-- Initial release with core functionality
-- User registration and authentication
-- Artwork upload and management
-- Basic marketplace features
-- Responsive design implementation
-
----
-
-##  Roadmap
-
-### **Phase 1: Core Improvements**
-- [ ] Automated testing suite implementation
-- [ ] Enhanced search and filtering capabilities
-- [ ] Real-time messaging between artists and buyers
-- [ ] Payment integration (Stripe/PayPal)
-
-### **Phase 2: Community Features**
-- [ ] Artist portfolio galleries
-- [ ] Community challenges and contests
-- [ ] Advanced artwork categorization
-
-### **Phase 3: Platform Expansion**
-- [ ] Mobile app development (React Native)
-- [ ] Artist commission calculator
-- [ ] Bulk artwork management tools
-- [ ] Advanced analytics dashboard
-
-### **Phase 4: Monetization**
-- [ ] Premium artist accounts
-- [ ] Featured artwork promotions
-- [ ] Platform transaction fees
-- [ ] Advertising opportunities for art supplies
-
----
-
 ## Contributing
 
 We welcome contributions to The Bloom Room! Here's how you can help:
@@ -972,7 +902,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 
 ### **Project Links**
--  **Live Application**: [https://your-bloom-room-app.onrender.com](https://your-bloom-room-app.onrender.com)
+-  **Live Application**: [https://your-bloom-room-app.onrender.com](https://the-bloom-room-frontend.onrender.com)
 -  **GitHub Repository**: [https://github.com/danaeswart/The-Bloom-Room](https://github.com/danaeswart/The-Bloom-Room)
 -  **Documentation**: [https://docs.thebloomroom.com](https://docs.thebloomroom.com)
 -  **API Reference**: [https://api.thebloomroom.com/docs](https://api.thebloomroom.com/docs)
