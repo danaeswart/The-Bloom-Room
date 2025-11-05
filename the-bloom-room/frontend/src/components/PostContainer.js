@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./css/PostContainer.css";
-import { formatPrice } from "../utils/currency";
 // import { BASE_URL } from "../Config";
 // import { BASE_URL } from "../Config";
 
@@ -48,9 +47,6 @@ function PostContainer() {
                 className="post-image"
               />
               {/* <p className="artwork-name">{artwork.Artwork_Name || "Untitled"}</p> */}
-              {artwork.Price && artwork.Status === 'available' && (
-                <p className="artwork-price">{formatPrice(artwork.Price)}</p>
-              )}
             </div>
           );
         })
