@@ -5,6 +5,7 @@ html, body {
 }
 
 .login-container {
+  margin-top: 30px;
  display: flex;
   justify-content: center; /* Horizontal centering */
   align-items: center;     /* Vertical centering */

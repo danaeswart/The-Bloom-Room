@@ -4,6 +4,7 @@ import "./css/ArtworkPage.css";
 import Navbar from "../components/Navbar";
 import { Helmet } from "react-helmet";
 import axios from "axios";
+import { formatPrice } from "../utils/currency";
 // import { BASE_URL } from "../Config";
 
 const BASE_URL= "https://the-bloom-room-5.onrender.com";
@@ -142,7 +143,7 @@ const ArtworkPage = () => {
   <p className="medium">{artwork.Medium}</p>
 
   <h4>Price:</h4>
-  <p className="medium">R{artwork.Price}</p>
+  <p className="medium">{formatPrice(artwork.Price)}</p>
 {/* --- Button Logic --- */}
 {(() => {
   const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;

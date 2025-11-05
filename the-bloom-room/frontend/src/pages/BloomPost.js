@@ -247,7 +247,7 @@ const [artworkStatus, setArtworkStatus] = useState("available"); // default
                   step="0.01"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                  placeholder="Price in USD"
+                  placeholder="Price in ZAR (R)"
                   required={artworkStatus === "available"}
                 />
               </label>
